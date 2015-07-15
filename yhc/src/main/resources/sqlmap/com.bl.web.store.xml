@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com/DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.bl.web.store">
+	<typeAlias alias="store" type="com.bl.web.common.model.Store"/>
+	<typeAlias alias="jmStore" type="com.bl.web.common.model.JmStore"/>
+	<typeAlias alias="sperformance" type="com.bl.web.common.model.StorePerformance"/>
+	<typeAlias alias="userInfo" type="com.bl.web.common.model.UserInfo"/>
+	<typeAlias alias="registMobile" type="com.bl.web.common.model.RegistMobile"/>
+	<select id="getStoreList" parameterClass="map" resultClass="store">
+    	select a.store_nm as storeNm,
+		       a.store_area as area,
+		       a.contact_nm as contactNm,
+		       a.contact_mail as mail,
+		       a.contact_mobile as mobile,
+		       a.city as city,
+		       a.store_code as storeCode,
+		       a.qrcode as qrcode
+		from tb_store a
+		where length(a.store_code)>4
+
+		<isNotEmpty property="storeCode">
+		and a.store_code like concat(#storeCode#, '%')
+		</isNotEmpty>
+		order by a.store_code desc
+		<isNotEqual property="page.pageNo" compareValue="0">  
+		limit #page.startNo#,#page.pageSize#
+		</isNotEqual>
+    </select>
+    
+    <select id="getStoreListCnt" parameterClass="map" resultClass="int">
+    	select count(*)
+		from tb_store a
+		where length(a.store_code)>4
+
+		<isNotEmpty property="storeCode">
+		and a.store_code like concat(#storeCode#, '%')
+		</isNotEmpty>
+    </select>
+    <select id="getStoreByStoreCode" parameterClass="string" resultClass="store">
+			select  b.store_nm as storeNm,
+			        b.store_code as storeCode,
+			        b.parent_code as parentCode,
+			        b.store_area as area,
+			        b.city as city,
+			        b.store_address as storeAddress,
+			        b.contact_nm as contactNm,
+			        b.contact_mail as mail,
+			        b.contact_mobile as mobile,
+			        b.contact_qq as qq
+			  from  tb_store b 
+			  where b.store_code =#storeCode#
+	</select>
+    <insert id="addStore" parameterClass="store">
+        insert into tb_store (store_code,parent_code,qrcode,store_nm,store_area,city,store_address,contact_nm,contact_mail,contact_mobile,contact_qq,create_id,create_dts)
+
+        values(#storeCode#,#parentCode#,#qrcode#,#storeNm#,#area#,#city#,#storeAddress#,#contactNm#,#mail#,#mobile#,#qq#,#createId#,#createDts#)
+    </insert>
+    
+    
+    <update id="updateStoreInfo" parameterClass="store">
+    	 update tb_store
+    	 set update_id=#updateId#,
+	         update_dts=#updateDts#
+	         <isNotEmpty property="storeNm">
+	            ,store_nm=#storeNm#
+	             </isNotEmpty>
+	            <isNotEmpty property="storeAddress">
+	            ,store_address=#storeAddress#
+	            </isNotEmpty>
+	            <isNotEmpty property="contactNm">
+	            ,contact_nm=#contactNm#
+	            </isNotEmpty>
+	            <isNotEmpty property="mobile">
+	            ,contact_mobile=#mobile#
+	            </isNotEmpty>
+	            <isNotEmpty property="mail">
+		         ,contact_mail = #mail#
+		         </isNotEmpty>
+		         <isNotEmpty property="qq">
+		         ,contact_qq = #qq#
+		         </isNotEmpty>
+		     where store_code=#storeCode#
+    </update>
+    
+    <select id="getStorePerformanceList" parameterClass="map" resultClass="sperformance">
+	 select s.store_nm AS storeNm,s.store_code AS storeCode,s.contact_nm as contactNm,s.contact_mail AS mail,s.contact_mobile AS mobile,
+            (select count(*) from tb_regist_mobile where del_yn='N' and store_code =s.store_code
+             <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                   and substring(if(update_dts is not null,update_dts,create_dts),1,8) <![CDATA[>=]]> #emp.startDt#
+		           and substring(if(update_dts is not null,update_dts,create_dts),1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    
+		     <isEmpty property="emp.startDt">
+		            and substring(if(update_dts is not null,update_dts,create_dts),1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+             </isEmpty>
+            ) as visitors,
+            (select count(*) from tb_user u where u.store_code=s.store_code
+            <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                 and substring(u.create_dts,1,8)  <![CDATA[>=]]> #emp.startDt#
+                 and substring(u.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    <isEmpty property="emp.startDt">
+            and substring(u.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		    </isEmpty>
+            ) as registers,
+            (select count(*) from tb_user u where u.store_code=s.store_code
+            <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                   and substring(u.update_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                   and substring(u.update_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    <isEmpty property="emp.startDt">
+		     and substring(u.update_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		    </isEmpty>
+            ) as bindings,
+            (select ifnull(sum(c.input_amt),0) from tb_trade c,tb_user e,tb_user_account d
+               where c.account_id=d.account_id and d.user_id=e.user_id and  c.trade_type='TRDTP01' and c.trade_status = 'TRADESTATUS01'
+               and e.store_code=s.store_code
+               <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                  and substring(c.create_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                  and substring(c.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    <isEmpty property="emp.startDt">
+		    and substring(c.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		    </isEmpty>
+             ) as prepaidTotalAmt,
+            (select ifnull(sum(c.origin_amt),0) from tb_dyh_credit c
+               where c.del_yn='N' and c.store_code = s.store_code
+               <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                  and substring(c.create_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                  and substring(c.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		       </isNotEmpty>
+		       <isEmpty property="emp.startDt">
+		           and substring(c.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d') 
+		       </isEmpty>
+               ) as tradeTotalAmt,
+            (select ifnull(sum(round((case when d.dyh_period<![CDATA[<]]>365 then t.origin_amt/365*d.dyh_period else t.origin_amt end),2)),0)
+               from tb_dyh_credit t,tb_dyh_credit_repay p,tb_dyh d
+               where t.credit_id=p.credit_id and t.store_code=s.store_code
+                  and t.dyh_id=d.dyh_id
+                  and t.credit_status='CREDST02' and p.repay_status='REPAYSTAT01'
+               <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                  and substring(t.create_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                  and substring(t.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		       </isNotEmpty>
+		       <isEmpty property="emp.startDt">
+                  and substring(t.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		         </isEmpty>
+		         ) as yearTradeAmt,
+           (select ifnull(sum(round((case when d.dyh_period<![CDATA[<]]>365 then t.origin_amt/365*d.dyh_period else t.origin_amt end),2)),0)
+              from tb_dyh_credit t,tb_dyh_credit_repay p,tb_dyh d
+              where t.credit_id=p.credit_id and t.store_code=s.store_code
+              and t.dyh_id=d.dyh_id
+              and t.credit_status='CREDST02' and p.repay_status='REPAYSTAT01' 
+              and substring(t.create_dts,1,6) = date_format(current_timestamp,'%Y%m')
+              and substring(t.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+             ) as monthTradeAmt
+     from tb_store s
+     
+     where length(s.store_code)>4
+          <isNotEmpty property="emp.storeCode">
+           and s.store_code like concat(#emp.storeCode#, '%')
+          </isNotEmpty>
+          
+          group by storeNm,storeCode,contactNm,mail,mobile
+          order by s.store_code
+          <isNotEqual property="page.pageNo" compareValue="0">
+		              limit #page.startNo#,#page.pageSize#
+		 </isNotEqual>
+	</select>
+	
+	<select id="getStorePerformanceListCnt" parameterClass="map" resultClass="int">
+	   select count(*)
+	   from tb_store
+       where length(store_code)>4
+         <isNotEmpty property="emp.storeCode">
+           and store_code like concat(#emp.storeCode#, '%')
+          </isNotEmpty>
+	</select>
+	
+	<select id="getStorePerformance" parameterClass="map" resultClass="sperformance">
+	 select s.store_nm AS storeNm,s.store_code AS storeCode,s.contact_nm AS contactNm,s.contact_mail AS mail,s.contact_mobile AS mobile,s.qrcode as qrcode,
+            (select count(*) from tb_regist_mobile r where r.del_yn='N' and r.store_code like concat(#emp.storeCode#, '%')
+             <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                   and substring(if(r.update_dts is not null,r.update_dts,r.create_dts),1,8) <![CDATA[>=]]> #emp.startDt#
+		           and substring(if(r.update_dts is not null,r.update_dts,r.create_dts),1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    
+		     <isEmpty property="emp.startDt">
+		            and substring(if(r.update_dts is not null,r.update_dts,r.create_dts),1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+             </isEmpty>
+            ) as visitors,
+            (select count(*) from tb_user u where u.store_code like concat(#emp.storeCode#, '%')
+            <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                 and substring(u.create_dts,1,8)  <![CDATA[>=]]> #emp.startDt#
+                 and substring(u.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    <isEmpty property="emp.startDt">
+            and substring(u.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		    </isEmpty>
+            ) as registers,
+            (select count(*) from tb_user u where u.store_code like concat(#emp.storeCode#, '%')
+            <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                   and substring(u.update_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                   and substring(u.update_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    <isEmpty property="emp.startDt">
+		     and substring(u.update_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		    </isEmpty>
+            ) as bindings,
+           (select ifnull(sum(c.input_amt),0) from tb_trade c,tb_user e,tb_user_account d
+               where c.account_id=d.account_id and d.user_id=e.user_id 
+                and  c.trade_type='TRDTP01'
+                and  c.trade_status = 'TRADESTATUS01'
+                and e.store_code like concat(#emp.storeCode#, '%')
+               <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                  and substring(c.create_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                  and substring(c.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    <isEmpty property="emp.startDt">
+		    and substring(c.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		    </isEmpty>
+              ) as prepaidTotalAmt,
+            (select ifnull(sum(c.origin_amt),0) from tb_dyh_credit c
+               where del_yn='N' and c.store_code like concat(#emp.storeCode#, '%')
+               <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                  and substring(c.create_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                  and substring(c.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		       </isNotEmpty>
+		       <isEmpty property="emp.startDt">
+		           and substring(c.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d') 
+		       </isEmpty>
+               ) as tradeTotalAmt,
+            (select ifnull(sum(round((case when d.dyh_period<![CDATA[<]]>365 then t.origin_amt/365*d.dyh_period else t.origin_amt end),2)),0)
+               from tb_dyh_credit t,tb_dyh_credit_repay p,tb_dyh d
+               where t.credit_id=p.credit_id
+                  and t.dyh_id=d.dyh_id 
+                  and t.credit_status='CREDST02' and p.repay_status='REPAYSTAT01'
+                  and t.store_code like concat(#emp.storeCode#, '%')
+                  <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                  and substring(t.create_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                  and substring(t.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		       </isNotEmpty>
+		       <isEmpty property="emp.startDt">
+                  and substring(t.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		         </isEmpty>
+		         ) as yearTradeAmt,
+           (select ifnull(sum(round((case when d.dyh_period<![CDATA[<]]>365 then t.origin_amt/365*d.dyh_period else t.origin_amt end),2)),0)
+              from tb_dyh_credit t,tb_dyh_credit_repay p,tb_dyh d
+              where t.credit_id=p.credit_id
+              and t.dyh_id=d.dyh_id 
+              and t.credit_status='CREDST02' and p.repay_status='REPAYSTAT01' 
+              and t.store_code like concat(#emp.storeCode#, '%')
+              and substring(t.create_dts,1,6) = date_format(current_timestamp,'%Y%m')
+              and substring(t.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d') 
+             ) as monthTradeAmt
+     from tb_store s
+     where 1=1
+          <isNotEmpty property="emp.storeCode">
+           and s.store_code =#emp.storeCode#
+          </isNotEmpty>
+          
+          group by storeNm,storeCode,contactNm,mail,mobile,qrcode
+         
+	</select>
+	
+	<select id="getVisitorUserList" parameterClass="map" resultClass="registMobile">
+	     select a.rg_id as rgId,a.mobile_no as mobileNo,ifnull(a.emp_id,'Y') as empId,
+	            date_format( if(a.update_dts is not null,a.update_dts,a.create_dts),'%Y-%m-%d %H:%i') as createDts,
+	            (case when a.jm_store_code is not null then (select concat(store_nm,'-加盟店') from tb_jm_store where store_code =a.jm_store_code)
+	                 when a.emp_id is not null then (select emp_nm from tb_emp where emp_id=a.emp_id)
+	                 when a.store_code is not null then (select store_nm from tb_store where store_code=a.store_code) end) as source
+         from tb_regist_mobile a
+         where a.del_yn='N' and not exists (select 1 from tb_user where mobile_no = a.mobile_no)
+         and substring(if(a.update_dts is not null,a.update_dts,a.create_dts),1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+         and a.store_code like concat(#storeCode#, '%')
+         order by createDts desc
+         <isNotEqual property="page.pageNo" compareValue="0">
+		              limit #page.startNo#,#page.pageSize#
+		 </isNotEqual>
+	</select>
+	<select id="getVisitorUserListCnt" parameterClass="map" resultClass="int">
+	     select count(*)
+	     from tb_regist_mobile a
+         where a.del_yn='N' and  not exists (select 1 from tb_user where mobile_no = a.mobile_no) 
+         and a.store_code like concat(#storeCode#, '%')
+         and substring(if(a.update_dts is not null,a.update_dts,a.create_dts),1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+        
+	</select>
+	
+	<select id="getRegistUserList" parameterClass="map" resultClass="userInfo">
+	     select u.user_id as userId,u.mobile_no as userMobile, 
+	            b.user_real_nm as userRealNm,
+	            (select date_format( if(a.update_dts is not null,a.update_dts,a.create_dts),'%Y-%m-%d %H:%i')
+	             from tb_regist_mobile a where a.del_yn='N' and a.mobile_no=u.mobile_no) as visitorDts,
+	            date_format( u.create_dts,'%Y-%m-%d %H:%i') as registDts
+         from tb_user u
+         left join tb_user_base_info b on u.user_id=b.user_id
+         where substring(u.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+               and u.invite_emp_id is null
+               and u.store_code like concat(#storeCode#, '%')
+         order by registDts desc
+         <isNotEqual property="page.pageNo" compareValue="0">
+		              limit #page.startNo#,#page.pageSize#
+		 </isNotEqual>
+	</select>
+	<select id="getRegistUserListCnt" parameterClass="map" resultClass="int">
+	     select count(*)
+	     from tb_user u
+         where substring(u.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+               and u.invite_emp_id is null 
+               and u.store_code like concat(#storeCode#, '%')
+	</select>
+	
+	<select id="getBindingUserList" parameterClass="map" resultClass="userInfo">
+	   select u.user_id as userId,u.mobile_no as userMobile, 
+	            b.user_real_nm as userRealNm,u.invite_emp_id as empId,
+	            (select date_format( if(a.update_dts is not null,a.update_dts,a.create_dts),'%Y-%m-%d %H:%i')
+	             from tb_regist_mobile a where a.del_yn='N' and a.mobile_no=u.mobile_no) as visitorDts,
+	            date_format( u.create_dts,'%Y-%m-%d %H:%i') as registDts,
+	            date_format( u.update_dts,'%Y-%m-%d %H:%i') as bindingDts,
+	            (select date_format(create_dts,'%Y-%m-%d %H:%i') 
+	            from tb_dyh_credit where user_id=u.user_id and store_code=u.store_code order by create_dts limit 1) as tradeFirstDts,
+	            (select date_format(create_dts,'%Y-%m-%d %H:%i') 
+	            from tb_dyh_credit where user_id=u.user_id and store_code=u.store_code order by create_dts desc limit 1) as tradeLastDts,
+	            (select count(*) from tb_dyh_credit where user_id=u.user_id and store_code=u.store_code) as tradeNumber,
+	            (select ifnull(sum(c.origin_amt),0) from tb_dyh_credit c,tb_dyh_credit_repay d 
+	              where c.credit_id=d.credit_id and c.user_id=u.user_id 
+	              and c.credit_status='CREDST02'and d.repay_status='REPAYSTAT01' 
+	              and substring(d.repay_dt,6) = date_format(current_timestamp,'%Y%m') and c.store_code=u.store_code) as monthRepayAmt
+         from tb_user u
+         left join tb_user_base_info b on u.user_id=b.user_id
+         where substring(u.update_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d') 
+         and u.invite_emp_id is not null
+         and u.store_code like concat(#storeCode#, '%')
+         order by bindingDts desc
+         <isNotEqual property="page.pageNo" compareValue="0">
+		              limit #page.startNo#,#page.pageSize#
+		 </isNotEqual>
+	</select>
+	<select id="getBindingUserListCnt" parameterClass="map" resultClass="int">
+	   select count(*)
+	     from tb_user u
+         where substring(u.update_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d') 
+         and u.invite_emp_id is not null
+         and u.store_code like concat(#storeCode#, '%')
+	</select>
+	
+	<select id="getJmStorePerformByStoreCode" parameterClass="map" resultClass="jmStore">
+	   select ifnull(sum((select count(*) from tb_regist_mobile where del_yn='N' and jm_store_code=a.store_code)),0) as visitors,
+
+          ifnull(sum((select count(*) from tb_user u,tb_regist_mobile r where u.mobile_no=r.mobile_no and u.store_code=#storeCode# and r.jm_store_code=a.store_code AND r.del_yn='N')),0) as registers,
+
+          ifnull(sum((select count(*) from tb_user u,tb_regist_mobile r where u.mobile_no=r.mobile_no and u.store_code=#storeCode# and r.jm_store_code=a.store_code AND r.del_yn='N' and u.invite_emp_id IS NOT NULL)),0) as bindings
+          
+       from tb_jm_store a
+       where 1=1
+            <isNotEmpty property="storeCode">
+               and a.parent_code=#storeCode#
+            </isNotEmpty>   
+	</select>
+	
+	<select id="getJmStorePerformList" parameterClass="map" resultClass="jmStore">
+	   select a.store_code as storeCode,a.qrcode as qrcode,a.store_address as storeAddress,a.store_nm as storeNm,
+	      ifnull(sum((select count(*) from tb_regist_mobile where del_yn='N' and jm_store_code=a.store_code)),0) as visitors,
+
+          ifnull(sum((select count(*) from tb_user u,tb_regist_mobile r WHERE u.mobile_no=r.mobile_no and u.store_code=#storeCode# AND r.jm_store_code=a.store_code AND r.del_yn='N')),0) as registers,
+
+          ifnull(sum((select count(*) from tb_user u,tb_regist_mobile r WHERE u.mobile_no=r.mobile_no and u.store_code=#storeCode# AND r.jm_store_code=a.store_code AND r.del_yn='N' AND u.invite_emp_id IS NOT NULL)),0) as bindings
+          
+       from tb_jm_store a
+       where 1=1
+            <isNotEmpty property="storeCode">
+               and a.parent_code=#storeCode#
+            </isNotEmpty>
+       group by  a.store_code,a.qrcode,a.store_address,a.store_nm     
+	</select>
+	<select id="getJmStorePerformListCnt" parameterClass="map" resultClass="int">
+	   select count(*)
+	   from tb_jm_store a
+	   where 1=1
+            <isNotEmpty property="storeCode">
+               and a.parent_code=#storeCode#
+            </isNotEmpty>
+	   </select>
+</sqlMap>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+		"http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings useStatementNamespaces="true"/>
+
+	<!-- sqlMap.xml 을 추가한다.-->
+	<sqlMap resource="sqlmap/com.bl.web.common.xml"/>
+	<sqlMap resource="sqlmap/com.bl.web.emp.xml"/>
+	<sqlMap resource="sqlmap/com.bl.web.store.xml"/>
+	<sqlMap resource="sqlmap/com.bl.web.feedback.xml"/>
+	<sqlMap resource="sqlmap/com.bl.web.jmstore.xml"/>
+	<sqlMap resource="sqlmap/com.bl.web.dyh.xml"/>
+</sqlMapConfig>

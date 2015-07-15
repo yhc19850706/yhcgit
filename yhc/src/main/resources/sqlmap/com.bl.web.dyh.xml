@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- <!DOCTYPE sqlMap PUBLIC "-//iBATIS.com/DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd"> -->
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com/DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.bl.web.dyh">
+	<typeAlias alias="dyhAsset" type="com.bl.web.common.model.DyhAsset"/>
+	<typeAlias alias="contract" type="com.bl.web.common.model.Contract"/>
+	<typeAlias alias="dyhContractInfo" type="com.bl.web.common.model.DyhContractInfo"/>
+      <select id="getDyhContractInfoFromTicket" parameterClass="map" resultClass="dyhContractInfo">
+		select 
+		       e.user_real_nm AS userRealNm,
+		       e.user_idcard_no AS userIdcardNo,
+		       (select user_nm from tb_user where user_id = b.user_id) AS userNm,
+		       if(b.create_dts>'20150626120000','周凌宇','曾雪') as dyhOrgHolderRealNm,
+		       '110110198008018686' as dyhOrgHolderIdcardNo,
+		       a.dyh_id as dyhId,
+		       a.dyh_amt as dyhAmt,
+		       a.dyh_status as dyhStatus,
+		       b.origin_amt as originAmt,
+		       b.invest_rate as investRate,
+		       b.credit_status as creditStatus,
+		       repay.repay_origin_amt as repayOriginAmt,
+		       repay.repay_interest_amt as repayInterestAmt,
+		       date_format(repay.repay_dt,'%Y%m%d') as repayDt,
+		       date_format(b.create_dts,'%Y%m%d') as signDate,
+		       if(b.create_dts>'20150626120000',1,0) as signature
+		  from tb_dyh a, tb_dyh_credit b,tb_user_base_info e,
+		       (
+		       select * from tb_dyh_credit_repay where credit_id = #creditId# order by repay_dt desc limit 1
+		       ) repay
+		 where a.dyh_id = b.dyh_id
+		   and b.del_yn = 'N'
+		   and e.user_id = b.user_id
+		   and b.credit_id = #creditId#
+		   and b.credit_status in ('CREDST02')
+		   and b.credit_id = repay.credit_id
+     </select>
+     
+     <select id="getDyhPackedAssetList" parameterClass="map" resultClass="dyhAsset">
+     	select pool.loan_id as loanId,
+		       a.credit_packed_amt as creditPackedAmt,
+		       pool.origin_amt as rxtPackedAmt
+		  from tb_dyh_dtl a , tb_dyh_credit_pool pool
+		 where a.dyh_id = #dyhId#
+		   and a.rxt_credit_id = pool.rxt_credit_id
+		   and pool.data_type = #dataType# <!-- DYHDATATYPEO1 线上标打包部分,DYHDATATYPEO2 线下实地标 --> 
+     </select>
+     
+     <select id="getDyhPackedAsset" parameterClass="dyhAsset" resultClass="dyhAsset">
+     	select ifnull(( select contract_no from  tb_contract where loan_id = a.loan_id ),'') as dyhCreditOrgContractNo,
+		       ifnull((select user_real_nm from tb_user_base_info where user_id = a.user_id),'') as orgBorrowerNm,
+		       #rxtPackedAmt# as rxtPackedAmt,
+		       #creditPackedAmt# as creditPackedAmt
+		  from tb_loan a 
+		 where a.loan_id = #loanId#
+     </select>
+     <select id="generateContract" parameterClass="map" resultClass="contract">
+         select  
+		       (select user_real_nm from tb_user_base_info where user_id = b.user_id) as userNm,
+		       c.store_code as storeCode,
+		       b.origin_amt as originAmt,
+		       a.dyh_period as period,
+		       b.credit_id as tradeNumber,
+		       b.create_dts as createDts
+		  from tb_dyh a, tb_dyh_credit b,tb_emp c
+		 where a.dyh_id = b.dyh_id and c.emp_id=b.invite_emp_id
+		  <isNotEmpty property="storeCode">
+		   and c.store_code like concat(#storeCode#, '%')
+		  </isNotEmpty> 
+		   and b.del_yn = 'N'
+		   and b.credit_status in ('CREDST02')
+		  <isNotEmpty property="flag">
+		     <isEqual property="flag" compareValue="N">
+		      and (select count(*) from tb_dyh_credit_dtl where credit_id=b.credit_id)=0
+			 </isEqual>
+			 <isEqual property="flag" compareValue="Y">
+			 and (select count(*) from tb_dyh_credit_dtl where credit_id=b.credit_id)<![CDATA[>]]>0
+			 </isEqual>
+		  </isNotEmpty>
+		  order by b.create_dts desc,a.dyh_period
+		 <isNotEqual property="page.pageNo" compareValue="0">
+		    limit #page.startNo#,#page.pageSize#
+		 </isNotEqual>
+     </select>
+     <select id="generateContractCnt" parameterClass="map" resultClass="int">
+         select count(*)
+        from tb_dyh a, tb_dyh_credit b,tb_emp c
+		 where a.dyh_id = b.dyh_id and c.emp_id=b.invite_emp_id
+		  <isNotEmpty property="storeCode">
+		   and c.store_code like concat(#storeCode#, '%')
+		  </isNotEmpty> 
+		   and b.del_yn = 'N'
+		   and b.credit_status in ('CREDST02')
+		  <isNotEmpty property="flag">
+		     <isEqual property="flag" compareValue="N">
+		      and (select count(*) from tb_dyh_credit_dtl where credit_id=b.credit_id)=0
+			 </isEqual>
+			 <isEqual property="flag" compareValue="Y">
+			 and (select count(*) from tb_dyh_credit_dtl where credit_id=b.credit_id)<![CDATA[>]]>0
+			 </isEqual>
+		  </isNotEmpty>
+     </select>
+</sqlMap>

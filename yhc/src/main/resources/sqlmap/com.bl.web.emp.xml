@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com/DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="com.bl.web.emp">
+	<typeAlias alias="emp" type="com.bl.web.common.model.Emp"/>
+	<typeAlias alias="xmphAuthMenu" type="com.bl.web.common.model.XmphAuthMenu"/>
+	<typeAlias alias="xmphAuth" type="com.bl.web.common.model.XmphAuth"/>
+	<typeAlias alias="store" type="com.bl.web.common.model.Store"/>
+	<typeAlias alias="userInfo" type="com.bl.web.common.model.UserInfo"/>
+	<typeAlias alias="performance" type="com.bl.web.common.model.Performance"/>
+	<typeAlias alias="trade" type="com.bl.web.common.model.Trade"/>
+	<typeAlias alias="registMobile" type="com.bl.web.common.model.RegistMobile"/>
+	<typeAlias alias="user" type="com.bl.web.common.model.User"/>
+	<select id="getEmpList" parameterClass="map" resultClass="emp">
+			select a.emp_id as empId, a.emp_nm as empNm, a.emp_email as empEmail, 
+			       a.emp_mobile_no as empMobileNo,a.store_code as storeCode,
+			       a.invite_code as inviteCode,a.del_yn as delYn,a.qrcode as qrcode,
+			       date_format(a.create_dts,'%Y-%m-%d %H-%i-%s') as createDts,
+			       date_format(a.update_dts,'%Y-%m-%d %H-%i-%s') as updateDts
+			  from tb_emp a
+			   where a.del_yn='N' and a.store_code <![CDATA[<>]]> 0
+			     <isNotEmpty property="storeCode">
+			          and a.store_code like concat(#storeCode#, '%')
+		        </isNotEmpty>
+		        
+		        <isNotEmpty property="empId">
+			          and a.emp_id  = #empId#
+		        </isNotEmpty>
+		        <isNotEmpty property="empNm">
+			          and a.emp_nm  = #empNm#
+		        </isNotEmpty>
+		        order by a.emp_id
+		        <isNotEqual property="page.pageNo" compareValue="0">
+		              limit #page.startNo#,#page.pageSize#
+		        </isNotEqual>
+	</select>
+	
+	<select id="getEmpListCnt" parameterClass="map" resultClass="int">
+			select count(*)
+			  from tb_emp a 
+			   where a.del_yn='N' and a.store_code <![CDATA[<>]]> 0
+			     <isNotEmpty property="storeCode">
+			          and a.store_code  like concat(#storeCode#, '%')
+		        </isNotEmpty>
+		        <isNotEmpty property="empId">
+			          and a.emp_id  = #empId#
+		        </isNotEmpty>
+		        <isNotEmpty property="empNm">
+			          and a.emp_nm  = #empNm#
+		        </isNotEmpty>
+	</select>
+	<select id="getStoreEmpList" parameterClass="map" resultClass="emp">
+			select a.emp_id as empId, a.emp_nm as empNm, a.emp_email as empEmail, 
+			       a.emp_mobile_no as empMobileNo,a.store_code as storeCode,
+			       a.invite_code as inviteCode,a.del_yn as delYn,a.qrcode as qrcode,
+			       date_format(a.create_dts,'%Y-%m-%d %H-%i-%s') as createDts,
+			       date_format(a.update_dts,'%Y-%m-%d %H-%i-%s') as updateDts
+			  from tb_emp a
+			   where a.del_yn='N'
+			     <isNotEmpty property="storeCode">
+			          and a.store_code like concat(#storeCode#, '%')
+		        </isNotEmpty>
+    </select>
+	<select id="getEmployeById" parameterClass="string" resultClass="emp">
+		select a.emp_id as empId, a.emp_nm as empNm, a.emp_email as empEmail, a.emp_mobile_no as empMobileNO,
+		       a.store_code as storeCode,a.auth_id as authId,c.auth_type as authType
+			  FROM tb_emp a
+			  left join tb_xmph_auth c on a.auth_id=c.auth_id
+			  WHERE a.del_yn='N'
+			        and a.emp_id  = #empId#
+	</select>
+	
+	<insert id="insertEmploye" parameterClass="emp">
+	        insert into tb_emp (qrcode,store_code,auth_id,emp_nm, emp_mobile_no, emp_email,invite_code,emp_id, emp_pw,  create_id, create_dts) 
+	        values (#qrcode#,#storeCode#,#authId#,#empNm#, #empMobileNo#, #empEmail#, #inviteCode#, #empId#, #empPw#, #createId#, #createDts#);
+	</insert>
+	
+	<update id="updateEmploye" parameterClass="emp">
+	        update tb_emp
+	        set  update_id=#updateId#,
+	            update_dts=#updateDts#
+	            <isNotEmpty property="empNm">
+	            ,emp_nm=#empNm#
+	             </isNotEmpty>
+	            <isNotEmpty property="empMobileNo">
+	            ,emp_mobile_no=#empMobileNo#
+	             </isNotEmpty>
+	            <isNotEmpty property="empEmail">
+	            ,emp_email=#empEmail#
+	            </isNotEmpty>
+	            <isNotEmpty property="storeCode">
+	            ,store_code=#storeCode#
+	            </isNotEmpty>
+	            <isNotEmpty property="authId">
+	            <isGreaterThan property="authId" compareValue="0"> 
+	            ,auth_id=#authId#
+	            </isGreaterThan>
+	            </isNotEmpty>
+	            <isNotEmpty property="empPw">
+	            ,emp_pw=#empPw#
+	            </isNotEmpty>
+	            <isNotEmpty property="delYn">
+		         ,del_yn = #delYn#
+		         </isNotEmpty>
+	         where emp_id=#empId#
+	</update>
+	
+	<select id="checkEmp" parameterClass="emp" resultClass="emp">
+		select te.emp_id as empId,
+		       te.emp_nm as empNm,
+		       te.emp_email as empEmail,
+		       te.del_yn as delYn,
+		       te.auth_id as authId,
+		       te.store_code as storeCode,
+		       date_format(te.create_dts,'%Y-%m-%d %H:%i:%s') as createDts
+		from tb_emp te 
+		where te.emp_id = #empId#
+		and te.del_yn ='N'
+		<isNotEmpty property="empPw">
+		and te.emp_pw = #empPw#	
+		</isNotEmpty>
+	</select>
+	
+	<select id="getXmphAuthMenuList" parameterClass="java.util.Map" resultClass="xmphAuthMenu">
+		select 
+			txam.am_id amId,
+			txam.auth_id authId,
+			txam.menu_id menuId,
+			txam.del_yn delYn,
+			txa.auth_nm authNm,
+			txa.auth_type authType,
+			txa.del_yn authDelYn,
+			txm.parent_menu_nm parentMenuNm,
+			txm.menu_nm menuNm,
+			txm.menu_uri menuUri,
+			txm.menu_tag_nm menuTagNm,
+			txm.disp_yn dispYn,
+			txm.del_yn menuDelYn
+		from tb_xmph_menu txm, tb_xmph_auth_menu txam, tb_xmph_auth txa
+		where txa.auth_id = txam.auth_id
+		and txam.menu_id = txm.menu_id
+		<isNotEmpty property="authId">
+		and txa.auth_id = #authId#
+		</isNotEmpty>
+		<isNotEmpty property="authDelYn">
+		and txa.del_yn = #authDelYn#
+		</isNotEmpty>
+		<isNotEmpty property="dispYn">
+		and txm.disp_yn = #dispYn#
+		</isNotEmpty>
+		<isNotEmpty property="menuDelYn">
+		and txm.del_yn = #menuDelYn#
+		</isNotEmpty>
+		<isNotEmpty property="delYn">
+		and txam.del_yn = #delYn#
+		</isNotEmpty>
+		order by txm.parent_menu_nm
+	</select>
+	
+	<select id="getAllAuthList" resultClass="xmphAuth">
+			select auth_id as authId,auth_nm as authNm,auth_type as authType
+			  from tb_xmph_auth
+			  where  del_yn='N'
+	</select>
+	<select id="getInitAllStore"  resultClass="store">
+			select  b.store_nm as storeNm,b.store_code as storeCode,b.parent_code as parentCode
+			  from  tb_store b where b.store_code <![CDATA[<>]]> 0
+			  order by b.parent_code,store_code
+	</select>
+	<select id="getMaxInviteCode"  resultClass="String">
+			select  max(invite_code)
+			  from  tb_emp
+			  where invite_code is not null
+	</select>
+	
+	<select id="getEmpPerformance" parameterClass="map" resultClass="performance">
+	 select a.emp_id as empId,a.emp_nm as empNm,a.auth_id as authId,b.auth_nm as authNm,
+	        a.emp_email as empEmail,a.emp_mobile_no as empMobileNo,a.invite_code as inviteCode,
+	        a.store_code as storeCode,a.qrcode as qrcode,s.qrcode as storeQrcode,
+            (select count(*) from tb_regist_mobile where del_yn='N' and emp_id=a.emp_id 
+            <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                   and substring(if(update_dts is not null,update_dts,create_dts),1,8) <![CDATA[>=]]> #emp.startDt#
+		           and substring(if(update_dts is not null,update_dts,create_dts),1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    
+		     <isEmpty property="emp.startDt">
+		            and substring(if(update_dts is not null,update_dts,create_dts),1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+             </isEmpty>
+            ) as visitors,
+            (select count(*) from tb_user where recom_emp_id=a.emp_id 
+            <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                 and substring(create_dts,1,8)  <![CDATA[>=]]> #emp.startDt#
+                 and substring(create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    <isEmpty property="emp.startDt">
+            and substring(create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		    </isEmpty>
+            ) as registers,
+            (select count(*) from tb_user where invite_emp_id=a.emp_id 
+              <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                   and substring(update_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                   and substring(update_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		     </isNotEmpty>
+		     <isEmpty property="emp.startDt">
+		      and substring(update_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		     </isEmpty>
+            
+            ) as bindings,
+            (select ifnull(sum(c.input_amt),0) from tb_trade c,tb_user e,tb_user_account d
+               where c.account_id=d.account_id 
+               and d.user_id=e.user_id 
+               and c.trade_type='TRDTP01'
+               and c.trade_status = 'TRADESTATUS01'
+                <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                  and substring(c.create_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                  and substring(c.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    <isEmpty property="emp.startDt">
+		    and substring(c.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		    </isEmpty>
+               and e.invite_emp_id=a.emp_id) as prepaidTotalAmt,
+            (select ifnull(sum(c.origin_amt),0) from tb_dyh_credit c
+               where c.del_yn='N'
+               <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                  and substring(c.create_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                  and substring(c.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		       </isNotEmpty>
+		       <isEmpty property="emp.startDt">
+		           and substring(c.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d') 
+		       </isEmpty>
+               and c.invite_emp_id=a.emp_id) as tradeTotalAmt,
+            (select ifnull(sum(round((case when d.dyh_period<![CDATA[<]]>365 then t.origin_amt/365*d.dyh_period else t.origin_amt end),2)),0)
+               from tb_dyh_credit t,tb_dyh_credit_repay p,tb_dyh d
+               where t.credit_id=p.credit_id
+                  and t.dyh_id=d.dyh_id 
+                  and t.credit_status='CREDST02' and p.repay_status='REPAYSTAT01'
+               <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                  and substring(t.create_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                  and substring(t.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		       </isNotEmpty>
+		       <isEmpty property="emp.startDt">
+                  and substring(t.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		         </isEmpty>
+                  and t.invite_emp_id=a.emp_id) as yearTradeAmt,
+           (select ifnull(sum(round((case when d.dyh_period<![CDATA[<]]>365 then t.origin_amt/365*d.dyh_period else t.origin_amt end),2)),0)
+              from tb_dyh_credit t,tb_dyh_credit_repay p,tb_dyh d
+              where t.credit_id=p.credit_id
+              and t.dyh_id=d.dyh_id
+              and t.credit_status='CREDST02' and p.repay_status='REPAYSTAT01' 
+              and substring(t.create_dts,1,6) = date_format(current_timestamp,'%Y%m')
+              and substring(t.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d') 
+              and t.invite_emp_id=a.emp_id) as monthTradeAmt
+     from tb_xmph_auth b,tb_emp a
+     left join tb_store s on a.store_code=s.store_code and s.qrcode is not null
+     where a.auth_id=b.auth_id
+          and a.emp_id=#emp.empId#
+          and a.del_yn='n'
+          <isNotEmpty property="storeCode">
+		   and a.store_code like concat(#storeCode#,'%')
+          </isNotEmpty>
+	</select>
+	
+	<select id="getVisitorUserList" parameterClass="map" resultClass="registMobile">
+	     select a.rg_id as rgId,a.mobile_no as mobileNo,
+	            date_format( if(a.update_dts is not null,a.update_dts,a.create_dts),'%Y-%m-%d %H:%i') AS createDts
+         from tb_regist_mobile a 
+         where a.del_yn='N' and not exists (select 1 from tb_user where mobile_no = a.mobile_no)
+         and substring(if(a.update_dts is not null,a.update_dts,a.create_dts),1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+         and a.emp_id=#empId#
+         order by createDts desc
+         <isNotEqual property="page.pageNo" compareValue="0">
+		              limit #page.startNo#,#page.pageSize#
+		 </isNotEqual>
+	</select>
+	<select id="getVisitorUserListCnt" parameterClass="map" resultClass="int">
+	     select count(*)
+	     from tb_regist_mobile a
+         where a.del_yn='N' and  not exists (select 1 from tb_user where mobile_no = a.mobile_no)
+         and substring(if(a.update_dts is not null,a.update_dts,a.create_dts),1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+         and a.emp_id=#empId#
+	</select>
+	
+	<select id="getRegistUserList" parameterClass="map" resultClass="userInfo">
+	     select u.user_id as userId,u.mobile_no as userMobile, 
+	            b.user_real_nm as userRealNm,
+	            (select date_format( if(a.update_dts is not null,a.update_dts,a.create_dts),'%Y-%m-%d %H:%i')
+	             from tb_regist_mobile a where a.del_yn='N' and a.mobile_no=u.mobile_no) as visitorDts,
+	            date_format( u.create_dts,'%Y-%m-%d %H:%i') as registDts
+         from tb_user u left join tb_user_base_info b on u.user_id=b.user_id
+         where substring(u.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+               and u.invite_emp_id is null and u.recom_emp_id =#empId#
+          order by registDts desc
+         <isNotEqual property="page.pageNo" compareValue="0">
+		              limit #page.startNo#,#page.pageSize#
+		 </isNotEqual>
+	</select>
+	<select id="getRegistUserListCnt" parameterClass="map" resultClass="int">
+	     select count(*)
+	     from tb_user u
+         where substring(u.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+               and u.invite_emp_id is null and u.recom_emp_id =#empId#
+	</select>
+	
+	<select id="getBindingUserList" parameterClass="map" resultClass="userInfo">
+	   select u.user_id as userId,u.mobile_no as userMobile, 
+	            b.user_real_nm as userRealNm,
+	            (select date_format( if(a.update_dts is not null,a.update_dts,a.create_dts),'%Y-%m-%d %H:%i')
+	             from tb_regist_mobile a where a.del_yn='N' and a.mobile_no=u.mobile_no) as visitorDts,
+	            date_format( u.create_dts,'%Y-%m-%d %H:%i') as registDts,
+	            date_format( u.update_dts,'%Y-%m-%d %H:%i') as bindingDts,
+	            (select date_format(create_dts,'%Y-%m-%d %H:%i') 
+	            from tb_dyh_credit where user_id=u.user_id and invite_emp_id=#empId# order by create_dts limit 1) as tradeFirstDts,
+	            (select date_format(create_dts,'%Y-%m-%d %H:%i') 
+	            from tb_dyh_credit where user_id=u.user_id and invite_emp_id=#empId# order by create_dts desc limit 1) as tradeLastDts,
+	            (select count(*) from tb_dyh_credit where user_id=u.user_id and invite_emp_id=#empId#) as tradeNumber,
+	            (select ifnull(sum(c.origin_amt),0) from tb_dyh_credit c,tb_dyh_credit_repay d 
+	              where c.credit_id=d.credit_id and c.user_id=u.user_id 
+	              and c.credit_status='CREDST02'and d.repay_status='REPAYSTAT01' 
+	              and substring(d.repay_dt,6) = date_format(current_timestamp,'%Y%m') and c.invite_emp_id=#empId#) as monthRepayAmt
+         from tb_user u left join tb_user_base_info b on u.user_id=b.user_id
+         where substring(u.update_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d') and u.invite_emp_id =#empId#
+         order by bindingDts desc
+         <isNotEqual property="page.pageNo" compareValue="0">
+		              limit #page.startNo#,#page.pageSize#
+		 </isNotEqual>
+	</select>
+	<select id="getBindingUserListCnt" parameterClass="map" resultClass="int">
+	   select count(*)
+	     from tb_user u
+         where substring(u.update_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d') and u.invite_emp_id =#empId#
+	</select>
+	
+	<select id="getMonthExpireRepay" parameterClass="map" resultClass="trade">
+	     select e.dyh_period as period,date_format( c.create_dts,'%Y-%m-%d') createDts,
+	            date_format( d.repay_dt,'%Y-%m-%d') as repayDt, c.origin_amt as inputAmt
+	     from tb_user u,tb_dyh_credit c,tb_dyh_credit_repay d ,tb_dyh e
+	     where c.credit_id=d.credit_id and c.user_id=u.user_id
+	           and c.dyh_id=e.dyh_id
+	              and c.credit_status='CREDST02'and d.repay_status='REPAYSTAT01' 
+	              and substring(d.repay_dt,6) = date_format(current_timestamp,'%Y%m') 
+	        and c.invite_emp_id=#empId# and u.user_id=#userId#
+	        order by e.dyh_period
+	         <isNotEqual property="page.pageNo" compareValue="0">
+		              limit #page.startNo#,#page.pageSize#
+		     </isNotEqual>
+	</select>
+	
+	<select id="getMonthExpireRepayCnt" parameterClass="map" resultClass="int">
+	   select count(*)
+	   from tb_user u,tb_dyh_credit c,tb_dyh_credit_repay d ,tb_dyh e
+	     where c.credit_id=d.credit_id and c.user_id=u.user_id
+	           and c.dyh_id=e.dyh_id
+	              and c.credit_status='CREDST02'and d.repay_status='REPAYSTAT01' 
+	              and substring(d.repay_dt,6) = date_format(current_timestamp,'%Y%m') 
+	        and c.invite_emp_id=#empId# and u.user_id=#userId#
+	</select>
+	
+	<select id="getUserInfoById" parameterClass="string" resultClass="userInfo">
+	   select u.user_id as userId,u.mobile_no as userMobile, 
+	            b.user_real_nm as userRealNm,date_format(current_timestamp,'%Y-%m') as monthDts,
+	            (select date_format( if(a.update_dts is not null,a.update_dts,a.create_dts),'%Y-%m-%d %H:%i')
+	             from tb_regist_mobile a where a.del_yn='N' and a.mobile_no=u.mobile_no) as visitorDts,
+	            date_format( u.create_dts,'%Y-%m-%d %H:%i') as registDts,
+	            if(u.invite_emp_id is not null,date_format( u.update_dts,'%Y-%m-%d %H:%i'),null) as bindingDts
+	    from tb_user u left join tb_user_base_info b on u.user_id=b.user_id
+	    where u.user_id=#userId#
+	</select>
+	
+	<update id="removeVistor" parameterClass="registMobile">
+	    update tb_regist_mobile set remark=#remark#,del_yn='Y',update_id=#updateId#,update_dts=#updateDts#
+	    where del_yn='N' and mobile_no=#mobileNo#
+	</update>
+	<update id="pointEmp" parameterClass="registMobile">
+	    update tb_regist_mobile set emp_id=#empId#,update_id=#updateId#,update_dts=#updateDts#
+	    where del_yn='N' and mobile_no=#mobileNo#
+	</update>
+	<select id="getEmpPerformanceList" parameterClass="map" resultClass="performance">
+	 select a.emp_id as empId,a.emp_nm as empNm,a.auth_id as authId,b.auth_nm as authNm,
+	        a.emp_email as empEmail,a.emp_mobile_no as empMobileNo,a.invite_code as inviteCode,
+	        a.store_code as storeCode,a.qrcode as qrcode,s.qrcode as storeQrcode,
+            (select count(*) from tb_regist_mobile where del_yn='N' and emp_id=a.emp_id 
+             <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                   and substring(if(update_dts is not null,update_dts,create_dts),1,8) <![CDATA[>=]]> #emp.startDt#
+		           and substring(if(update_dts is not null,update_dts,create_dts),1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    
+		     <isEmpty property="emp.startDt">
+		            and substring(if(update_dts is not null,update_dts,create_dts),1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+             </isEmpty>
+            ) as visitors,
+            (select count(*) from tb_user where recom_emp_id=a.emp_id 
+            <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                 and substring(create_dts,1,8)  <![CDATA[>=]]> #emp.startDt#
+                 and substring(create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    <isEmpty property="emp.startDt">
+            and substring(create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		    </isEmpty>
+            ) as registers,
+            (select count(*) from tb_user where invite_emp_id=a.emp_id 
+            <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                   and substring(update_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                   and substring(update_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    <isEmpty property="emp.startDt">
+		     and substring(update_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		    </isEmpty>
+            ) as bindings,
+            (select ifnull(sum(c.input_amt),0) from tb_trade c,tb_user e,tb_user_account d
+               where c.account_id=d.account_id and d.user_id=e.user_id 
+                and  c.trade_type='TRDTP01' 
+                and c.trade_status = 'TRADESTATUS01'
+               <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                  and substring(c.create_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                  and substring(c.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		    </isNotEmpty>
+		    <isEmpty property="emp.startDt">
+		    and substring(c.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		    </isEmpty>
+               
+               and e.invite_emp_id=a.emp_id) as prepaidTotalAmt,
+            (select ifnull(sum(c.origin_amt),0) from tb_dyh_credit c
+               where del_yn='N'
+               <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                  and substring(c.create_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                  and substring(c.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		       </isNotEmpty>
+		       <isEmpty property="emp.startDt">
+		           and substring(c.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d') 
+		       </isEmpty>
+               and c.invite_emp_id=a.emp_id) as tradeTotalAmt,
+            (select ifnull(sum(round((case when d.dyh_period<![CDATA[<]]>365 then t.origin_amt/365*d.dyh_period else t.origin_amt end),2)),0)
+               from tb_dyh_credit t,tb_dyh_credit_repay p,tb_dyh d 
+               where t.credit_id=p.credit_id
+                  and t.dyh_id=d.dyh_id
+                  and t.credit_status='CREDST02' and p.repay_status='REPAYSTAT01'
+               <isNotEmpty property="emp.startDt">
+                <isNotEmpty property="emp.endDt">
+                  and substring(t.create_dts,1,8) <![CDATA[>=]]> #emp.startDt#
+                  and substring(t.create_dts,1,8) <![CDATA[<=]]> #emp.endDt#
+		        </isNotEmpty>
+		       </isNotEmpty>
+		       <isEmpty property="emp.startDt">
+                  and substring(t.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+		         </isEmpty>
+		          and t.invite_emp_id=a.emp_id) as yearTradeAmt,
+           (select ifnull(sum(round((case when d.dyh_period<![CDATA[<]]>365 then t.origin_amt/365*d.dyh_period else t.origin_amt end),2)),0)
+              from tb_dyh_credit t,tb_dyh_credit_repay p,tb_dyh d
+              where t.credit_id=p.credit_id
+              and t.dyh_id=d.dyh_id 
+              and t.credit_status='CREDST02' and p.repay_status='REPAYSTAT01' 
+              and substring(t.create_dts,1,6) = date_format(current_timestamp,'%Y%m')
+              and substring(t.create_dts,1,8) <![CDATA[<]]> date_format(current_timestamp,'%Y%m%d')
+              and t.invite_emp_id=a.emp_id) as monthTradeAmt
+     from tb_xmph_auth b,tb_emp a
+     left join tb_store s on a.store_code=s.store_code and s.qrcode is not null
+     where a.auth_id=b.auth_id
+         <isNotEmpty property="emp.empId">
+          and a.emp_id=#emp.empId#
+          </isNotEmpty>
+          <isNotEmpty property="emp.empNm">
+          and a.emp_nm=#emp.empNm#
+          </isNotEmpty>
+          <isNotEmpty property="emp.storeCode">
+           and a.store_code like concat(#emp.storeCode#, '%')
+          </isNotEmpty>
+          and a.del_yn='n'
+          order by a.emp_id desc
+          <isNotEqual property="page.pageNo" compareValue="0">
+		              limit #page.startNo#,#page.pageSize#
+		 </isNotEqual>
+	</select>
+	
+	<select id="getEmpPerformanceListCnt" parameterClass="map" resultClass="int">
+	   select count(*)
+	   from tb_xmph_auth b,tb_emp a
+       where a.auth_id=b.auth_id
+         <isNotEmpty property="emp.empId">
+          and a.emp_id=#emp.empId#
+          </isNotEmpty>
+          <isNotEmpty property="emp.empNm">
+          and a.emp_nm=#emp.empNm#
+          </isNotEmpty>
+          <isNotEmpty property="emp.storeCode">
+           and a.store_code like concat(#emp.storeCode#, '%')
+          </isNotEmpty>
+          and a.del_yn='n'
+	</select>
+	<select id="getAllEmpList" parameterClass="map" resultClass="emp">
+			select a.emp_id as empId, a.emp_nm as empNm, a.emp_email as empEmail, 
+			       a.emp_mobile_no as empMobileNo,a.store_code as storeCode,
+			       a.invite_code as inviteCode,a.del_yn as delYn,a.qrcode as qrcode,
+			       date_format(a.create_dts,'%Y-%m-%d %H-%i-%s') as createDts,
+			       date_format(a.update_dts,'%Y-%m-%d %H-%i-%s') as updateDts
+			  from tb_emp a
+			   where a.del_yn='N' and a.store_code <![CDATA[<>]]> 0
+	</select>
+	<select id="getAllStoreList" parameterClass="map" resultClass="store">
+    	select a.store_nm as storeNm,
+		       a.store_area as area,
+		       a.contact_nm as contactNm,
+		       a.contact_mail as mail,
+		       a.contact_mobile as mobile,
+		       a.city as city,
+		       a.store_code as storeCode,
+		       a.qrcode as qrcode
+		from tb_store a
+		where length(a.store_code)>4
+	</select>
+	<select id="getUserInfoByParam" parameterClass="map" resultClass="user">
+	   select a.user_id as userId
+	   from tb_user a,tb_emp b
+	   where a.invite_emp_id=b.emp_id 
+	   and b.invite_code=#code# 
+	   and a.mobile_no=#mobileNo#
+	</select>
+	<update id="updateUserInvideCode" parameterClass="map">
+	  update tb_user set invite_emp_id = (select emp_id from tb_emp where invite_code = #newCode#) 
+	  ,store_code= (select store_code from tb_emp where invite_code = #newCode#)  WHERE user_id=#userId#;
+	</update>
+</sqlMap>

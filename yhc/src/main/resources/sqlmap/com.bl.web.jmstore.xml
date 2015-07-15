@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com/DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.bl.web.jmstore">
+	<typeAlias alias="jmStore" type="com.bl.web.common.model.JmStore"/>
+	<!-- 加盟店 -->
+	
+	<select id="getJmStoreByStoreCode" parameterClass="String" resultClass="jmStore">
+	   select a.store_code as storeCode,a.parent_code as parentCode,a.store_area as area,a.contact_mail as mail,
+	         a.city as city,a.qrcode as qrcode,a.contact_nm as contactNm,a.contact_mobile as mobile,
+	         a.contact_qq as qq,a.store_address as storeAddress,a.store_nm as storeNm
+	   from tb_jm_store a
+	   where a.store_code=#storeCode#
+	</select>
+	
+	<insert id="addJmStore" parameterClass="jmStore">
+        insert into tb_jm_store (store_code,parent_code,qrcode,store_nm,store_area,city,store_address,contact_nm,contact_mail,contact_mobile,contact_qq,create_id,create_dts)
+
+        values(#storeCode#,#parentCode#,#qrcode#,#storeNm#,#area#,#city#,#storeAddress#,#contactNm#,#mail#,#mobile#,#qq#,#createId#,#createDts#)
+    </insert>
+    
+    
+    <update id="updateJmStoreInfo" parameterClass="jmStore">
+    	 update tb_jm_store
+    	 set update_id=#updateId#,
+	         update_dts=#updateDts#
+	         <isNotEmpty property="storeNm">
+	            ,store_nm=#storeNm#
+	             </isNotEmpty>
+	            <isNotEmpty property="storeAddress">
+	            ,store_address=#storeAddress#
+	            </isNotEmpty>
+	            <isNotEmpty property="contactNm">
+	            ,contact_nm=#contactNm#
+	            </isNotEmpty>
+	            <isNotEmpty property="mobile">
+	            ,contact_mobile=#mobile#
+	            </isNotEmpty>
+	            <isNotEmpty property="mail">
+		         ,contact_mail = #mail#
+		         </isNotEmpty>
+		         <isNotEmpty property="qq">
+		         ,contact_qq = #qq#
+		         </isNotEmpty>
+		         <isNotEmpty property="parentCode">
+		         ,parent_code=#parentCode#
+		         </isNotEmpty>
+		     where store_code=#storeCode#
+    </update>
+	<select id="getJmStorePerform" parameterClass="map" resultClass="jmStore">
+	   select ifnull(sum((select count(*) from tb_regist_mobile WHERE jm_store_code=a.store_code)),0) as visitors,
+
+          ifnull(sum((select count(*) from tb_user u,tb_regist_mobile r WHERE u.mobile_no=r.mobile_no AND r.jm_store_code=a.store_code AND r.del_yn='N')),0) as registers,
+
+          ifnull(sum((select count(*) from tb_user u,tb_regist_mobile r WHERE u.mobile_no=r.mobile_no AND r.jm_store_code=a.store_code AND r.del_yn='N' AND u.invite_emp_id IS NOT NULL)),0) as bindings,
+          IFNULL((select SUM(c.origin_amt) from tb_dyh_credit c,tb_user u,tb_regist_mobile r WHERE c.user_id=u.user_id AND u.mobile_no=r.mobile_no AND r.jm_store_code=a.store_code AND r.del_yn='N' AND c.invite_emp_id IS NOT NULL),0) as tradeTotalAmt
+       from tb_jm_store a
+       where 1=1
+            <isNotEmpty property="storeCode">
+               and a.store_code=#storeCode#
+            </isNotEmpty>
+            <isNotEmpty property="cityCode">
+               and a.store_code like CONCAT('JM',#cityCode#, '%')
+            </isNotEmpty>
+            <isNotEmpty property="areaCode">
+               and a.store_code like CONCAT('JM',#areaCode#, '%')
+            </isNotEmpty>
+            <isNotEmpty property="ishq">
+               <isEqual property="ishq" compareValue="Y">
+               and a.parent_code ='0'
+               </isEqual>
+               <isEqual property="ishq" compareValue="N">
+               and a.parent_code <![CDATA[<>]]> '0'
+               </isEqual>
+            </isNotEmpty>
+	</select>
+	<select id="getJmStoreList" parameterClass="map" resultClass="jmStore">
+	   select a.store_code as storeCode,a.parent_code as parentCode,a.store_area as area,a.city as city,a.qrcode as qrcode,a.contact_nm as contactNm,a.contact_mobile as mobile,
+
+          (select count(*) from tb_regist_mobile WHERE jm_store_code=a.store_code) as visitors,
+
+          (select count(*) from tb_user u,tb_regist_mobile r WHERE u.mobile_no=r.mobile_no AND r.jm_store_code=a.store_code AND r.del_yn='N') as registers,
+
+          (select count(*) from tb_user u,tb_regist_mobile r WHERE u.mobile_no=r.mobile_no AND r.jm_store_code=a.store_code AND r.del_yn='N' AND u.invite_emp_id IS NOT NULL) as bindings,
+          (select IFNULL(SUM(c.origin_amt),0) from tb_dyh_credit c,tb_user u,tb_regist_mobile r WHERE c.user_id=u.user_id AND u.mobile_no=r.mobile_no AND r.jm_store_code=a.store_code AND r.del_yn='N' AND c.invite_emp_id IS NOT NULL) as tradeTotalAmt
+       from tb_jm_store a
+       where 1=1
+		  <isNotEmpty property="storeCode">
+               and a.store_code=#storeCode#
+            </isNotEmpty>
+            <isNotEmpty property="cityCode">
+               and a.store_code like CONCAT('JM',#cityCode#, '%')
+            </isNotEmpty>
+            <isNotEmpty property="areaCode">
+               and a.store_code like CONCAT('JM',#areaCode#, '%')
+            </isNotEmpty>
+            <isNotEmpty property="ishq">
+               <isEqual property="ishq" compareValue="Y">
+               and a.parent_code ='0'
+               </isEqual>
+               <isEqual property="ishq" compareValue="N">
+               and a.parent_code <![CDATA[<>]]> '0'
+               </isEqual>
+            </isNotEmpty>
+            order by a.store_code
+        <isNotEqual property="page.pageNo" compareValue="0">
+		              limit #page.startNo#,#page.pageSize#
+		 </isNotEqual>
+	</select>
+	<select id="getJmStoreListCnt" parameterClass="map" resultClass="int">
+	   select count(*)
+	   from tb_jm_store a
+       where 1=1
+		    <isNotEmpty property="storeCode">
+               and a.store_code=#storeCode#
+            </isNotEmpty>
+            <isNotEmpty property="cityCode">
+               and a.store_code like CONCAT('JM',#cityCode#, '%')
+            </isNotEmpty>
+            <isNotEmpty property="areaCode">
+               and a.store_code like CONCAT('JM',#areaCode#, '%')
+            </isNotEmpty>
+            <isNotEmpty property="ishq">
+               <isEqual property="ishq" compareValue="Y">
+               and a.parent_code ='0'
+               </isEqual>
+               <isEqual property="ishq" compareValue="N">
+               and a.parent_code <![CDATA[<>]]> '0'
+               </isEqual>
+            </isNotEmpty>
+	</select>
+</sqlMap> 

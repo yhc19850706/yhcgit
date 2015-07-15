@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com/DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="com.bl.web.feedback">
+	<typeAlias alias="feedback" type="com.bl.web.common.model.Feedback"/>
+	<insert id="addFeedback" parameterClass="feedback">
+        insert into tb_feedback (mobile_no,qq,email,content,create_id,create_dts)
+
+        values(#mobileNo#,#qq#,#email#,#content#,#createId#,#createDts#)
+    </insert>
+</sqlMap>
