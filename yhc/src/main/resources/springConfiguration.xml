@@ -57,6 +57,23 @@
 		</mvc:interceptor>
    
     </mvc:interceptors>
+    <!-- shiroFilter -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login" />
+		<property name="successUrl" value="/login/loginSuccessFull" />
+		<property name="unauthorizedUrl" value="/login/unauthorized" />
+		<property name="filterChainDefinitions">
+			<value>
+				/home* = anon
+				/ = anon
+				/logout = logout
+				/role/** = roles[admin]
+				/permission/** = perms[permssion:look]
+				/** = authc
+			</value>
+		</property>
+	</bean>
 	
 	<!-- component-scan -->
 	<context:component-scan base-package="com.bl.web.*" use-default-filters="false">
