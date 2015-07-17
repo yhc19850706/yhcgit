@@ -1,0 +1,10 @@
+	<div id="head">
+		<h1 class="h1_tit"><img src="/img/tit_spr.png"><span class="blind">熊猫票号CRM管理系统</span></h1>
+		<div class="hd_bx">
+			<ul>
+			<li><span class="mb_ico">${baseUserNm!''}</span></li>
+			<li><a href="javascript:void(0);" id="btnUpdatePw">修改密码</a></li>
+			<li><a href="javascript:void(0);" id="btnLogout">退出</a></li>
+			</ul>
+		</div>
+	</div>

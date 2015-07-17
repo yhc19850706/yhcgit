@@ -15,6 +15,7 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+     <!--  UrlRewriteFilter
       <filter>
 
        <filter-name>UrlRewriteFilter</filter-name>
@@ -28,7 +29,7 @@
 
        </init-param>
 
-</filter>
+       </filter>
 
 <filter-mapping>
 
@@ -36,7 +37,7 @@
 
        <url-pattern>/*</url-pattern>
 
-</filter-mapping>
+</filter-mapping>-->
 <!--Shirofilter-->
 <filter>
 	<filter-name>shiroFilter</filter-name>

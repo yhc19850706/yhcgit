@@ -1,0 +1,25 @@
+<decorators defaultdir="/WEB-INF/decorators">
+	<decorator name="common" page="common.dec">
+		<pattern>/main.bl</pattern>
+		<pattern>/error.bl</pattern>
+		<pattern>/emp/emp_list.bl</pattern>
+		<pattern>/emp/add_emp_view.bl</pattern>
+		<pattern>/store/store_list.bl</pattern>
+		<pattern>/store/go_add_store.bl</pattern>
+		<pattern>/emp/pw_change.bl</pattern>
+        <pattern>/emp/center.bl</pattern>
+        <pattern>/trade/month_expire_repay.bl</pattern>
+        <pattern>/fdback/go_add_page.bl</pattern>
+        <pattern>/perform/seach_page.bl</pattern>
+        <pattern>/perform/seach_emp_page.bl</pattern>
+        <pattern>/perform/seach_store_page.bl</pattern>
+        <pattern>/store/center.bl</pattern>
+        <pattern>/jmstore/jmsstore_list.bl</pattern>
+        <pattern>/jmstore/go_add_jmstore.bl</pattern>
+        <pattern>/jmstore/go_update_jmstore.bl</pattern>
+        <pattern>/dyh/generate_contract.bl</pattern>
+	</decorator>
+	<decorator name="main" page="main.dec">
+		<pattern>/login_page.bl</pattern>
+	</decorator>
+</decorators>

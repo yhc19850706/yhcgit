@@ -1,0 +1,62 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>${title}</title>
+<link rel="stylesheet" type="text/css" href="/css/xmph.css">
+<script src="/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#btnLogout").click(function() {
+		window.location.href = '/logout.bl';
+	})
+	
+	$("#btnUpdatePw").click(function() {
+		window.location.href = '/emp/pw_change.bl';
+	});
+	
+	$("#btnUserSet").click(function() {
+		var obj = $("#btnUserSet");
+		var stopYn = obj.attr("stopYn");
+		var rcvId = obj.attr("rcvId");
+		var empId = obj.attr("empId");
+		
+		var message = "确认启用吗？";
+		if (stopYn == "Y") {
+			message = "确认禁用吗？";
+		}
+		if (confirm(message)) {
+			$.ajax({
+		         type: "post",
+		         url: "/csm/update_cs_emp_role.bl",
+		         data: {"rcvId": rcvId, "stopYn":stopYn, "empId":empId},
+		         success: function(data){
+		         	if (data == "1") {
+		         		alert("保存成功!");
+		         		if (stopYn == "Y") {
+		         			$(obj).attr("stopYn", "N");
+		         			$(obj).html("启用");
+		         		} else {
+		         			$(obj).attr("stopYn", "Y");
+		         			$(obj).html("禁用");
+		         		}
+		         	} else if (data == "-1") {
+		         		alert("有审核中的状态借款单,不能禁用");
+		         	} else {
+		         		alert("保存失败");
+		         	}
+		         },
+		         error: function(){
+		         	alert("保存失败!");
+		         } 
+		    }); 
+		}
+	});
+	
+	/*
+	$(window).bind('beforeunload', function(event){
+		event.returnValue = "111111111111";
+		return 'adafdsa';
+	});
+	*/
+});
+
+
+</script>

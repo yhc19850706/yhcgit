@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+<#include "/WEB-INF/decorators/head-head.dec">
+${head}
+</head>
+<body class="pd_center">
+<div id="mask" class="mask" style="position:fixed;width:100%;height:100%;display:none"></div>
+<div id="wrap">
+	<!-- head -->
+	<#include "/WEB-INF/decorators/body-head.dec">
+	<!-- //head -->
+	<!-- container -->
+	<div id="container">
+		${body}
+	</div>
+	<!-- //container -->
+</div>
+</body>
+</html>
