@@ -22,4 +22,24 @@
 		<property name="testWhileIdle" value="true" />
 		<property name="timeBetweenEvictionRunsMillis" value="3600000"/>
 	</bean>
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="jdbcdataSource" />
+		</property>
+	</bean>
+	<bean id="jdbcdataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="org.gjt.mm.mysql.Driver"/>
+		<property name="url" value="jdbc:mysql://192.168.10.22:3306/banklake?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true"/>
+		<property name="username" value="yintmp"/>
+		<property name="password" value="Zchuci?JTl"/>
+		
+		<!-- Connection Pooling Info -->
+		<property name="maxActive" value="10" />
+		<property name="maxIdle" value="5" />
+		<property name="defaultAutoCommit" value="false" />
+		<!-- 连接Idle一个小时后超时 -->
+		<property name="timeBetweenEvictionRunsMillis" value="3600000" />
+		<property name="minEvictableIdleTimeMillis" value="3600000" />
+	</bean>
 </beans>
