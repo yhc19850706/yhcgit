@@ -1,8 +1,15 @@
 package com.bl.web.common.utils;
-
-
+/**
+ * 将金钱数字格式转换成大写格式
+ * 数字为小数点后两位小数
+ */
 public class CnUpperCaseUtils {
 
+	/**
+	 * 数字格式转换成大写
+	 * @param value 精确到小数点后两位
+	 * @return
+	 */
 	public static String changeToBig(String value) {  
 		if("0".equals(value) || "0.0".equals(value)|| "0.00".equals(value)){
 			return "零圆";
