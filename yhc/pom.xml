@@ -320,6 +320,17 @@
         <artifactId>okhttp</artifactId>
         <version>2.5.0</version>
       </dependency>
+      <!-- jbake 静态页面生成器  -->
+      <dependency>
+	<groupId>org.jbake</groupId>
+	<artifactId>jbake-core</artifactId>
+	<version>2.4.0</version>
+    </dependency>
+    <dependency>
+    <groupId>br.com.ingenieux</groupId>
+    <artifactId>jbake-maven-plugin</artifactId>
+    <version>0.0.9</version>
+</dependency>
 </dependencies>
 <build>
 		<sourceDirectory>src/main/java</sourceDirectory>
