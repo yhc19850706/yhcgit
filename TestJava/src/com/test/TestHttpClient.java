@@ -80,7 +80,7 @@ public class TestHttpClient {
      */
 	public static String sendSms(String userName,String mobileNo,String cVal,String ts,String rn){
 		HttpClient httpclient = new DefaultHttpClient();
-		String smsUrl="http://localhost:8080/user/investing_money.bl?userName=hb0001&mobileNo=16800001001&cVal=685a8b9c10bf09f25163ba04221dba99&ts=201412231713888&rn=100";
+		String smsUrl="http://dev.bbs.yinhu.com/api/credit_selectlog.php";
 		HttpPost httppost = new HttpPost(smsUrl);
 		String strResult = "";
 		
@@ -88,15 +88,15 @@ public class TestHttpClient {
 			
 				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 				JSONObject jobj = new JSONObject();
-				jobj.put("userName", userName);
-				jobj.put("mobileNo", mobileNo);
-				jobj.put("cVal",cVal);
-				jobj.put("ts",ts);
-				jobj.put("rn",rn);
+				jobj.put("hbid", "154564524");
+//				jobj.put("mobileNo", mobileNo);
+//				jobj.put("cVal",cVal);
+//				jobj.put("ts",ts);
+//				jobj.put("rn",rn);
 				
 				
 				nameValuePairs.add(new BasicNameValuePair("msg", getStringFromJson(jobj)));
-				httppost.addHeader("Content-type", "application/x-json");
+				httppost.addHeader("Content-type", "text/html");
 				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs,"UTF-8"));
 				
 				HttpResponse response = httpclient.execute(httppost);
@@ -104,16 +104,17 @@ public class TestHttpClient {
 					/*读返回数据*/
 					String conResult = EntityUtils.toString(response
 							.getEntity());
-					JSONObject sobj = new JSONObject();
-					sobj = sobj.fromObject(conResult);
-					String rcVal = sobj.getString("cVal");
-					String code = sobj.getString("code");
-					JSONArray jarray=JSONArray.fromObject(sobj.getString("body"));
-					if(code.equals("101")){
-						strResult += "发送成功"+rcVal+sobj.getString("body");
-					}else{
-						strResult += "发送失败，"+code;
-					}
+				    System.out.println(conResult);
+//					JSONObject sobj = new JSONObject();
+//					sobj = sobj.fromObject(conResult);
+//					String rcVal = sobj.getString("cVal");
+//					String code = sobj.getString("code");
+//					JSONArray jarray=JSONArray.fromObject(sobj.getString("body"));
+//					if(code.equals("101")){
+//						strResult += "发送成功"+rcVal+sobj.getString("body");
+//					}else{
+//						strResult += "发送失败，"+code;
+//					}
 					
 				} else {
 					String err = response.getStatusLine().getStatusCode()+"";

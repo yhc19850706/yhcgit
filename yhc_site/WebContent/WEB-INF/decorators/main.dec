@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+<#include "/WEB-INF/decorators/head-head.dec">
+${head}
+</head>
+<body>
+<div id="wrap" class="login">
+	<!-- head -->
+	<div id="head">
+		<h1 class="h_tit3 pd"></h1>
+	</div>
+	<!-- //head -->
+	<!-- container -->
+	<div id="container">
+		<!-- content -->
+		${body}
+		<!-- //content -->
+	</div>
+	<!-- //container -->
+	<div id="footer">
+		<address>版权所有 © 银狐网络科技有限公司 京ICP备0000000000号</address>
+	</div>
+</div>
+</body>
+</html>

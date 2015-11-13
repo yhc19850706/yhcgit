@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+<#include "/WEB-INF/decorators/head-head.dec"/>
+${head}
+<style type="text/css">
+body { background: url(/img/bg-login.jpg) !important; }
+</style>
+</head>
+<body>
+	<div class="container-fluid-full">
+	
+	${body}
+    </div><!--/fluid-row-->
+	<!--bottom script -->
+	<#include "/WEB-INF/decorators/body-bottom.dec">
+	<!-- //bottom script -->
+	
+</body>
+</html>

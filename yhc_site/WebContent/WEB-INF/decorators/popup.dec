@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="description" content="理财,科技">
+<title>银湖网 :: 融信通</title>
+<link rel="stylesheet" type="text/css" href="/css/yinhu.css?20150210">
+<script src="/js/jquery-1.10.2.min.js"></script>
+${head}
+</head>
+<body>
+<!-- head -->
+<div id="head">
+	<h1 class="h1_tit h1_tit_v1"><span class="blind">融信通管理系统</span></h1>
+</div>
+<!-- //head -->
+${body}
+</body>
+</html>

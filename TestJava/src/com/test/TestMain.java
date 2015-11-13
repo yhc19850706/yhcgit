@@ -22,6 +22,8 @@ public class TestMain {
 		String value = jedis.get(keys);
 
 		System.out.println(value);
+		
+		
 	}
 
 }

@@ -35,10 +35,10 @@ public class Main {
 //            e.printStackTrace();
 //        }
 		
-		System.out.println(getMonth(0));
-		System.out.println(getMonth(1));
-		System.out.println(getMonth(2));
-		System.out.println(getFirstDayOfMonth(new Date()));
+		System.out.println((new Float("200.00")).intValue());
+//		System.out.println(getMonth(1));
+//		System.out.println(getMonth(2));
+//		System.out.println(getFirstDayOfMonth(new Date()));
 	}
 
 	/**

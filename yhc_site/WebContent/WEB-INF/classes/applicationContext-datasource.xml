@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- DataSource 1 Configuration -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="org.gjt.mm.mysql.Driver"/>
+		<property name="url" value="jdbc:mysql://211.155.87.209:3306/xmph?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true"/>
+		<property name="username" value="admin"/>
+		<property name="password" value="+TvP9hUDnxqf"/>
+		<property name="maxWait" value="3000" />
+		<property name="initialSize" value="5"/>
+		<property name="maxActive" value="100"/>
+		<property name="maxIdle" value="50"/>
+		<property name="minIdle" value="5"/>
+		<property name="validationQuery" value="SELECT CURDATE()"/>
+		<property name="logAbandoned" value="true" />
+		<property name="removeAbandoned" value="true"/>
+		<property name="removeAbandonedTimeout" value="120"/>
+		<property name="testOnBorrow" value="true"/>
+		<property name="testWhileIdle" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="3600000"/>
+	</bean>
+	
+	<!-- DataSource 2 Configuration -->
+	<bean id="dataSourceBankLake" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="org.gjt.mm.mysql.Driver"/>
+		<property name="url" value="${jdbc.banklake.url}"/>
+		<property name="username" value="${jdbc.banklake.username}"/>
+		<property name="password" value="${jdbc.banklake.password}"/>
+		<property name="maxWait" value="3000" />
+		<property name="initialSize" value="5"/>
+		<property name="maxActive" value="100"/>
+		<property name="maxIdle" value="50"/>
+		<property name="minIdle" value="5"/>
+		<property name="validationQuery" value="SELECT CURDATE()"/>
+		<property name="logAbandoned" value="true" />
+		<property name="removeAbandoned" value="true"/>
+		<property name="removeAbandonedTimeout" value="120"/>
+		<property name="testOnBorrow" value="true"/>
+		<property name="testWhileIdle" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="3600000"/>
+	</bean>
+</beans>

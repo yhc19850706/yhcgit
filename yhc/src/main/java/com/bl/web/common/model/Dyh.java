@@ -3,7 +3,7 @@ package com.bl.web.common.model;
 import java.math.BigDecimal;
 
 public class Dyh {
-
+	
 	private int dyhId;
 	private String dyhNm;
 	private long dyhAmt;

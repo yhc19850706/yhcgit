@@ -1,0 +1,9 @@
+<decorators defaultdir="/WEB-INF/decorators">
+	<decorator name="common" page="common.dec">
+		<pattern>/user/view.yhc</pattern>
+		<pattern>/user/login_page.yhc</pattern>
+	</decorator>
+	<decorator name="login" page="loginPage.dec">
+		<pattern>/user/login_page.yhc</pattern>
+	</decorator>
+</decorators>
