@@ -21,6 +21,6 @@
 	</bean>
 	<bean class="com.yhc.common.utils.ContextUtil" init-method="init">
 		<property name="commonDao" ref="commonDao" />
-		<property name="empDao" ref="empDao" />
+		<property name="menuDao" ref="menuDao" />
 	</bean>	
 </beans>

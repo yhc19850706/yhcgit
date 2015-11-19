@@ -23,13 +23,13 @@ import com.yhc.common.utils.BlCookieUtil;
 import com.yhc.common.utils.CipherUtil;
 import com.yhc.common.utils.Constants;
 import com.yhc.common.utils.ContextUtil;
-import com.yhc.web.emp.service.EmpService;
+import com.yhc.web.menu.service.SysMenuService;
 @Controller
 public class BaseAction {
 	protected Log logger = LogFactory.getLog(BaseAction.class);
 
-	@Resource(name = "empService")
-	protected EmpService empService;
+	@Resource(name = "menuService")
+	protected SysMenuService menuService;
 	
 	protected ModelAndView getModelAndView() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -144,7 +144,7 @@ public class BaseAction {
 			map.put("authDelYn", "N");
 			map.put("menuDelYn", "N");
 			map.put("dispYn", "Y");
-			storeMenuList = empService.getAuthMenuList(map);
+			storeMenuList = menuService.getAuthMenuList(map);
 		}
 		
 		List<String> menuList = new ArrayList<String>();

@@ -1,7 +1,10 @@
 package com.yhc.web.user.dao;
 
-import com.yhc.common.model.UserInfo;
+import com.yhc.common.model.SysUser;
 
 public interface UserDao {
-	public UserInfo getUserByUserId(String userId);
+	public SysUser getUserByUserId(String userId) throws Exception;
+	public SysUser selectByUsername(String loginName) throws Exception;
+
+	public SysUser authentication(SysUser user);
 }

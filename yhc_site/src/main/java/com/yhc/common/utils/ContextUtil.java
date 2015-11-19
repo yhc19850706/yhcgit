@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import com.yhc.common.dao.CommonDao;
 import com.yhc.common.model.AuthMenu;
 import com.yhc.common.model.CommonCd;
-import com.yhc.web.emp.dao.EmpDao;
+import com.yhc.web.menu.dao.SysMenuDao;
 
 
 public class ContextUtil {
@@ -25,7 +25,7 @@ public class ContextUtil {
 		return instance;
 	}
 	private CommonDao commonDao;
-	private EmpDao empDao;
+	private SysMenuDao menuDao;
 	//初始化map缓存数据 
 	public void init() throws Exception {
 		logger.debug(">>>>>>>>>>>>>>>>>> init start <<<<<<<<<<<<<<<<<<<<");
@@ -85,7 +85,7 @@ public class ContextUtil {
 		map.put("authDelYn", "N");
 		map.put("dispYn", "Y");
 		
-		List<AuthMenu> list = empDao.getAuthMenuList(map);
+		List<AuthMenu> list = menuDao.getAuthMenuList(map);
 		if (list != null && list.size() > 0) {
 			
 			for (int i = 0; i < list.size(); i++) {
@@ -143,12 +143,14 @@ public class ContextUtil {
 		this.commonDao = commonDao;
 	}
 	
-	public EmpDao getEmpDao() {
-		return empDao;
+ 
+
+	public SysMenuDao getMenuDao() {
+		return menuDao;
 	}
 
-	public void setEmpDao(EmpDao empDao) {
-		this.empDao = empDao;
+	public void setMenuDao(SysMenuDao menuDao) {
+		this.menuDao = menuDao;
 	}
 
 	public static Map<String, List<AuthMenu>> getAuthMenuMapList() {

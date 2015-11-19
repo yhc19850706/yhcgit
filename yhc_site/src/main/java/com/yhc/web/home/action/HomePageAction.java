@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.yhc.common.action.BaseAction;
 
 @RestController
-@RequestMapping("/home")
+@RequestMapping("/mgz")
 public class HomePageAction extends BaseAction{
 	/**
 	 * 首页访问
@@ -18,9 +18,42 @@ public class HomePageAction extends BaseAction{
 	 * @throws Exception
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	@RequestMapping(value = "/page_index.yhc")
+	@RequestMapping(value = "/home_page.yhc")
 	public ModelAndView main(@RequestParam(required = false) String source,HttpServletResponse response) throws Exception {
-		ModelAndView mav = super.getModelAndView();
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("webpage/home");
+		return mav;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/home_login.yhc")
+	public ModelAndView login(@RequestParam(required = false) String source,HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("webpage/login");
+		return mav;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/home_event.yhc")
+	public ModelAndView event(@RequestParam(required = false) String source,HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("webpage/events");
+		return mav;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/home_contact.yhc")
+	public ModelAndView contact(@RequestParam(required = false) String source,HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("webpage/contact");
+		return mav;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@RequestMapping(value = "/home_submit.yhc")
+	public ModelAndView submit(@RequestParam(required = false) String source,HttpServletResponse response) throws Exception {
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("webpage/single");
 		return mav;
 	}
 }

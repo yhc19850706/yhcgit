@@ -7,7 +7,19 @@
   LRU算法：选择近期最少访问的页作为被替换页。
   LFU算法：最近最不常用调度算法，是根据在一段时间里页面被使用的次数选择出最少使用的页 
 <cache  eviction="LRU" type="com.yhc.common.cache.RedisCache"></cache> -->
- <select id="getUserByUserId" parameterType="String" resultType="userInfo">  
-      SELECT user_id as id,user_nm as name FROM tb_user WHERE user_id=#{userId}
-</select>   
+ <select id="getUserByUserId" parameterType="String" resultType="user">  
+      select id as id,login_name as loginName,no as no,name as name,user_type as userType 
+      from sys_user 
+      where id=#{userId}
+</select> 
+ <select id="selectByUsername" parameterType="String" resultType="user">  
+      select id as id,login_name as loginName,no as no,name as name,user_type as userType 
+      from sys_user 
+      where login_name=#{loginName}
+</select>
+ <select id="authentication" parameterType="user" resultType="user">  
+      select id as id,login_name as loginName,no as no,name as name,user_type as userType 
+      from sys_user 
+      where login_name=#{loginName}  and password=#{password}
+</select> 
 </mapper>  
