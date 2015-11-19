@@ -6,9 +6,9 @@
 	<!-- DataSource 1 Configuration -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="org.gjt.mm.mysql.Driver"/>
-		<property name="url" value="jdbc:mysql://211.155.87.209:3306/xmph?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true"/>
-		<property name="username" value="admin"/>
-		<property name="password" value="+TvP9hUDnxqf"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/yhcbank?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true"/>
+		<property name="username" value="yhc"/>
+		<property name="password" value="yhc123"/>
 		<property name="maxWait" value="3000" />
 		<property name="initialSize" value="5"/>
 		<property name="maxActive" value="100"/>

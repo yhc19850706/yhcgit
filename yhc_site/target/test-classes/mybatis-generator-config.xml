@@ -19,9 +19,9 @@
   
     <!-- 数据库连接 -->
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-        connectionURL="jdbc:mysql://211.155.87.209:3306/xmph?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true"
-        userId="admin"
-        password="+TvP9hUDnxqf">
+        connectionURL="jdbc:mysql://localhost:3306/yhcbank?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true"
+        userId="yhc"
+        password="yhc123">
     </jdbcConnection>
 
     <javaTypeResolver >
@@ -40,12 +40,12 @@
     </sqlMapGenerator>
     
     <!-- 在ibatis2 中是dao层，但在mybatis3中，其实就是mapper接口 -->
-    <javaClientGenerator type="XMLMAPPER" targetPackage="com.yhc.web.emp.dao"  targetProject="src/main/java">
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.yhc.web.user.dao"  targetProject="src/main/java">
       <property name="enableSubPackages" value="true" />
     </javaClientGenerator>
     
     <!-- 要对那些数据表进行生成操作，必须要有一个. -->
-    <table schema="mybatis" tableName="tb_emp" domainObjectName="Emp" 
+    <table schema="mybatis" tableName="sys_user" domainObjectName="SysUser" 
         enableCountByExample="false" enableUpdateByExample="false"
         enableDeleteByExample="false" enableSelectByExample="false"
         selectByExampleQueryId="false">     
