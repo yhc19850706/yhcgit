@@ -65,8 +65,6 @@
    
     </mvc:interceptors>
     -->
-    <!-- 基于Form表单的身份验证过滤器 -->  
-
 	<!-- component-scan -->
 	<context:component-scan base-package="com.yhc.web.*" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"></context:include-filter>
