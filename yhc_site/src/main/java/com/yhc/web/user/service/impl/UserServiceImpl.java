@@ -29,5 +29,10 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userDao.authentication(user);
 	}
+	@Override
+	public void addUserInfo(SysUser user) throws Exception {
+		// TODO Auto-generated method stub
+		userDao.addUserInfo(user);
+	}
 
 }

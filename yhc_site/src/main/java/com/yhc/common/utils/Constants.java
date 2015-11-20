@@ -42,7 +42,7 @@ public class Constants {
 	public static String LOAN_LOG_TYPE_JD = "拒贷申请时间";
 	public static String LOAN_LOG_TYPE_JS = "拒贷生效时间";
 	
-	
+	public static String SALT="Yzdtyjm159753Hwdcnko456258C";
 	//还款时间
 	public static String OFF2OFF_REPAY_TIME = "18";
 	public static String OFF2ON_REPAY_TIME = "18";//推到线上的标的还款时间 有可能 和 线下还款时间不同

@@ -66,4 +66,5 @@ public class BlGlobalVariable extends GlobalVariable{
 	public static final String IMG_LOAN_REAL_DIR = getPropertyConfig().getString("img.loan.real.dir");
 
 	public static final String REDIS_VIP= getPropertyConfig().getString("redis_vip");
+	public static final String SALT = getPropertyConfig().getString("password.salt");
 }

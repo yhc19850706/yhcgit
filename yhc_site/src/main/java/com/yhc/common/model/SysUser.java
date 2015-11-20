@@ -2,6 +2,11 @@ package com.yhc.common.model;
 
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
+
+import com.yhc.common.config.BlGlobalVariable;
+import com.yhc.common.utils.Constants;
+
 public class SysUser {
     private String id;
 
@@ -12,6 +17,10 @@ public class SysUser {
     private String loginName;
 
     private String password;
+    
+    private String credentialsSalt;//loginName+password
+    
+    private boolean rememberMe;
 
     private String no;
 
@@ -85,7 +94,24 @@ public class SysUser {
         this.password = password == null ? null : password.trim();
     }
 
-    public String getNo() {
+    public String getCredentialsSalt() {
+    	if(StringUtils.isNotBlank(getLoginName())){
+    		credentialsSalt=getLoginName()+Constants.SALT;	
+    	}else{
+    		credentialsSalt=Constants.SALT;
+    	}
+		return credentialsSalt;
+	}
+
+	public boolean getRememberMe() {
+		return rememberMe;
+	}
+
+	public void setRememberMe(boolean rememberMe) {
+		this.rememberMe = rememberMe;
+	}
+
+	public String getNo() {
         return no;
     }
 
