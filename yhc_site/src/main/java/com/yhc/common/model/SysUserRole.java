@@ -1,6 +1,8 @@
 package com.yhc.common.model;
 
-public class SysUserRole {
+import java.io.Serializable;
+
+public class SysUserRole implements Serializable{
     private String userId;
 
     private String roleId;

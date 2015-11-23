@@ -1,5 +1,6 @@
 package com.yhc.common.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
@@ -7,7 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import com.yhc.common.config.BlGlobalVariable;
 import com.yhc.common.utils.Constants;
 
-public class SysUser {
+public class SysUser implements Serializable{
     private String id;
 
     private String companyId;
