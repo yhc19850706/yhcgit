@@ -36,16 +36,12 @@ public class BaseAction {
 		
 		try {
 			String authId = getAuthId();
-			String storeCode = getStoreCode();
-			String userNm = getEmpNm();
+			String userNm = getUserNm();
 			if (StringUtils.isNotBlank(userNm)) {
 				modelAndView.addObject("baseUserNm", userNm);
 			}
 			if (StringUtils.isNotBlank(authId)) {
 				modelAndView.addObject("userAuth", authId);
-			}
-			if (StringUtils.isNotBlank(storeCode)) {
-				modelAndView.addObject("userStoreCode", storeCode);
 			}
 
 			List<AuthMenu> MenuList = getMenuList("1");
@@ -78,8 +74,8 @@ public class BaseAction {
 		return ((ServletRequestAttributes)RequestContextHolder.getRequestAttributes()).getRequest();
 	}
 	
-	protected String getEmpId() throws Exception {
-		String encrypt = BlCookieUtil.getCookieValue(getRequest(), Constants.COOKIE_BL_UID);
+	protected String getUserId() throws Exception {
+		String encrypt = BlCookieUtil.getCookieValue(getRequest(), Constants.COOKIE_YHC_UID);
 		if (StringUtils.isBlank(encrypt)) {
 			return null;
 		}
@@ -92,7 +88,7 @@ public class BaseAction {
 	 * @throws Exception
 	 */
 	private String getCookieAuthId() throws Exception {
-		String encrypt = BlCookieUtil.getCookieValue(getRequest(), Constants.COOKIE_BL_AUTH);
+		String encrypt = BlCookieUtil.getCookieValue(getRequest(), Constants.COOKIE_YHC_AUTH);
 		if (StringUtils.isBlank(encrypt)) {
 			return null;
 		}
@@ -110,24 +106,13 @@ public class BaseAction {
 		return null;
 	}
 	
-	protected String getStoreCode() throws Exception {
-		String cookieAutthId = getCookieAuthId();
-		if (StringUtils.isBlank(cookieAutthId))
-			return null;
-		String[] authIds = cookieAutthId.split("_");
-		
-		if (authIds.length==2)
-			return authIds[1];
-		return null;
-	}
-	
 	/**
 	 * 从cookie里获得当前登录用户的EmpNm
 	 * @return
 	 * @throws Exception
 	 */
-	protected String getEmpNm() throws Exception {
-		String encrypt = BlCookieUtil.getCookieValue(getRequest(), Constants.COOKIE_BL_UNM);
+	protected String getUserNm() throws Exception {
+		String encrypt = BlCookieUtil.getCookieValue(getRequest(), Constants.COOKIE_YHC_UNM);
 		if (StringUtils.isBlank(encrypt)) {
 			return null;
 		}

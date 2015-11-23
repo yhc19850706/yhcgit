@@ -43,7 +43,7 @@ private static final Logger logger = Logger.getLogger(LoginInterceptor.class);
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		String requestUri = request.getRequestURI();
-		String userId = BlCookieUtil.getCookieValue(request, response, Constants.COOKIE_BL_UID);
+		String userId = BlCookieUtil.getCookieValue(request, response, Constants.COOKIE_YHC_UID);
 		for (String url : excludedUrls) {
 			if (requestUri.indexOf(url) >= 0) {
 				logger.info("start check login goto click url");
@@ -52,19 +52,17 @@ private static final Logger logger = Logger.getLogger(LoginInterceptor.class);
 		}
         
         if (StringUtils.isBlank(userId)) {
-        	response.sendRedirect("/re_login_page.bl");
+        	response.sendRedirect("/login_page.bl");
 			return false;
 		} else {
 			
-			String empId = BlCookieUtil.getCookieValue(request,  Constants.COOKIE_BL_UID);
-			String empNm = BlCookieUtil.getCookieValue(request,  Constants.COOKIE_BL_UNM);
-			String empAuth = BlCookieUtil.getCookieValue(request,  Constants.COOKIE_BL_AUTH);
+			String empId = BlCookieUtil.getCookieValue(request,  Constants.COOKIE_YHC_UID);
+			String empNm = BlCookieUtil.getCookieValue(request,  Constants.COOKIE_YHC_UNM);
 			long expireTimeMillis = System.currentTimeMillis();
 			
-    		BlCookieUtil.addCookie(response, Constants.COOKIE_BL_UID, empId, Constants.COOKIE_MAX_TIME_HALF_HOUR);
-    	    BlCookieUtil.addCookie(response, Constants.COOKIE_BL_UNM, empNm, Constants.COOKIE_MAX_TIME_HALF_HOUR);
-    	    BlCookieUtil.addCookie(response, Constants.COOKIE_BL_AUTH, empAuth, Constants.COOKIE_MAX_TIME_HALF_HOUR);
-    	    BlCookieUtil.addCookie(response, Constants.COOKIE_BL_TIME, String.valueOf(expireTimeMillis), Constants.COOKIE_MAX_TIME_HALF_HOUR);
+    		BlCookieUtil.addCookie(response, Constants.COOKIE_YHC_UID, empId, Constants.COOKIE_MAX_TIME_HALF_HOUR);
+    	    BlCookieUtil.addCookie(response, Constants.COOKIE_YHC_UNM, empNm, Constants.COOKIE_MAX_TIME_HALF_HOUR);
+    	    BlCookieUtil.addCookie(response, Constants.COOKIE_YHC_TIME, String.valueOf(expireTimeMillis), Constants.COOKIE_MAX_TIME_HALF_HOUR);
     		
 			return super.preHandle(request, response, handler);
 		}

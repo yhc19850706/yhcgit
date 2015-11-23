@@ -1,6 +1,8 @@
 package com.yhc.web.login.action;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -15,6 +17,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.yhc.common.action.BaseAction;
 import com.yhc.common.model.SysUser;
+import com.yhc.common.utils.BlCookieUtil;
+import com.yhc.common.utils.CipherUtil;
+import com.yhc.common.utils.Constants;
 import com.yhc.common.utils.EncryptUtil;
 import com.yhc.web.user.service.UserService;
 
@@ -59,7 +64,7 @@ public class LoginAction extends BaseAction {
 	 * @return
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ModelAndView login(@ModelAttribute("user") SysUser user) {
+	public ModelAndView login(@ModelAttribute("user") SysUser user,HttpServletResponse response, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		try {
 
@@ -84,9 +89,13 @@ public class LoginAction extends BaseAction {
 			}
 
 			subject.login(token);
-			// 验证成功在Session中保存用户信息
-			final SysUser authUserInfo = userService.selectByUsername(user
+			// 验证成功在Cookie中保存用户信息
+			final SysUser sysUser = userService.selectByUsername(user
 					.getLoginName());
+			long expireTimeMillis = System.currentTimeMillis();
+			BlCookieUtil.addCookie(response,Constants.COOKIE_YHC_UID,CipherUtil.encryptResult(sysUser.getId()), Constants.COOKIE_MAX_TIME_HALF_HOUR);
+	    	BlCookieUtil.addCookie(response,Constants.COOKIE_YHC_UNM,CipherUtil.encryptResult(sysUser.getLoginName()), Constants.COOKIE_MAX_TIME_HALF_HOUR);
+	    	BlCookieUtil.addCookie(response, Constants.COOKIE_YHC_TIME, String.valueOf(expireTimeMillis), Constants.COOKIE_MAX_TIME_HALF_HOUR);
 		} catch (AuthenticationException e) {
 			// 身份验证失败
 			e.printStackTrace();
