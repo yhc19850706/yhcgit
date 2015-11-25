@@ -28,4 +28,10 @@ public class SysMenuServiceImpl implements SysMenuService {
 		// TODO Auto-generated method stub
 		return menuDao.getAuthMenuList(map);
 	}
+
+	@Override
+	public List<SysMenu> selectMenusByRoleId(String userId) throws Exception{
+		// TODO Auto-generated method stub
+		return menuDao.selectMenusByRoleId(userId);
+	}
 }

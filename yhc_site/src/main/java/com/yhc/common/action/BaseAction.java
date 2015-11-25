@@ -18,11 +18,15 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.yhc.common.model.AuthMenu;
+import com.yhc.common.model.SysMenu;
 import com.yhc.common.utils.BlCookieUtil;
 import com.yhc.common.utils.CipherUtil;
 import com.yhc.common.utils.Constants;
 import com.yhc.common.utils.ContextUtil;
+import com.yhc.common.utils.CookieUtils;
 import com.yhc.web.menu.service.SysMenuService;
 @Controller
 public class BaseAction {
@@ -35,20 +39,21 @@ public class BaseAction {
 		ModelAndView modelAndView = new ModelAndView();
 		
 		try {
-			String authId = getAuthId();
+			String userId = getUserId();
 			String userNm = getUserNm();
 			if (StringUtils.isNotBlank(userNm)) {
 				modelAndView.addObject("baseUserNm", userNm);
 			}
-			if (StringUtils.isNotBlank(authId)) {
-				modelAndView.addObject("userAuth", authId);
-			}
 
-			List<AuthMenu> MenuList = getMenuList("1");
-			
-			List<Map<String, Object>> parentMenuList = getParentMenuList(MenuList);
-			modelAndView.addObject("parentMenuList", parentMenuList);
-			modelAndView.addObject("MenuList", MenuList);
+			List<SysMenu> menulist=getSysMenusList(userId);
+			List<SysMenu> pareMenuList=getParentSysMenusList(menulist);
+			modelAndView.addObject("menulist", menulist);
+			modelAndView.addObject("pareMenuList", pareMenuList);
+//			List<AuthMenu> MenuList = getMenuList("1");
+//			
+//			List<Map<String, Object>> parentMenuList = getParentMenuList(MenuList);
+//			modelAndView.addObject("parentMenuList", parentMenuList);
+//			modelAndView.addObject("MenuList", MenuList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -75,7 +80,7 @@ public class BaseAction {
 	}
 	
 	protected String getUserId() throws Exception {
-		String encrypt = BlCookieUtil.getCookieValue(getRequest(), Constants.COOKIE_YHC_UID);
+		String encrypt = CookieUtils.getCookie(getRequest(), Constants.COOKIE_YHC_UID);
 		if (StringUtils.isBlank(encrypt)) {
 			return null;
 		}
@@ -88,7 +93,7 @@ public class BaseAction {
 	 * @throws Exception
 	 */
 	private String getCookieAuthId() throws Exception {
-		String encrypt = BlCookieUtil.getCookieValue(getRequest(), Constants.COOKIE_YHC_AUTH);
+		String encrypt = CookieUtils.getCookie(getRequest(), Constants.COOKIE_YHC_AUTH);
 		if (StringUtils.isBlank(encrypt)) {
 			return null;
 		}
@@ -112,7 +117,7 @@ public class BaseAction {
 	 * @throws Exception
 	 */
 	protected String getUserNm() throws Exception {
-		String encrypt = BlCookieUtil.getCookieValue(getRequest(), Constants.COOKIE_YHC_UNM);
+		String encrypt = CookieUtils.getCookie(getRequest(), Constants.COOKIE_YHC_UNM);
 		if (StringUtils.isBlank(encrypt)) {
 			return null;
 		}
@@ -125,10 +130,6 @@ public class BaseAction {
 		if ((storeMenuList == null || storeMenuList.size() == 0) && StringUtils.isNotBlank(authId)) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("authId", authId);
-			map.put("delYn", "N");
-			map.put("authDelYn", "N");
-			map.put("menuDelYn", "N");
-			map.put("dispYn", "Y");
 			storeMenuList = menuService.getAuthMenuList(map);
 		}
 		
@@ -161,7 +162,6 @@ public class BaseAction {
 					nameList.add(menuList.get(i).getParentMenuNm());
 					tagList.add(menuList.get(i).getMenuTagNm().substring(0, menuList.get(i).getMenuTagNm().indexOf("_")));
 				}
-
 			}
 
 			for (int i = 0; i < nameList.size(); i++) {
@@ -173,6 +173,24 @@ public class BaseAction {
 
 		}
 		return strList;
+	}
+	
+	private List<SysMenu> getParentSysMenusList(List<SysMenu> sysMenus) throws Exception {
+		List<SysMenu> parentMenuList=Lists.newArrayList();
+		if(sysMenus!=null&&sysMenus.size()>0){
+			for(SysMenu menu:sysMenus){
+				if(StringUtils.isNotBlank(menu.getParentId())&"1".equals(menu.getParentId())){
+					parentMenuList.add(menu);
+				}
+			}
+		}
+		return parentMenuList;
+	}
+	
+	private List<SysMenu> getSysMenusList(String userId) throws Exception {
+		List<SysMenu> menuList=Lists.newArrayList();
+		menuList =menuService.selectMenusByRoleId(userId);
+		return menuList;
 	}
 }
 

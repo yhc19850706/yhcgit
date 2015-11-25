@@ -20,6 +20,7 @@ import com.yhc.common.model.SysUser;
 import com.yhc.common.utils.BlCookieUtil;
 import com.yhc.common.utils.CipherUtil;
 import com.yhc.common.utils.Constants;
+import com.yhc.common.utils.CookieUtils;
 import com.yhc.common.utils.EncryptUtil;
 import com.yhc.web.user.service.UserService;
 
@@ -63,7 +64,7 @@ public class LoginAction extends BaseAction {
 	 * @param result
 	 * @return
 	 */
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/login.yhc", method = RequestMethod.POST)
 	public ModelAndView login(@ModelAttribute("user") SysUser user,HttpServletResponse response, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		try {
@@ -93,9 +94,9 @@ public class LoginAction extends BaseAction {
 			final SysUser sysUser = userService.selectByUsername(user
 					.getLoginName());
 			long expireTimeMillis = System.currentTimeMillis();
-			BlCookieUtil.addCookie(response,Constants.COOKIE_YHC_UID,CipherUtil.encryptResult(sysUser.getId()), Constants.COOKIE_MAX_TIME_HALF_HOUR);
-	    	BlCookieUtil.addCookie(response,Constants.COOKIE_YHC_UNM,CipherUtil.encryptResult(sysUser.getLoginName()), Constants.COOKIE_MAX_TIME_HALF_HOUR);
-	    	BlCookieUtil.addCookie(response, Constants.COOKIE_YHC_TIME, String.valueOf(expireTimeMillis), Constants.COOKIE_MAX_TIME_HALF_HOUR);
+			CookieUtils.addCookie(response, Constants.COOKIE_YHC_UID, CipherUtil.encryptResult(sysUser.getId()), "/", Constants.COOKIE_MAX_TIME_HALF_HOUR);
+            CookieUtils.addCookie(response,Constants.COOKIE_YHC_UNM,CipherUtil.encryptResult(sysUser.getLoginName()),"/",  Constants.COOKIE_MAX_TIME_HALF_HOUR);
+			CookieUtils.addCookie(response, Constants.COOKIE_YHC_TIME, String.valueOf(expireTimeMillis),"/",  Constants.COOKIE_MAX_TIME_HALF_HOUR);
 		} catch (AuthenticationException e) {
 			// 身份验证失败
 			e.printStackTrace();
@@ -113,7 +114,7 @@ public class LoginAction extends BaseAction {
 	 * @param session
 	 * @return
 	 */
-	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	@RequestMapping(value = "/logout.yhc", method = RequestMethod.GET)
 	public ModelAndView logout() {
 		ModelAndView mav = super.getModelAndView();
 

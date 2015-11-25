@@ -19,5 +19,6 @@ public interface SysMenuDao {
 
     int updateByPrimaryKey(SysMenu record);
     public List<SysMenu> selectPermissionsByRoleId(String id);
+    public List<SysMenu> selectMenusByRoleId(String userId) throws Exception;
     public List<AuthMenu> getAuthMenuList(Map<String, Object> map);
 }

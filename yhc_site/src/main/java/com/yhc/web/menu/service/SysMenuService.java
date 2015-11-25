@@ -9,5 +9,6 @@ import com.yhc.common.model.SysMenu;
 public interface SysMenuService {
 
 	public List<SysMenu> selectPermissionsByRoleId(String id);
+	public List<SysMenu> selectMenusByRoleId(String userId) throws Exception;
 	public List<AuthMenu> getAuthMenuList(Map<String, Object> map);
 }

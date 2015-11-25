@@ -60,4 +60,10 @@ public class SysMenuDaoImpl extends BaseDao implements SysMenuDao {
 		return this.getSqlSession().selectList("com.yhc.web.menu.getAuthMenuList", map);
 	}
 
+	@Override
+	public List<SysMenu> selectMenusByRoleId(String userId) throws Exception{
+		// TODO Auto-generated method stub
+		return this.getSqlSession().selectList("com.yhc.web.menu.selectMenusByRoleId", userId);
+	}
+
 }

@@ -4,6 +4,30 @@
 	<div id="sidebar-left" class="span2">
 	<div class="nav-collapse sidebar-nav">
 		<ul class="nav nav-tabs nav-stacked main-menu">
+		<#if (pareMenuList?? && pareMenuList?size > 0)>
+		<#if (menulist?? && menulist?size > 0)>
+		<#list pareMenuList as parentMenu>
+		<li> 
+		    <a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"> ${parentMenu.name!''}</span></a>
+			<ul>
+			<#list menulist as menu>
+			<#if menu.parentId = parentMenu.id>
+			<li><a class="submenu" href="${menu.href}"><i class="icon-file-alt"></i><span class="hidden-tablet"> ${menu.name!''}</span></a></li>
+			</#if>
+			</#list>
+			</ul>
+		</li>
+		</#list>
+		</#if>
+		</#if>
+		</ul>
+	</div>
+	</div>
+</#macro>
+<#macro snb2 idx>
+	<div id="sidebar-left" class="span2">
+	<div class="nav-collapse sidebar-nav">
+		<ul class="nav nav-tabs nav-stacked main-menu">
 		<#if (parentMenuList?? && parentMenuList?size > 0)>
 		<#if (MenuList?? && MenuList?size > 0)>
 		<#list parentMenuList as parentMenu>

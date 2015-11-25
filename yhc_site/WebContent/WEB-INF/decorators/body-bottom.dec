@@ -54,6 +54,6 @@
 		<script src="/js/retina.js"></script>
 
 		<script src="/js/custom.js"></script>
-		<script type="text/javascript" src="/js/swfobject-2.2.min.js"></script>
+		<!-- <script type="text/javascript" src="/js/swfobject-2.2.min.js"></script>
         <script type="text/javascript" src="/js/evercookie.js"></script>
-	<!-- end: JavaScript-->
+	 end: JavaScript-->

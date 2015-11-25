@@ -34,25 +34,23 @@
 		order by txm.parent_menu_nm
 	</select>
 	<select id="selectPermissionsByRoleId" parameterType="String" resultType="sysMenu">
-		select sm.id,sm.permission,
+		select distinct sm.id,sm.permission,
 		       sm.name,
 		       sm.parent_id as parentId
 		from sys_role_menu srm,sys_menu sm
 		where sm.is_show='N' and srm.menu_id=sm.id and srm.role_id=#{id}
 		
 		</select>
-	<select id="getSysMenuList" parameterType="map" resultType="authMenu">
-		select 
+	<select id="selectMenusByRoleId" parameterType="String" resultType="sysMenu">
+		select distinct sm.id,sm.parent_id as parentId,sm.name,sm.target,sm.permission,sm.sort,sm.href
 		
-		from sys_menu sm,sys_role_menu srm,sys_role sr
-		where sr.id=srm.role_id 
+		from sys_menu sm,sys_role_menu srm,sys_user_role sur
+		where sur.role_id=srm.role_id 
 		      and srm.menu_id=sm.id
-		      and sr.userable='Y'
-		      and sr.del_flag='N'
+		      and sm.menu_type='menu'
 		      and sm.del_flag='N'
 		      and sm.is_show='Y'
-		    <if test="roleId!=null">
-		    	and sr.id = #{roleId}#
-		    </if>
+		      and sur.user_id = #{userId}#
+		      order by sm.sort
 	</select>
 </mapper>
