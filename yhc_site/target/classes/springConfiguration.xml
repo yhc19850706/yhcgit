@@ -30,12 +30,12 @@
         <mvc:interceptor>
             <mvc:mapping path="/*" />
             <mvc:mapping path="/*/*" />
-            <bean class="com.yhc.web.common.interceptor.LoginInterceptor" >
+            <bean class="com.yhc.common.interceptor.LoginInterceptor" >
                 <property name="excludedUrls">
                     <list>
                         <value>/user/login_page.yhc</value>
                         <value>/re_login_page.yhc</value>
-                        <value>/login.yhc</value>
+                        <value>/user/login.yhc</value>
                         <value>/error.yhc</value>
                     </list>
                 </property>

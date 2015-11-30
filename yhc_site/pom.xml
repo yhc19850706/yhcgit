@@ -119,6 +119,11 @@
             <artifactId>shiro-quartz</artifactId>
             <version>${shiro.version}</version>
         </dependency>
+        <dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-freemarker-tags</artifactId>
+			<version>0.1-SNAPSHOT</version>
+		</dependency>
         <!-- shiro-redis-->
           <dependency>
             <groupId>org.crazycake</groupId>
@@ -224,10 +229,11 @@
 			<artifactId>aspectjlib</artifactId>
 			<version>1.6.2</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>org.freemarker</groupId>
 			<artifactId>freemarker</artifactId>
-			<version>2.3.15</version>
+			<version>2.3.18</version>
 		</dependency>
 		<dependency>
 			<groupId>opensymphony</groupId>

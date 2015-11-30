@@ -29,7 +29,9 @@
 					<div class="number">854<i class="icon-arrow-up"></i></div>
 					<div class="title">visits</div>
 					<div class="footer">
+					    <@shiro.hasPermission name="sys:menu:view">
 						<a href="/user/create.yhc"> read full report</a>
+						</@shiro.hasPermission>
 					</div>	
 				</div>
 				<div class="span3 statbox green" onTablet="span6" onDesktop="span3">
@@ -37,7 +39,9 @@
 					<div class="number">123<i class="icon-arrow-up"></i></div>
 					<div class="title">sales</div>
 					<div class="footer">
+					  <@shiro.hasRole name="admin">
 						<a href="/user/admin.yhc"> read full report</a>
+						</@shiro.hasRole>
 					</div>
 				</div>
 				<div class="span3 statbox blue noMargin" onTablet="span6" onDesktop="span3">
