@@ -110,7 +110,7 @@
 				/web/**=anon
 				/unauthorized= anon
 				/user/login* = anon
-				/logout = logout
+				/user/logout* = logout
 				/user/advertiser2.yhc=authc
 				/**=user
 			</value>

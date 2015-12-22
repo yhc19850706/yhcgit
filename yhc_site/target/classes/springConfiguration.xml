@@ -34,7 +34,8 @@
                 <property name="excludedUrls">
                     <list>
                         <value>/user/login_page.yhc</value>
-                        <value>/re_login_page.yhc</value>
+                        <value>/user/logout.yhc</value>
+                        <value>/user/re_login_page.yhc</value>
                         <value>/user/login.yhc</value>
                         <value>/error.yhc</value>
                     </list>

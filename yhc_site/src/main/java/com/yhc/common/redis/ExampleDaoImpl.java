@@ -2,8 +2,8 @@ package com.yhc.common.redis;
 
 import com.yhc.common.model.SysUser;
 import com.yhc.web.user.dao.UserDao;
-
-public class ExampleDaoImpl extends AbstractBaseRedisDao<String, SysUser> implements UserDao {  
+//implements UserDao
+public class ExampleDaoImpl extends AbstractBaseRedisDao<String, SysUser>  {  
   
     /**  
      * 新增 

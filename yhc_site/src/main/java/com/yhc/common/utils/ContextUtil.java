@@ -9,7 +9,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import com.yhc.common.dao.CommonDao;
-import com.yhc.common.model.AuthMenu;
 import com.yhc.common.model.CommonCd;
 import com.yhc.web.menu.dao.SysMenuDao;
 
@@ -20,7 +19,6 @@ public class ContextUtil {
 	private static Long serverStartTimeMili = -1L;
 	private static Map<String, String> commonCodeMap = new HashMap<String, String>();
 	private static Map<String, List<CommonCd>> commonCodeMapList = new HashMap<String, List<CommonCd>>();
-	private static Map<String, List<AuthMenu>> authMenuMapList = new HashMap<String, List<AuthMenu>>();
 	public static ContextUtil getInstance() {
 		return instance;
 	}
@@ -31,7 +29,6 @@ public class ContextUtil {
 		logger.debug(">>>>>>>>>>>>>>>>>> init start <<<<<<<<<<<<<<<<<<<<");
 		instance.setServerStartTimeMili(System.currentTimeMillis());
 		initCommonCode();
-		initAuthMenu();
 //		initAuthUri();
 //		initUriMenu();
 //		initPeriodRate();
@@ -73,36 +70,7 @@ public class ContextUtil {
 		instance.setCommonCodeMapList(commonCodeMapList);
 		logger.debug("******** initCommonCode end ***********");
 	}
-	
-	@SuppressWarnings("static-access")
-	public void initAuthMenu() throws Exception {
-		logger.debug("******** initRmAuthMenu start ***********");
-		Map<String, List<AuthMenu>> authMenuMapList = new HashMap<String, List<AuthMenu>>();
-		
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("delYn", "N");
-		map.put("menuDelYn", "N");
-		map.put("authDelYn", "N");
-		map.put("dispYn", "Y");
-		
-		List<AuthMenu> list = menuDao.getAuthMenuList(map);
-		if (list != null && list.size() > 0) {
-			
-			for (int i = 0; i < list.size(); i++) {
-				AuthMenu AuthMenu = list.get(i);
-				List<AuthMenu> list2 = null;
-				if (authMenuMapList.get(AuthMenu.getAuthId() + "") != null && authMenuMapList.get(AuthMenu.getAuthId()+ "").size() > 0) {
-					list2 = authMenuMapList.get(AuthMenu.getAuthId() + "");
-				} else {
-					list2 = new ArrayList<AuthMenu>();
-				}
-				list2.add(AuthMenu);
-				authMenuMapList.put(AuthMenu.getAuthId() + "", list2);
-			}
-		}
-		instance.setAuthMenuMapList(authMenuMapList);
-		logger.debug("******** initRmAuthMenu end ***********");
-	}
+
 	/**
 	 * @return the serverStartTimeMili
 	 */
@@ -151,13 +119,5 @@ public class ContextUtil {
 
 	public void setMenuDao(SysMenuDao menuDao) {
 		this.menuDao = menuDao;
-	}
-
-	public static Map<String, List<AuthMenu>> getAuthMenuMapList() {
-		return authMenuMapList;
-	}
-
-	public static void setAuthMenuMapList(Map<String, List<AuthMenu>> authMenuMapList) {
-		ContextUtil.authMenuMapList = authMenuMapList;
 	}
 }

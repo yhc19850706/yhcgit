@@ -1,11 +1,7 @@
 
 package com.yhc.common.action;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,14 +14,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.yhc.common.model.AuthMenu;
 import com.yhc.common.model.SysMenu;
-import com.yhc.common.utils.BlCookieUtil;
 import com.yhc.common.utils.CipherUtil;
 import com.yhc.common.utils.Constants;
-import com.yhc.common.utils.ContextUtil;
 import com.yhc.common.utils.CookieUtils;
 import com.yhc.web.menu.service.SysMenuService;
 @Controller
@@ -49,11 +41,6 @@ public class BaseAction {
 			List<SysMenu> pareMenuList=getParentSysMenusList(menulist);
 			modelAndView.addObject("menulist", menulist);
 			modelAndView.addObject("pareMenuList", pareMenuList);
-//			List<AuthMenu> MenuList = getMenuList("1");
-//			
-//			List<Map<String, Object>> parentMenuList = getParentMenuList(MenuList);
-//			modelAndView.addObject("parentMenuList", parentMenuList);
-//			modelAndView.addObject("MenuList", MenuList);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,33 +73,9 @@ public class BaseAction {
 		}
 		return CipherUtil.decryptResult(encrypt);
 	}
-
-	/**
-	 * 从cookie里获得当前登录用户的AuthId
-	 * @return
-	 * @throws Exception
-	 */
-	private String getCookieAuthId() throws Exception {
-		String encrypt = CookieUtils.getCookie(getRequest(), Constants.COOKIE_YHC_AUTH);
-		if (StringUtils.isBlank(encrypt)) {
-			return null;
-		}
-		return CipherUtil.decryptResult(encrypt);
-	}
-
-	protected String getAuthId() throws Exception {
-		String cookieAutthId = getCookieAuthId();
-		if (StringUtils.isBlank(cookieAutthId))
-			return null;
-		String[] authIds = cookieAutthId.split("_");
-		
-		if (authIds[0].compareTo("0") > 0)
-			return authIds[0];
-		return null;
-	}
 	
 	/**
-	 * 从cookie里获得当前登录用户的EmpNm
+	 * 从cookie里获得当前登录用户的loginName
 	 * @return
 	 * @throws Exception
 	 */
@@ -122,57 +85,6 @@ public class BaseAction {
 			return null;
 		}
 		return CipherUtil.decryptResult(encrypt);
-	}
-	
-	private List<AuthMenu> getMenuList(String authId) throws Exception {
-		List<AuthMenu> storeMenuList = ContextUtil.getAuthMenuMapList().get(authId);
-
-		if ((storeMenuList == null || storeMenuList.size() == 0) && StringUtils.isNotBlank(authId)) {
-			Map<String, Object> map = new HashMap<String, Object>();
-			map.put("authId", authId);
-			storeMenuList = menuService.getAuthMenuList(map);
-		}
-		
-		List<String> menuList = new ArrayList<String>();
-		List<AuthMenu> MenuList = new ArrayList<AuthMenu>();
-		
-		if (storeMenuList != null && storeMenuList.size() > 0) {
-			for (AuthMenu AuthMenu : storeMenuList) {
-				if (!menuList.contains(AuthMenu.getMenuId() + "")) {
-					menuList.add(AuthMenu.getMenuId() + "");
-					MenuList.add(AuthMenu);
-				}
-			}
-		}
-
-		return MenuList;
-	}
-
-	private List<Map<String, Object>> getParentMenuList(List<AuthMenu> menuList) throws Exception {
-		List<Map<String, Object>> strList = new ArrayList<Map<String, Object>>();
-
-		if (menuList != null && menuList.size() > 0) {
-
-			List<String> nameList = new ArrayList<String>();
-			List<String> tagList = new ArrayList<String>();
-
-			for (int i = 0; i < menuList.size(); i++) {
-
-				if (!nameList.contains(menuList.get(i).getParentMenuNm())) {
-					nameList.add(menuList.get(i).getParentMenuNm());
-					tagList.add(menuList.get(i).getMenuTagNm().substring(0, menuList.get(i).getMenuTagNm().indexOf("_")));
-				}
-			}
-
-			for (int i = 0; i < nameList.size(); i++) {
-				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("name", nameList.get(i));
-				map.put("tag", tagList.get(i));
-				strList.add(map);
-			}
-
-		}
-		return strList;
 	}
 	
 	private List<SysMenu> getParentSysMenusList(List<SysMenu> sysMenus) throws Exception {
