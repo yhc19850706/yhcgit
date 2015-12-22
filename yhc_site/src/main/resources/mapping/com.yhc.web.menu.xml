@@ -8,31 +8,7 @@
     <property name="maxEntriesLocalDisk" value="10000000"/>  
     <property name="memoryStoreEvictionPolicy" value="LRU"/>  
 </cache>
-	<select id="getAuthMenuList" parameterType="map" resultType="authMenu">
-		select
-		txam.am_id amId,
-		txam.auth_id authId,
-		txam.menu_id menuId,
-		txam.del_yn delYn,
-		txa.auth_nm authNm,
-		txa.auth_type authType,
-		txa.del_yn authDelYn,
-		txm.parent_menu_nm parentMenuNm,
-		txm.menu_nm menuNm,
-		txm.menu_uri menuUri,
-		txm.menu_tag_nm menuTagNm,
-		txm.disp_yn dispYn,
-		txm.del_yn menuDelYn
-		from tb_xmph_menu txm, tb_xmph_auth_menu txam, tb_xmph_auth txa
-		where txa.auth_id = txam.auth_id
-		and txam.menu_id = txm.menu_id
-		<if test="authId!=null">and txa.auth_id = #{authId}#</if>
-		<if test="authDelYn!=null">and txa.del_yn = #{authDelYn}#</if>
-		<if test="dispYn!=null">and txm.disp_yn = #{dispYn}#</if>
-		<if test="menuDelYn!=null">and txm.del_yn = #{menuDelYn}#</if>
-		<if test="delYn!=null">and txam.del_yn = #{delYn}#</if>
-		order by txm.parent_menu_nm
-	</select>
+	
 	<select id="selectPermissionsByRoleId" parameterType="String" resultType="sysMenu">
 		select distinct sm.id,sm.permission,
 		       sm.name,

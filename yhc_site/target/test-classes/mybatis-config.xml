@@ -18,7 +18,6 @@
 	<typeAliases>
 		<typeAlias type="com.yhc.common.model.CommonCd" alias="commonCd"/>
 		<typeAlias type="com.yhc.common.model.SysUser" alias="user"/>
-		<typeAlias type="com.yhc.common.model.AuthMenu" alias="authMenu"/>
 		<typeAlias type="com.yhc.common.model.SysMenu" alias="sysMenu"/>
 		<typeAlias type="com.yhc.common.model.SysRole" alias="sysRole"/>
 	</typeAliases>

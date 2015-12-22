@@ -19,6 +19,7 @@
 		<resource-encoding>UTF-8</resource-encoding>
 		<deploy-path>../deploy</deploy-path>
 		<commons-dbcp-version>1.4-p2</commons-dbcp-version>
+		<tomcat.version>7.0.57</tomcat.version>
 		<!-- Spring Related library -->
 		<cglib.version>2.2</cglib.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -136,13 +137,14 @@
 	       <artifactId>ehcache-core</artifactId>
 	       <version>2.6.11</version>
          </dependency>
-		<!-- Servlet -->
+		<!-- Servlet 
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
 			<scope>provided</scope>
 		</dependency>
+		-->
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>jsp-api</artifactId>
