@@ -260,18 +260,6 @@
 			<artifactId>cglib</artifactId>
 			<version>${cglib.version}</version>
 		</dependency>
-		<!-- 
-		<dependency>
-	    <groupId>org.apache.tomcat.embed</groupId>
-	    <artifactId>tomcat-embed-core</artifactId>
-	    <version>8.0.28</version>
-        </dependency>
-        <dependency>
-	      <groupId>org.apache.tomcat.embed</groupId>
-	      <artifactId>tomcat-embed-el</artifactId>
-	      <version>8.0.28</version>
-       </dependency>
-        -->
 	</dependencies>
 	<build>
 	 
