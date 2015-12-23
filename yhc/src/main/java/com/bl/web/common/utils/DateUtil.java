@@ -24,6 +24,8 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 
+import com.google.common.base.Strings;
+
 public class DateUtil {
 	//private static Logger logger = (Logger) LogFactory.getLog( DateUtil.class );
 
@@ -943,19 +945,23 @@ public class DateUtil {
 //		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
 //		String rslt = sdf.format(cal.getTime());
 //	    System.out.println(rslt);
-		
-		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String str = "2015-07-28";
-        Date date=null;
-		try {
-			date = df.parse(str);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		int iDays= 1;
+		if(!Strings.isNullOrEmpty("3")){
+			iDays = Integer.parseInt("3");
 		}
-        
-        System.out.println("当月第一天：" + df.format(getFirstDayOfMonth(date)));
-        System.out.println("当月最后一天：" + df.format(getLastDayOfMonth(date)));
+		System.out.println(iDays);
+//		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//        String str = "2015-07-28";
+//        Date date=null;
+//		try {
+//			date = df.parse(str);
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//        
+//        System.out.println("当月第一天：" + df.format(getFirstDayOfMonth(date)));
+//        System.out.println("当月最后一天：" + df.format(getLastDayOfMonth(date)));
         
 
 //		try {
