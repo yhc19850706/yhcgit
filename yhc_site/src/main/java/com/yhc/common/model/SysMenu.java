@@ -1,8 +1,9 @@
 package com.yhc.common.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class SysMenu {
+public class SysMenu implements Serializable{
     private String id;
 
     private String parentId;

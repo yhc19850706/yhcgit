@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.yhc.common.dao.BaseDao;
-import com.yhc.common.model.AuthMenu;
 import com.yhc.common.model.SysMenu;
 import com.yhc.web.menu.dao.SysMenuDao;
 @Repository("menuDao")
@@ -55,9 +54,9 @@ public class SysMenuDaoImpl extends BaseDao implements SysMenuDao {
 	}
 
 	@Override
-	public List<AuthMenu> getAuthMenuList(Map<String, Object> map) {
+	public List<SysMenu> selectMenusByRoleId(String userId) throws Exception{
 		// TODO Auto-generated method stub
-		return this.getSqlSession().selectList("com.yhc.web.menu.getAuthMenuList", map);
+		return this.getSqlSession().selectList("com.yhc.web.menu.selectMenusByRoleId", userId);
 	}
 
 }

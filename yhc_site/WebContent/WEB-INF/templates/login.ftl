@@ -23,7 +23,7 @@
 							</div>
 							<div class="clearfix"></div>
 							
-							<label class="remember" for="remember"><input type="checkbox" id="remember" />Remember me</label>
+							<label class="remember" for="remember"><input type="checkbox" id="rememberMe" name="rememberMe" />Remember me</label>
 
 							<div class="button-login">	
 								<button type="submit" class="btn btn-primary">Login</button>

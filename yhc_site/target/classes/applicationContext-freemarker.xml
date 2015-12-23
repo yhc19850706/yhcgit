@@ -30,10 +30,17 @@
 	<bean id="freemarkerConfiguration" class="org.springframework.beans.factory.config.PropertiesFactoryBean">  
 	 <property name="location" value="classpath:freemarker.properties"/>  
 	</bean> 
-	<!--scan template -->
+	<!--scan template wu shiro  
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
 		<property name="defaultEncoding" value="UTF-8" />
 		<property name="templateLoaderPath" value="/WEB-INF/templates/"/> 
 		<property name="freemarkerSettings" ref="freemarkerConfiguration"/> 
 	</bean>
+	-->
+	<!--scan template you shiro tags-->
+	<bean id="freemakerCongfig" class="com.yhc.common.freemarker.ShiroTagFreeMarkerConfigurer">
+		<property name="defaultEncoding" value="UTF-8" />
+        <property name="templateLoaderPath" value="/WEB-INF/templates/" />
+        <property name="freemarkerSettings" ref="freemarkerConfiguration"/>
+    </bean>
 </beans>

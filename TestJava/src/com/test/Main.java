@@ -35,7 +35,7 @@ public class Main {
 //            e.printStackTrace();
 //        }
 		
-		System.out.println((new Float("200.00")).intValue());
+		System.out.println(new Double("200.2342").intValue());
 //		System.out.println(getMonth(1));
 //		System.out.println(getMonth(2));
 //		System.out.println(getFirstDayOfMonth(new Date()));

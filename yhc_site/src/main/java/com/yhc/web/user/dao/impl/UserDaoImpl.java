@@ -27,6 +27,12 @@ public class UserDaoImpl extends BaseDao implements UserDao {
 		// TODO Auto-generated method stub
 		return this.getSqlSession().selectOne("com.yhc.web.user.authentication", user);
 	}
+
+	@Override
+	public void addUserInfo(SysUser user) throws Exception {
+		// TODO Auto-generated method stub
+		this.getSqlSession().insert("com.yhc.web.user.addUserInfo", user);
+	}
 	
 	
 	

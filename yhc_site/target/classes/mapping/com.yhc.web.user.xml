@@ -7,13 +7,23 @@
   LRU算法：选择近期最少访问的页作为被替换页。
   LFU算法：最近最不常用调度算法，是根据在一段时间里页面被使用的次数选择出最少使用的页 
 <cache  eviction="LRU" type="com.yhc.common.cache.RedisCache"></cache> -->
+<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 -->
+<cache type="org.mybatis.caches.ehcache.LoggingEhcache" >  
+    <property name="timeToIdleSeconds" value="3600"/><!--1 hour-->  
+    <property name="timeToLiveSeconds" value="3600"/><!--1 hour-->  
+    <property name="maxEntriesLocalHeap" value="1000"/>  
+    <property name="maxEntriesLocalDisk" value="10000000"/>  
+    <property name="memoryStoreEvictionPolicy" value="LRU"/>  
+</cache>
+<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache" /> -->
+
  <select id="getUserByUserId" parameterType="String" resultType="user">  
       select id as id,login_name as loginName,no as no,name as name,user_type as userType 
       from sys_user 
       where id=#{userId}
 </select> 
  <select id="selectByUsername" parameterType="String" resultType="user">  
-      select id as id,login_name as loginName,no as no,name as name,user_type as userType 
+      select id as id,login_name as loginName,no as no,name as name,user_type as userType,password as password
       from sys_user 
       where login_name=#{loginName}
 </select>

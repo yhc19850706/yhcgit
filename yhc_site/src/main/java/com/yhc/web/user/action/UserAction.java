@@ -24,9 +24,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.yhc.common.action.BaseAction;
 import com.yhc.common.annotation.IfNeedSecurity;
 import com.yhc.common.annotation.SystemControllerLog;
+import com.yhc.common.config.BlGlobalVariable;
 import com.yhc.common.model.Response;
 import com.yhc.common.model.SysUser;
 import com.yhc.common.model.UserInfo;
+import com.yhc.common.utils.ContextUtil;
 import com.yhc.web.security.PermissionSign;
 import com.yhc.web.security.RoleSign;
 import com.yhc.web.user.service.UserService;
@@ -44,8 +46,9 @@ public class UserAction  extends BaseAction{
         user=userService.getUserByUserId("1");
         mav.addObject("user", user);
         mav.setViewName("managepage/index");
-//        String commonCdString=ContextUtil.getCommonCodeMap().get("CORPPROPERTY05");
-//        System.out.println("-------------commonCdString------------"+commonCdString);
+        String commonCdString=ContextUtil.getCommonCodeMap().get("CORPPROPERTY05");
+        System.out.println("-------------commonCdString------------"+commonCdString);
+        System.out.println("-------------config------------"+BlGlobalVariable.MAIL_SERVER_HOST);
         return mav;
     }
 
@@ -82,55 +85,7 @@ public class UserAction  extends BaseAction{
         return response;
 	}
 
-	    /**
-	     * 用户登录
-	     * 
-	     * @param user
-	     * @param result
-	     * @return
-	     */
-	    @RequestMapping(value = "/login", method = RequestMethod.POST)
-	    public ModelAndView login(@ModelAttribute("user") SysUser user) {
-	    	ModelAndView mav=new ModelAndView();
-	        try {
-	        	
-	            Subject subject = SecurityUtils.getSubject();
-	            // 已登陆则 跳到首页
-	            if (subject.isAuthenticated()) {
-	            	mav=getRedirectModelAndView("/user/view.yhc");
-	                return mav;
-	            }
-	            // 身份验证
-	            subject.login(new UsernamePasswordToken(user.getLoginName(), user.getPassword()));
-	            // 验证成功在Session中保存用户信息
-	            final SysUser authUserInfo = userService.selectByUsername(user.getLoginName());
-	        } catch (AuthenticationException e) {
-	            // 身份验证失败
-	        	
-	            return getRedirectModelAndView("/user/login_page.yhc");
-	        } catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        return getRedirectModelAndView("/user/view.yhc");
-	    }
-
-	    /**
-	     * 用户登出
-	     * 
-	     * @param session
-	     * @return
-	     */
-	    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-	    public ModelAndView logout() {
-	    	ModelAndView mav=super.getModelAndView();
-	    	
-	        // 登出操作
-	        Subject subject = SecurityUtils.getSubject();
-	        subject.logout();
-	        mav.setViewName("login");
-	        return mav;
-	    }
+	    
 
 	    /**
 	     * 基于角色 标识的权限控制案例

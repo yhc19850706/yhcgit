@@ -14,7 +14,7 @@ import com.yhc.common.dao.CommonDao;
 import com.yhc.common.model.CommonCd;
 
 public class CommonDaoImpl extends CommonDao{
-	 @Autowired
+	@Resource
 	private SqlSessionTemplate sqlSession;
 	@SuppressWarnings("unchecked")
 	public List<CommonCd> getAllCommonCode() throws Exception {

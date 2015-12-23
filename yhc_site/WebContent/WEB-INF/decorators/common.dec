@@ -9,7 +9,6 @@ ${head}
 	<#include "/WEB-INF/decorators/body-head.dec"/>
 	<!-- //head -->
 	<div class="container-fluid-full">
-	
 	${body}
     </div><!--/fluid-row-->
     <div class="modal hide fade" id="myModal">

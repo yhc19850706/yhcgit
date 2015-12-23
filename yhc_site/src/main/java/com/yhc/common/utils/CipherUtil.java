@@ -1,6 +1,8 @@
 package com.yhc.common.utils;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -219,32 +221,21 @@ public class CipherUtil {
 	
 	public static void main(String[] args) {
 		try {
-		String content = "测试01";
-//		String password = "MIDUO_SECURITY_CODE_1233";
+		String content = "1";
+
 		// 加密
-		System.out.println("加密前：" + content);
-//		byte[] encryptResult = encrypt(content);
-//		String encryptResultStr = parseByte2HexStr(encryptResult);
+		System.out.println("加密前：" +content);
+
 		String str = CipherUtil.encryptResult(content);
-		System.out.println("加密后：" + str);
-		// 解密
-		
-//		byte[] decryptFrom = parseHexStr2Byte(encryptResultStr);
-//		byte[] decryptResult = decrypt(decryptFrom);
-		
-			System.out.println("解密后：" + decryptResult(str));
-			
-//			System.out.println(decryptResult("BB49ECF7B6D1084020D1A01F59DDFAF5"));
-			System.out.println();
+		System.out.println("加密后：" + URLEncoder.encode(str,"UTF-8"));
+
+		String s=URLDecoder.decode("C7F01B7A5FA72058D15C4BDFF0A1D62E184483FCCBD34CBE118EC33CA55066DCAEE7C30A968D864EF12D80A84B889AB6CD4D42A2EE4256EA161D5883F0F8DD0CB5B3308D4480547402A3D5720D29B61BF29F89123D94925AB83F394C1840B7E525E6CCC92CF76E167DE1DB1E4932DFBB");
+		System.out.println(s);
+		System.out.println("解密后：" + decryptResult("946EE4650A57F9483B7247003ACE3CC72783E8A0D82ACC18869FC92C0F677BC725E6CCC92CF76E167DE1DB1E4932DFBB"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-//		System.out.println("加密前1：" + "18600457009");
-//		System.out.println("MIDUO_SECURITY_CODE_1234：" + "MIDUO_SECURITY_CODE_1234".length());
-//		System.out.println("加密后2：" + encrypt("18600457009"));
-//		System.out.println("解密后3：" + new String(decryptResult));
 		
 	}
 

@@ -10,4 +10,6 @@ public interface UserService {
 	public SysUser selectByUsername(String loginName) throws Exception;
 
 	public SysUser authentication(SysUser user);
+
+	public void addUserInfo(SysUser user) throws Exception;
 }

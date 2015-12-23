@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<#include "/WEB-INF/decorators/head-head.dec"/>
+${head}
+</head>
+<body>
+    <#include "/WEB-INF/decorators/body-head.dec"/>
+	<!--container-->
+	${body}
+	<!--footer-->
+	<#include "/WEB-INF/decorators/body-footer.dec"/>
+</body>
+</html>

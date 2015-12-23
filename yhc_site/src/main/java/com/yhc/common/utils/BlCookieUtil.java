@@ -92,27 +92,25 @@ public class BlCookieUtil {
 	public static String getCookieValue(HttpServletRequest request,
 			HttpServletResponse response, String name) {
 		Cookie cookie = getCookieByName(request, name);
-		Cookie cookieTime = getCookieByName(request, Constants.COOKIE_BL_TIME);
+		Cookie cookieTime = getCookieByName(request, Constants.COOKIE_YHC_TIME);
 		
 		if (cookie != null && cookieTime != null) {
 			long startTimeMilies = ContextUtil.getServerStartTimeMili();
 			//ie 的时候 
 			if (StringUtils.isNotEmpty(cookieTime.getValue()) && !"null".equals(cookieTime.getValue()) && Long.parseLong(cookieTime.getValue()) <= startTimeMilies) {
 				deleteCookie(request, response, name);
-				deleteCookie(request, response, Constants.COOKIE_BL_UID);
-				deleteCookie(request, response, Constants.COOKIE_BL_UNM);
-				deleteCookie(request, response, Constants.COOKIE_BL_AUTH);
-				deleteCookie(request, response, Constants.COOKIE_BL_TIME);
+				deleteCookie(request, response, Constants.COOKIE_YHC_UID);
+				deleteCookie(request, response, Constants.COOKIE_YHC_UNM);
+				deleteCookie(request, response, Constants.COOKIE_YHC_TIME);
 				return null;
 			} else {
 				return cookie.getValue();
 			}
 		} else {
 			deleteCookie(request, response, name);
-			deleteCookie(request, response, Constants.COOKIE_BL_UID);
-			deleteCookie(request, response, Constants.COOKIE_BL_UNM);
-			deleteCookie(request, response, Constants.COOKIE_BL_AUTH);
-			deleteCookie(request, response, Constants.COOKIE_BL_TIME);
+			deleteCookie(request, response, Constants.COOKIE_YHC_UID);
+			deleteCookie(request, response, Constants.COOKIE_YHC_UNM);
+			deleteCookie(request, response, Constants.COOKIE_YHC_TIME);
 			return null;
 		}
 	}
