@@ -13,7 +13,7 @@ import org.springframework.data.redis.core.ValueOperations;
  * 
  */
 public final class RedisUtil {
-	private Logger logger = Logger.getLogger(RedisUtil.class);
+//	protected Logger logger = Logger.getLogger(this.getClass());
 	private RedisTemplate<Serializable, Object> redisTemplate;
 
 	/**

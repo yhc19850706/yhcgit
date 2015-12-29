@@ -17,7 +17,7 @@
 	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
 		<constructor-arg value="rememberMe" />
 		<property name="httpOnly" value="true" />
-		<property name="maxAge" value="-1" /><!-- 2592000  30天 -->
+		<property name="maxAge" value="-1" /><!-- 2592000 30天 -->
 	</bean>
 	<!-- rememberMe管理器 cipherKey是加密rememberMe Cookie的密钥；默认AES算法 -->
 	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
@@ -25,22 +25,21 @@
 			value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}" />
 		<property name="cookie" ref="rememberMeCookie" />
 	</bean>
-	<!-- 缓存管理器 -->
-	<bean id="ehCacheManager"
-		class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
-		<property name="configLocation" value="classpath:ehcache.xml" />
-		<property name="shared" value="true" />
+	<!-- cacheManager -->
+	<bean id="redisManager" class="com.yhc.common.redis.cache.RedisManager">
+		<property name="host" value="${redis.host}" />
+		<property name="port" value="${redis.port}" />
+		<property name="expire" value="${defaultCacheExpireTime}" />
+	    <property name="timeout" value="${redis.timeout}"/> 
+		<property name="password" value="${redis.password}"/>
 	</bean>
-
-	<bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
-		<property name="cacheManager" ref="ehCacheManager" />
+	<bean id="redisCacheManager" class="com.yhc.common.redis.cache.RedisCacheManager">
+		<property name="redisManager" ref="redisManager" />
 	</bean>
-	<bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
-		<property name="cacheManager" ref="ehCacheManager" />
-	</bean>
+	<!-- shiro redisManager 缓存管理器-->
 	<!-- 凭证匹配器 -->
 	<bean id="credentialsMatcher" class="com.yhc.web.security.LimitRetryHashedMatcher">
-		<constructor-arg ref="shiroCacheManager" />
+		<constructor-arg ref="redisCacheManager" />
 		<property name="hashAlgorithmName" value="md5" />
 		<property name="hashIterations" value="2" />
 		<property name="storedCredentialsHexEncoded" value="true" />
@@ -50,13 +49,10 @@
 	<bean id="securityRealm" class="com.yhc.web.security.SecurityRealm">
 		<property name="credentialsMatcher" ref="credentialsMatcher" />
 		<property name="cachingEnabled" value="true" />  <!-- 启用缓存 -->
-		<property name="authenticationCachingEnabled" value="true" /><!-- 
-			启用身份验证缓存，即缓存AuthenticationInfo信息 -->
-		<property name="authenticationCacheName" value="authenticationCache" /><!-- 
-			缓存AuthenticationInfo信息的缓存名称 -->
+		<property name="authenticationCachingEnabled" value="true" /><!--启用身份验证缓存，即缓存AuthenticationInfo信息 -->
+		<property name="authenticationCacheName" value="authenticationCache" /><!--缓存AuthenticationInfo信息的缓存名称 -->
 		<property name="authorizationCachingEnabled" value="true" /> <!-- 启用授权缓存，即缓存AuthorizationInfo信息 -->
-		<property name="authorizationCacheName" value="authorizationCache" /><!-- 
-			缓存AuthorizationInfo信息的缓存名称 -->
+		<property name="authorizationCacheName" value="authorizationCache" /><!-- 缓存AuthorizationInfo信息的缓存名称 -->
 	</bean>
 
 	<!-- 会话管理器 -->
@@ -64,9 +60,10 @@
 		class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 		<property name="globalSessionTimeout" value="1800000" />
 		<property name="deleteInvalidSessions" value="true" />
-		<property name="sessionValidationSchedulerEnabled" value="true" />
-		<!-- <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> 
-			<property name="sessionDAO" ref="sessionDAO"/> -->
+		<!-- <property name="sessionValidationSchedulerEnabled" value="true" />
+		<property name="sessionValidationScheduler" ref="sessionValidationScheduler"/> 
+		<property name="sessionDAO" ref="sessionDAO"/> 
+		-->
 		<property name="sessionIdCookieEnabled" value="true" />
 		<property name="sessionIdCookie" ref="sessionIdCookie" />
 	</bean>
@@ -85,9 +82,8 @@
 	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 		<property name="realm" ref="securityRealm" />
 		<property name="rememberMeManager" ref="rememberMeManager" />
-		<property name="cacheManager" ref="shiroCacheManager" />
-		<!-- cacheManager,集合spring缓存工厂 <property name="sessionManager" ref="sessionManager"/> 
-			<property name="cacheManager" ref="cacheManager" /> -->
+		<!-- cacheManager -->
+		<property name="cacheManager" ref="redisCacheManager" />
 	</bean>
 	<!-- Shiro的Web过滤器 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">

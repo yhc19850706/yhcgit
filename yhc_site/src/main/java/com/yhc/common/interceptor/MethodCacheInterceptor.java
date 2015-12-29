@@ -7,9 +7,14 @@ import java.util.List;
 import java.util.Properties; 
  
 
+
+
 import org.aopalliance.intercept.MethodInterceptor; 
 import org.aopalliance.intercept.MethodInvocation; 
 import org.apache.log4j.Logger;
+
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIGlobalBinding;
+import com.yhc.common.config.BlGlobalVariable;
 import com.yhc.common.redis.RedisUtil;
 
 public class MethodCacheInterceptor implements MethodInterceptor { 
@@ -24,22 +29,15 @@ public class MethodCacheInterceptor implements MethodInterceptor {
 	  * 初始化读取不需要加入缓存的类名和方法名称 
 	  */ 
 	public MethodCacheInterceptor() { 
-	  try { 
-	    File f = new File("D:\\lunaJee-workspace\\msm\\msm_core\\src\\main\\java\\com\\mucfc\\msm\\common\\cacheConf.properties"); 
-	    //配置文件位置直接被写死，有需要自己修改下 
-	       InputStream in = new FileInputStream(f); 
-	//   InputStream in = getClass().getClassLoader().getResourceAsStream( 
-//	     "D:\\lunaJee-workspace\\msm\\msm_core\\src\\main\\java\\com\\mucfc\\msm\\common\\cacheConf.properties"); 
-	   Properties p = new Properties(); 
-	   p.load(in); 
+	  try {
 	   // 分割字符串 
-	   String[] targetNames = p.getProperty("targetNames").split(","); 
-	   String[] methodNames = p.getProperty("methodNames").split(","); 
+	   String[] targetNames =BlGlobalVariable.REDIS_TARGETNAMES.split(","); 
+	   String[] methodNames =BlGlobalVariable.REDIS_METHODNAMES.split(","); 
 	 
 	   // 加载过期时间设置 
-	   defaultCacheExpireTime = Long.valueOf(p.getProperty("defaultCacheExpireTime")); 
-	   xxxRecordManagerTime = Long.valueOf(p.getProperty("com.service.impl.xxxRecordManager")); 
-	   xxxSetRecordManagerTime = Long.valueOf(p.getProperty("com.service.impl.xxxSetRecordManager")); 
+	   defaultCacheExpireTime = Long.valueOf(BlGlobalVariable.REDIS_DEFAULT_CACHE_EXPIRETIME); 
+	   xxxRecordManagerTime = Long.valueOf(BlGlobalVariable.REDIS_RECORD_MANAGER); 
+	   xxxSetRecordManagerTime = Long.valueOf(BlGlobalVariable.REDIS_SET_RECORD_MANAGER); 
 	   // 创建list 
 	   targetNamesList = new ArrayList<String>(targetNames.length); 
 	   methodNamesList = new ArrayList<String>(methodNames.length); 
@@ -88,9 +86,9 @@ public class MethodCacheInterceptor implements MethodInterceptor {
 	    new Thread(new Runnable() { 
 	     @Override 
 	     public void run() { 
-	      if (tkey.startsWith("com.service.impl.xxxRecordManager")) { 
+	      if (tkey.startsWith("com.yhc.common.model")) { 
 	       redisUtil.set(tkey, tvalue, xxxRecordManagerTime); 
-	      } else if (tkey.startsWith("com.service.impl.xxxSetRecordManager")) { 
+	      } else if (tkey.startsWith("com.yhc.web")) { 
 	       redisUtil.set(tkey, tvalue, xxxSetRecordManagerTime); 
 	      } else { 
 	       redisUtil.set(tkey, tvalue, defaultCacheExpireTime); 

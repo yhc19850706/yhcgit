@@ -101,7 +101,7 @@ public class SecurityRealm extends AuthorizingRealm {
             authenticationInfo = new SimpleAuthenticationInfo(  
             		user.getLoginName(), //用户名  
             		user.getPassword(), //密码  
-                    ByteSource.Util.bytes(user.getCredentialsSalt()),//salt=username+salt  
+            		new MySimpleByteSource(ByteSource.Util.bytes(user.getCredentialsSalt())),//salt=username+salt  new MySimpleByteSource(
                     getName()  //realm name  
             );  
 		} catch (Exception e) {

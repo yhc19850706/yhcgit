@@ -1,22 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.yhc.web.user">
-<!-- 其中eviction是指定缓存算法。
-  RAND算法：用软硬件的随面数产生主存中要被替换页的页号。
-  FIFO算法：选择最早装入主存的页作为被替换的页。这种算法实现方便，但不一定正确反映出程序的局部性。
-  LRU算法：选择近期最少访问的页作为被替换页。
-  LFU算法：最近最不常用调度算法，是根据在一段时间里页面被使用的次数选择出最少使用的页 
-<cache  eviction="LRU" type="com.yhc.common.cache.RedisCache"></cache> -->
-<!-- 以下两个<cache>标签二选一,第一个可以输出日志,第二个不输出日志 -->
-<cache type="org.mybatis.caches.ehcache.LoggingEhcache" >  
-    <property name="timeToIdleSeconds" value="3600"/><!--1 hour-->  
-    <property name="timeToLiveSeconds" value="3600"/><!--1 hour-->  
-    <property name="maxEntriesLocalHeap" value="1000"/>  
-    <property name="maxEntriesLocalDisk" value="10000000"/>  
-    <property name="memoryStoreEvictionPolicy" value="LRU"/>  
-</cache>
-<!-- <cache type="org.mybatis.caches.ehcache.EhcacheCache" /> -->
-
  <select id="getUserByUserId" parameterType="String" resultType="user">  
       select id as id,login_name as loginName,no as no,name as name,user_type as userType 
       from sys_user 

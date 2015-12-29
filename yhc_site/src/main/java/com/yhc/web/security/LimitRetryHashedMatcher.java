@@ -14,10 +14,10 @@ import com.yhc.common.cache.EhcacheUtil;
 /** 
 * User： cutter.li 
 * Date： 2014/6/30 0030 
-* Time： 15:22 
+* Time： 15:22   extends HashedCredentialsMatcher 
 * 备注： 限制登录次数，如果5次出错，锁定1个小时 
 */ 
-public class LimitRetryHashedMatcher extends HashedCredentialsMatcher {
+public class LimitRetryHashedMatcher extends HashedCredentialsMatcher{
 //	   缓存管理器 com.yhc.common.cache.EhcacheUtil
 //    @Override 
 //    public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) { 

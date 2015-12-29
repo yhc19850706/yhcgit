@@ -1,5 +1,11 @@
 package com.yhc.common.redis;
 
+import java.io.UnsupportedEncodingException;
+import java.util.Iterator;
+import java.util.Set;
+
+import org.crazycake.shiro.SerializeUtils;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -35,7 +41,7 @@ public class RedisAPI {
             config.setMaxWaitMillis(1000 * 100);
             //在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；
             config.setTestOnBorrow(true);
-            pool = new JedisPool(config, "192.168.2.191", 8888);
+            pool = new JedisPool(config, "192.168.35.156", 6379);
         }
         return pool;
     }
@@ -77,5 +83,24 @@ public class RedisAPI {
         }
         
         return value;
+    }
+    
+    public static void main(String[] args){
+    	pool=getPool();
+    	Jedis jedis = pool.getResource();
+    	Set<String> value = jedis.keys("*yhc*");
+        Iterator<String> eIterable=value.iterator();
+       while(eIterable.hasNext()){
+    	   System.out.println(eIterable.next());
+       	byte[] valueString=SerializeUtils.serialize(eIterable.next().getBytes());
+       	try {
+			String string=new String(valueString, "UTF-8");
+			System.out.println(SerializeUtils.deserialize(valueString));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       	System.out.println(valueString);
+       }
     }
 }

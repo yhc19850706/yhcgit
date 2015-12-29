@@ -9,7 +9,12 @@ import com.yhc.common.config.BlGlobalVariable;
 import com.yhc.common.utils.Constants;
 
 public class SysUser implements Serializable{
-    private String id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 295257178933419437L;
+
+	private String id;
 
     private String companyId;
 
