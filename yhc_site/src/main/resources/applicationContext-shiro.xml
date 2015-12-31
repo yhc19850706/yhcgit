@@ -25,16 +25,16 @@
 			value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}" />
 		<property name="cookie" ref="rememberMeCookie" />
 	</bean>
-	<!-- cacheManager -->
+	<!-- cacheManager 
 	<bean id="redisManager" class="com.yhc.common.redis.cache.RedisManager">
 		<property name="host" value="${redis.host}" />
 		<property name="port" value="${redis.port}" />
 		<property name="expire" value="${defaultCacheExpireTime}" />
 	    <property name="timeout" value="${redis.timeout}"/> 
 		<property name="password" value="${redis.password}"/>
-	</bean>
-	<bean id="redisCacheManager" class="com.yhc.common.redis.cache.RedisCacheManager">
-		<property name="redisManager" ref="redisManager" />
+	</bean>-->
+	<bean id="redisCacheManager" class="com.yhc.common.redis.mycache.MyRedisCacheManager">
+		
 	</bean>
 	<!-- shiro redisManager 缓存管理器-->
 	<!-- 凭证匹配器 -->

@@ -112,6 +112,7 @@ public class SecurityRealm extends AuthorizingRealm {
         return authenticationInfo;
     }
 
+    
     /**
      * 更新用户授权信息缓存.
      */
