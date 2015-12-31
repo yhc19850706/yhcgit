@@ -34,6 +34,96 @@ public class RedisClientTemplate {
     }
 
     /**
+	 * get value from redis
+	 * @param key
+	 * @return
+	 */
+	public byte[] getByte(byte[] key){
+		 ShardedJedis shardedJedis = redisDataSource.getRedisClient();
+	        if (shardedJedis == null) {
+	            return key;
+	        }
+
+	        boolean broken = false;
+	        try {
+	            shardedJedis.get(key);
+	        } catch (Exception e) {
+	            log.error(e.getMessage(), e);
+	            broken = true;
+	        } finally {
+	            redisDataSource.returnResource(shardedJedis, broken);
+	        }
+	        return key;
+	}
+	
+	/**
+	 * set 
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public byte[] setByte(byte[] key,byte[] value){
+		ShardedJedis shardedJedis = redisDataSource.getRedisClient();
+        if (shardedJedis == null) {
+            return value;
+        }
+        boolean broken = false;
+        try {
+            shardedJedis.set(key, value);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            broken = true;
+        } finally {
+            redisDataSource.returnResource(shardedJedis, broken);
+        }
+        return value;
+	}
+	
+	/**
+	 * set 
+	 * @param key
+	 * @param value
+	 * @param expire
+	 * @return
+	 */
+	public byte[] setByte(byte[] key,byte[] value,int expire){
+		ShardedJedis shardedJedis = redisDataSource.getRedisClient();
+        if (shardedJedis == null) {
+            return value;
+        }
+        boolean broken = false;
+        try {
+            shardedJedis.set(key, value);
+            shardedJedis.expire(key, expire);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            broken = true;
+        } finally {
+            redisDataSource.returnResource(shardedJedis, broken);
+        }
+		return value;
+	}
+	
+	/**
+	 * del
+	 * @param key
+	 */
+	public void delByte(byte[] key){
+		ShardedJedis shardedJedis = redisDataSource.getRedisClient();
+        
+        boolean broken = false;
+        try {
+            shardedJedis.del(key);
+
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            broken = true;
+        } finally {
+            redisDataSource.returnResource(shardedJedis, broken);
+        }
+		
+	}
+    /**
      * 设置单个值
      * 
      * @param key

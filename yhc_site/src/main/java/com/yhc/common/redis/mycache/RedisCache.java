@@ -12,7 +12,10 @@ import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.yhc.common.redis.cache.SerializeUtils;
 import com.yhc.common.redis.myredis.RedisClientTemplate;
+import com.yhc.common.redis.myredis.SerializeUtil;
 
 public class RedisCache implements Cache{
 	
@@ -29,6 +32,19 @@ public class RedisCache implements Cache{
 		this.keyPrefix = keyPrefix;
 	}
 	
+	/**
+	 * 获得byte[]型的key
+	 * @param key
+	 * @return
+	 */
+	private byte[] getByteKey(Object key){
+		if(key instanceof String){
+			String preKey = this.keyPrefix + key;
+    		return preKey.getBytes();
+    	}else{
+    		return SerializeUtils.serialize(key);
+    	}
+	}
 	/**
 	 * 通过一个RedisClientTemplate实例构造RedisCache
 	 */
@@ -62,7 +78,7 @@ public class RedisCache implements Cache{
 			if (key == null) {
 	            return null;
 	        }else{
-	        	String value = cache.get((String)key);
+	        	byte[] value = cache.getByte(getByteKey(key));
 	        	return value;
 	        }
 		} catch (Throwable t) {
@@ -75,7 +91,7 @@ public class RedisCache implements Cache{
 	public Object put(Object key, Object value) throws CacheException {
 		logger.debug("根据key从存储 key [" + key + "]");
 		 try {
-			 	cache.set((String)key, (String) value);
+			 	cache.setByte(getByteKey(key), SerializeUtil.serialize(value));
 	            return value;
 	        } catch (Throwable t) {
 	            throw new CacheException(t);
@@ -87,7 +103,7 @@ public class RedisCache implements Cache{
 		logger.debug("从redis中删除 key [" + key + "]");
 		try {
             Object previous = get(key);
-            cache.del((String)key);
+            cache.delByte(getByteKey(key));
             return previous;
         } catch (Throwable t) {
             throw new CacheException(t);
