@@ -32,77 +32,7 @@ public class RedisClientTemplate {
         ShardedJedis shardedJedis = redisDataSource.getRedisClient();
         shardedJedis.disconnect();
     }
-
-    /**
-	 * get value from redis
-	 * @param key
-	 * @return
-	 */
-	public byte[] getByte(byte[] key){
-		 ShardedJedis shardedJedis = redisDataSource.getRedisClient();
-	        if (shardedJedis == null) {
-	            return key;
-	        }
-
-	        boolean broken = false;
-	        try {
-	            shardedJedis.get(key);
-	        } catch (Exception e) {
-	            log.error(e.getMessage(), e);
-	            broken = true;
-	        } finally {
-	            redisDataSource.returnResource(shardedJedis, broken);
-	        }
-	        return key;
-	}
 	
-	/**
-	 * set 
-	 * @param key
-	 * @param value
-	 * @return
-	 */
-	public byte[] setByte(byte[] key,byte[] value){
-		ShardedJedis shardedJedis = redisDataSource.getRedisClient();
-        if (shardedJedis == null) {
-            return value;
-        }
-        boolean broken = false;
-        try {
-            shardedJedis.set(key, value);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            broken = true;
-        } finally {
-            redisDataSource.returnResource(shardedJedis, broken);
-        }
-        return value;
-	}
-	
-	/**
-	 * set 
-	 * @param key
-	 * @param value
-	 * @param expire
-	 * @return
-	 */
-	public byte[] setByte(byte[] key,byte[] value,int expire){
-		ShardedJedis shardedJedis = redisDataSource.getRedisClient();
-        if (shardedJedis == null) {
-            return value;
-        }
-        boolean broken = false;
-        try {
-            shardedJedis.set(key, value);
-            shardedJedis.expire(key, expire);
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            broken = true;
-        } finally {
-            redisDataSource.returnResource(shardedJedis, broken);
-        }
-		return value;
-	}
 	
 	/**
 	 * del

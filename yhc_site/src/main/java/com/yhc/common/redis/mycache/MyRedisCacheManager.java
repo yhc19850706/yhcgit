@@ -46,14 +46,14 @@ public class MyRedisCacheManager implements CacheManager{
 	}
 	
 	@Override
-	public Cache getCache(String name) throws CacheException {
+	public <K, V> Cache<K, V> getCache(String name) throws CacheException {
 		// TODO Auto-generated method stub
 		logger.debug("获取名称为: " + name + " 的RedisCache实例");
         Cache c = caches.get(name);
 		
 		if (c == null) {
 			// create a new cache instance
-			c = new RedisCache(redisClientTemplate, keyPrefix);
+			c = new RedisCache<K,V>(redisClientTemplate, keyPrefix);
 			caches.put(name, c);
 		}
 		return c;

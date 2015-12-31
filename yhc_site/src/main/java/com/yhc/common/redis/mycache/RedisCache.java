@@ -1,10 +1,8 @@
 package com.yhc.common.redis.mycache;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.shiro.cache.Cache;
@@ -17,7 +15,7 @@ import com.yhc.common.redis.cache.SerializeUtils;
 import com.yhc.common.redis.myredis.RedisClientTemplate;
 import com.yhc.common.redis.myredis.SerializeUtil;
 
-public class RedisCache implements Cache{
+public class RedisCache<K,V> implements Cache<K,V>{
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -72,26 +70,27 @@ public class RedisCache implements Cache{
 	
  	
 	@Override
-	public Object get(Object key) throws CacheException {
+	public V get(K key) throws CacheException {
 		logger.debug("根据key从Redis中获取对象 key [" + key + "]");
 		try {
 			if (key == null) {
 	            return null;
 	        }else{
-	        	byte[] value = cache.getByte(getByteKey(key));
+	        	byte[] rawValue = cache.get(getByteKey(key));
+	        	@SuppressWarnings("unchecked")
+				V value = (V)SerializeUtil.unserialize(rawValue);
 	        	return value;
 	        }
 		} catch (Throwable t) {
 			throw new CacheException(t);
 		}
-
 	}
 
 	@Override
-	public Object put(Object key, Object value) throws CacheException {
+	public V put(K key, V value) throws CacheException {
 		logger.debug("根据key从存储 key [" + key + "]");
 		 try {
-			 	cache.setByte(getByteKey(key), SerializeUtil.serialize(value));
+			 	cache.set(getByteKey(key), SerializeUtil.serialize(value));
 	            return value;
 	        } catch (Throwable t) {
 	            throw new CacheException(t);
@@ -99,10 +98,10 @@ public class RedisCache implements Cache{
 	}
 
 	@Override
-	public Object remove(Object key) throws CacheException {
+	public V remove(K key) throws CacheException {
 		logger.debug("从redis中删除 key [" + key + "]");
 		try {
-            Object previous = get(key);
+            V previous = get(key);
             cache.delByte(getByteKey(key));
             return previous;
         } catch (Throwable t) {
@@ -121,15 +120,15 @@ public class RedisCache implements Cache{
 	}
 
 	@Override
-	public Set<String> keys() {
+	public Set<K> keys() {
 		try {
-            Set<String> keys = cache.hkeys(this.keyPrefix + "*");
+            Set<K> keys = (Set<K>) cache.hkeys(this.keyPrefix + "*");
             if (CollectionUtils.isEmpty(keys)) {
             	return Collections.emptySet();
             }else{
-            	Set<String> newKeys = new HashSet<String>();
-            	for(String key:keys){
-            		newKeys.add((String)key);
+            	Set<K> newKeys = (Set<K>) new HashSet<String>();
+            	for(K key:keys){
+            		newKeys.add(key);
             	}
             	return newKeys;
             }
@@ -139,25 +138,7 @@ public class RedisCache implements Cache{
 	}
 
 	@Override
-	public Collection<String> values() {
-		try {
-            Set<String> keys = cache.hkeys(this.keyPrefix + "*");
-            if (!CollectionUtils.isEmpty(keys)) {
-                List<String> values = new ArrayList<String>(keys.size());
-                for (String key : keys) {
-                    @SuppressWarnings("unchecked")
-                    String value = (String) get(key);
-                    if (value != null) {
-                        values.add(value);
-                    }
-                }
-                return Collections.unmodifiableList(values);
-            } else {
-                return Collections.emptyList();
-            }
-        } catch (Throwable t) {
-            throw new CacheException(t);
-        }
+	public Collection<V> values() {
+		throw new CacheException("");
 	}
-
 }
