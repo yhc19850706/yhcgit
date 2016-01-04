@@ -41,10 +41,8 @@ public class LoginAction extends BaseAction {
 		ModelAndView mav = super.getModelAndView();
 		try {
 			//加密用户输入的密码，得到密码的摘要和盐，保存到数据库 
-		    String password= EncryptUtil.md5Password(user.getLoginName(), user.getPassword());
-		    if(StringUtils.isNotBlank(password)){
-		    	 user.setPassword(password);
-		    	 //create user
+			user= EncryptUtil.encryptPassword(user);
+		    if(user!=null){
 		    	 userService.addUserInfo(user);
 		     }else{
 		    	return getAlertNBackModelAndView("注册失败");

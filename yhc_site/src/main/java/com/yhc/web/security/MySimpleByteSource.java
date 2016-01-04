@@ -1,36 +1,17 @@
 package com.yhc.web.security;
 
-import java.io.Externalizable;
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
 import java.io.Serializable;
 
-import org.apache.shiro.codec.CodecSupport;
-import org.apache.shiro.util.ByteSource;
 import org.apache.shiro.util.SimpleByteSource;
 
-public class MySimpleByteSource extends SimpleByteSource implements Externalizable{
+public class MySimpleByteSource extends SimpleByteSource implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public MySimpleByteSource(ByteSource str) {
-		super(str);
+	public MySimpleByteSource(String string) {
+		super(string);
 		// TODO Auto-generated constructor stub
 	}
-	@Override
-	public void writeExternal(ObjectOutput out) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void readExternal(ObjectInput in) throws IOException,
-			ClassNotFoundException {
-		// TODO Auto-generated method stub
-		
-	}
-	 
 }

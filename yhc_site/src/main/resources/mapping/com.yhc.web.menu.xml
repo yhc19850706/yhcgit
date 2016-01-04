@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.yhc.web.menu" >
-
+<cache eviction="LRU" type="org.mybatis.caches.redis.RedisCache" />
 	<select id="selectPermissionsByRoleId" parameterType="String" resultType="sysMenu">
 		select distinct sm.id,sm.permission,
 		       sm.name,

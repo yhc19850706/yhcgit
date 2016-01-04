@@ -53,9 +53,10 @@ public class UserAction  extends BaseAction{
     }
 
     @RequestMapping("/login_page.yhc")
-    public ModelAndView loginPage() {
+    public ModelAndView loginPage() throws Exception {
     	ModelAndView mav=new ModelAndView();
-    	
+    	SysUser user = new SysUser();
+    	user=userService.getUserByUserId("1");
         mav.setViewName("login");
 //        String commonCdString=ContextUtil.getCommonCodeMap().get("CORPPROPERTY05");
 //        System.out.println("-------------commonCdString------------"+commonCdString);

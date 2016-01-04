@@ -24,6 +24,7 @@ import com.yhc.common.config.BlGlobalVariable;
 import com.yhc.common.model.SysMenu;
 import com.yhc.common.model.SysRole;
 import com.yhc.common.model.SysUser;
+import com.yhc.common.utils.Constants;
 import com.yhc.web.menu.service.SysMenuService;
 import com.yhc.web.role.service.SysRoleService;
 import com.yhc.web.user.service.UserService;
@@ -101,7 +102,7 @@ public class SecurityRealm extends AuthorizingRealm {
             authenticationInfo = new SimpleAuthenticationInfo(  
             		user.getLoginName(), //用户名  
             		user.getPassword(), //密码  
-            		new MySimpleByteSource(ByteSource.Util.bytes(user.getCredentialsSalt())),//salt=username+salt  new MySimpleByteSource(
+            		new MySimpleByteSource(user.getCredentialsSalt()),//salt=username+salt ByteSource.Util.bytes new MySimpleByteSource(
                     getName()  //realm name  
             );  
 		} catch (Exception e) {

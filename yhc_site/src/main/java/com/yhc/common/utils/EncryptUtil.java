@@ -2,13 +2,17 @@ package com.yhc.common.utils;
 
 import com.google.common.base.Preconditions; 
 import com.google.common.base.Strings;
+import com.yhc.common.model.SysUser;
 
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.codec.H64; 
 import org.apache.shiro.codec.Hex; 
 import org.apache.shiro.crypto.AesCipherService; 
+import org.apache.shiro.crypto.RandomNumberGenerator;
 import org.apache.shiro.crypto.SecureRandomNumberGenerator; 
 import org.apache.shiro.crypto.hash.Md5Hash; 
+import org.apache.shiro.crypto.hash.SimpleHash;
+import org.apache.shiro.util.ByteSource;
 
 import java.security.Key;
 
@@ -102,34 +106,51 @@ public class EncryptUtil {
         String password_cipherText= new Md5Hash(password,username+salt,2).toHex(); 
         return md5cipherText.equals(password_cipherText); 
     }
+    
+    public static SysUser encryptPassword(SysUser user) {
+    	RandomNumberGenerator randomNumberGenerator =
+    		     new SecureRandomNumberGenerator();
+    	String algorithmName = "md5";
+    	int hashIterations = 2;
+        user.setSalt(randomNumberGenerator.nextBytes().toHex());
+        String newPassword = new SimpleHash(algorithmName,user.getPassword(),ByteSource.Util.bytes(user.getCredentialsSalt()),hashIterations).toHex();
+        user.setPassword(newPassword);
+        return user;
+    }
     public static void main(String[] args) { 
         String password = "admin";
         String username="admin";
-        String cipherText = encrytHex(password); 
-        System.out.println(password + "hex加密之后的密文是：" + cipherText); 
-        String decrptPassword=decryptHex(cipherText); 
-        System.out.println(cipherText + "hex解密之后的密码是：" + decrptPassword); 
-        String cipherText_base64 = encrytBase64(password); 
-        System.out.println(password + "base64加密之后的密文是：" + cipherText_base64); 
-        String decrptPassword_base64=decryptBase64(cipherText_base64); 
-        System.out.println(cipherText_base64 + "base64解密之后的密码是：" + decrptPassword_base64); 
-        String h64=  H64.encodeToString(password.getBytes()); 
-        System.out.println(h64); 
-        String salt="Yzdtyjm159753Hwdcnko456258C"; 
-        String cipherText_md5= new Md5Hash(password,salt,2).toBase64(); 
-        System.out.println(password+"通过md5加密之后的密文是："+cipherText_md5);
+        SysUser user=new SysUser();
+        user.setLoginName("admin");
+        user.setPassword("admin");
+//        String cipherText = encryptPassword(user); 
+//        System.out.println(password + "hex加密之后的密文是：" + cipherText); 
         
-        System.out.println(password+" username通过md5加密之后的密文是："+md5Password(username,password));
-        
-        System.out.println(generateKey()); 
-        System.out.println("========================AES算法实现=================================="); 
-        AesCipherService aesCipherService=new AesCipherService(); 
-        aesCipherService.setKeySize(128); 
-        Key key=aesCipherService.generateNewKey(); 
-        String aes_cipherText= aesCipherService.encrypt(password.getBytes(),key.getEncoded()).toHex(); 
-        System.out.println(password+" aes加密的密文是："+aes_cipherText); 
-        String aes_mingwen=new String(aesCipherService.decrypt(Hex.decode(aes_cipherText),key.getEncoded()).getBytes()); 
-        System.out.println(aes_cipherText+" aes解密的明文是："+aes_mingwen); 
+//        String cipherText = encrytHex(password); 
+//        System.out.println(password + "hex加密之后的密文是：" + cipherText); 
+//        String decrptPassword=decryptHex(cipherText); 
+//        System.out.println(cipherText + "hex解密之后的密码是：" + decrptPassword); 
+//        String cipherText_base64 = encrytBase64(password); 
+//        System.out.println(password + "base64加密之后的密文是：" + cipherText_base64); 
+//        String decrptPassword_base64=decryptBase64(cipherText_base64); 
+//        System.out.println(cipherText_base64 + "base64解密之后的密码是：" + decrptPassword_base64); 
+//        String h64=  H64.encodeToString(password.getBytes()); 
+//        System.out.println(h64); 
+//        String salt="Yzdtyjm159753Hwdcnko456258C"; 
+//        String cipherText_md5= new Md5Hash(password,salt,2).toBase64(); 
+//        System.out.println(password+"通过md5加密之后的密文是："+cipherText_md5);
+//        
+//        System.out.println(password+" username通过md5加密之后的密文是："+md5Password(username,password));
+//        
+//        System.out.println(generateKey()); 
+//        System.out.println("========================AES算法实现=================================="); 
+//        AesCipherService aesCipherService=new AesCipherService(); 
+//        aesCipherService.setKeySize(128); 
+//        Key key=aesCipherService.generateNewKey(); 
+//        String aes_cipherText= aesCipherService.encrypt(password.getBytes(),key.getEncoded()).toHex(); 
+//        System.out.println(password+" aes加密的密文是："+aes_cipherText); 
+//        String aes_mingwen=new String(aesCipherService.decrypt(Hex.decode(aes_cipherText),key.getEncoded()).getBytes()); 
+//        System.out.println(aes_cipherText+" aes解密的明文是："+aes_mingwen); 
     } 
 
 

@@ -11,6 +11,7 @@ import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheManager;
 
 import com.yhc.common.cache.EhcacheUtil;
+import com.yhc.common.redis.mycache.MyRedisCacheManager;
 /** 
 * User： cutter.li 
 * Date： 2014/6/30 0030 
@@ -45,9 +46,9 @@ public class LimitRetryHashedMatcher extends HashedCredentialsMatcher{
 //        return matches; 
 //    }
     //缓存管理器 org.apache.shiro.cache.ehcache.EhCacheManager
-    private Cache<String, AtomicInteger> passwordRetryCache;
+    private Cache<String,Integer> passwordRetryCache;
 
-    public LimitRetryHashedMatcher(CacheManager cacheManager) {
+    public LimitRetryHashedMatcher(MyRedisCacheManager cacheManager) {
         passwordRetryCache = cacheManager.getCache("passwordRetryCache");
     }
 
@@ -55,19 +56,21 @@ public class LimitRetryHashedMatcher extends HashedCredentialsMatcher{
     public boolean doCredentialsMatch(AuthenticationToken token, AuthenticationInfo info) {
         String username = (String)token.getPrincipal();
         //retry count + 1
-        AtomicInteger retryCount = passwordRetryCache.get(username);
+        Integer retryCount = passwordRetryCache.get(username+"_logincount");
         if(retryCount == null) {
-            retryCount = new AtomicInteger(0);
-            passwordRetryCache.put(username, retryCount);
+            retryCount =1;
         }
-        if(retryCount.incrementAndGet() > 5) {
+        if(retryCount > 5) {
             //if retry count > 5 throw
             throw new ExcessiveAttemptsException();
+        }else{
+        	retryCount++;
+        	passwordRetryCache.put(username+"_logincount", retryCount);
         }
         boolean matches = super.doCredentialsMatch(token, info);
         if(matches) {
             //clear retry count
-            passwordRetryCache.remove(username);
+            passwordRetryCache.remove(username+"_logincount");
         }
         return matches;
     }

@@ -1,18 +1,18 @@
 package com.yhc.common.interceptor;
 
-import java.util.ArrayList; 
-import java.util.List; 
+import java.util.ArrayList;
+import java.util.List;
 
-import org.aopalliance.intercept.MethodInterceptor; 
-import org.aopalliance.intercept.MethodInvocation; 
+import org.aopalliance.intercept.MethodInterceptor;
+import org.aopalliance.intercept.MethodInvocation;
 import org.apache.log4j.Logger;
 
 import com.yhc.common.config.BlGlobalVariable;
-import com.yhc.common.redis.RedisUtil;
+import com.yhc.common.redis.myredis.MyRedisUtil;
 
-public class MethodCacheInterceptor implements MethodInterceptor { 
+public class CacheInterceptor implements MethodInterceptor { 
 	private Logger logger = Logger.getLogger(MethodCacheInterceptor.class); 
-	private RedisUtil redisUtil; 
+	private MyRedisUtil myRedisUtil; 
 	private List<String> targetNamesList; // 不加入缓存的service名称 
 	private List<String> methodNamesList; // 不加入缓存的方法名称 
 	private Long defaultCacheExpireTime; // 缓存默认的过期时间 
@@ -21,7 +21,7 @@ public class MethodCacheInterceptor implements MethodInterceptor {
 	/** 
 	  * 初始化读取不需要加入缓存的类名和方法名称 
 	  */ 
-	public MethodCacheInterceptor() { 
+	public CacheInterceptor() { 
 	  try {
 	   // 分割字符串 
 	   String[] targetNames =BlGlobalVariable.REDIS_TARGETNAMES.split(","); 
@@ -68,8 +68,8 @@ public class MethodCacheInterceptor implements MethodInterceptor {
 	 
 	  try { 
 	   // 判断是否有缓存 
-	   if (redisUtil.exists(key)) { 
-	    return redisUtil.get(key); 
+	   if (myRedisUtil.exists(key)) { 
+	    return myRedisUtil.get(key); 
 	   } 
 	   // 写入缓存 
 	   value = invocation.proceed(); 
@@ -80,11 +80,11 @@ public class MethodCacheInterceptor implements MethodInterceptor {
 	     @Override 
 	     public void run() { 
 	      if (tkey.startsWith("com.yhc.common.model")) { 
-	       redisUtil.set(tkey, tvalue, xxxRecordManagerTime); 
+	    	  myRedisUtil.set(tkey, tvalue, xxxRecordManagerTime); 
 	      } else if (tkey.startsWith("com.yhc.web")) { 
-	       redisUtil.set(tkey, tvalue, xxxSetRecordManagerTime); 
+	    	  myRedisUtil.set(tkey, tvalue, xxxSetRecordManagerTime); 
 	      } else { 
-	       redisUtil.set(tkey, tvalue, defaultCacheExpireTime); 
+	    	  myRedisUtil.set(tkey, tvalue, defaultCacheExpireTime); 
 	      } 
 	     } 
 	    }).start(); 
@@ -131,7 +131,7 @@ public class MethodCacheInterceptor implements MethodInterceptor {
 	  return sbu.toString(); 
 	} 
 	 
-	public void setRedisUtil(RedisUtil redisUtil) { 
-	  this.redisUtil = redisUtil; 
+	public void setMyRedisUtil(MyRedisUtil myRedisUtil) { 
+	  this.myRedisUtil = myRedisUtil; 
 	} 
 	}

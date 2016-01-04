@@ -24,6 +24,8 @@ public class SysUser implements Serializable{
 
     private String password;
     
+    private String salt;
+    
     private String credentialsSalt;//loginName+password
     
     private boolean rememberMe;
@@ -100,11 +102,17 @@ public class SysUser implements Serializable{
         this.password = password == null ? null : password.trim();
     }
 
-    public String getCredentialsSalt() {
-    	if(StringUtils.isNotBlank(getLoginName())){
-    		credentialsSalt=getLoginName()+Constants.SALT;	
-    	}else{
-    		credentialsSalt=Constants.SALT;
+    public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
+	}
+
+	public String getCredentialsSalt() {
+    	if(StringUtils.isNotBlank(getLoginName())&&StringUtils.isNotBlank(getSalt())){
+    		credentialsSalt=getLoginName()+getSalt();	
     	}
 		return credentialsSalt;
 	}

@@ -1,19 +1,22 @@
 package com.yhc.common.redis.mycache;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 import org.apache.shiro.util.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.yhc.common.redis.cache.SerializeUtils;
 import com.yhc.common.redis.myredis.RedisClientTemplate;
 import com.yhc.common.redis.myredis.SerializeUtil;
+import com.yhc.common.utils.JacksonUtil;
 
 public class RedisCache<K,V> implements Cache<K,V>{
 	
@@ -21,7 +24,7 @@ public class RedisCache<K,V> implements Cache<K,V>{
 
 	private RedisClientTemplate cache;
 	
-	private String keyPrefix;
+	private String keyPrefix="my_shiro_redis_cache:";
 	
 	public String getKeyPrefix() {
 		return keyPrefix;
@@ -40,8 +43,16 @@ public class RedisCache<K,V> implements Cache<K,V>{
 			String preKey = this.keyPrefix + key;
     		return preKey.getBytes();
     	}else{
-    		return SerializeUtils.serialize(key);
+    		return SerializeUtil.serialize(key);
     	}
+	}
+	
+	private String keyToString(K key){
+		String k = String.valueOf(key);
+		if(StringUtils.startsWith(k, this.keyPrefix)){
+			return k;
+		}
+		return this.keyPrefix+k;
 	}
 	/**
 	 * 通过一个RedisClientTemplate实例构造RedisCache
@@ -76,9 +87,10 @@ public class RedisCache<K,V> implements Cache<K,V>{
 			if (key == null) {
 	            return null;
 	        }else{
-	        	byte[] rawValue = cache.get(getByteKey(key));
+	        	byte[] rawValue =cache.get(getByteKey(key));
 	        	@SuppressWarnings("unchecked")
-				V value = (V)SerializeUtil.unserialize(rawValue);
+				V value = (V)SerializeUtil.deserialize(rawValue);
+	        	logger.debug("根据key从Redis中获取对象 key的value [" + JacksonUtil.doJackson(value) + "]");
 	        	return value;
 	        }
 		} catch (Throwable t) {
@@ -91,6 +103,7 @@ public class RedisCache<K,V> implements Cache<K,V>{
 		logger.debug("根据key从存储 key [" + key + "]");
 		 try {
 			 	cache.set(getByteKey(key), SerializeUtil.serialize(value));
+//			 cache.set(keyToString(key), value);
 	            return value;
 	        } catch (Throwable t) {
 	            throw new CacheException(t);
@@ -122,13 +135,13 @@ public class RedisCache<K,V> implements Cache<K,V>{
 	@Override
 	public Set<K> keys() {
 		try {
-            Set<K> keys = (Set<K>) cache.hkeys(this.keyPrefix + "*");
+            Set<byte[]> keys = cache.hkeys(getByteKey(this.keyPrefix + "*"));
             if (CollectionUtils.isEmpty(keys)) {
             	return Collections.emptySet();
             }else{
-            	Set<K> newKeys = (Set<K>) new HashSet<String>();
-            	for(K key:keys){
-            		newKeys.add(key);
+            	Set<K> newKeys =new HashSet<K>();
+            	for(byte[] key:keys){
+            		newKeys.add((K)key);
             	}
             	return newKeys;
             }
@@ -139,6 +152,16 @@ public class RedisCache<K,V> implements Cache<K,V>{
 
 	@Override
 	public Collection<V> values() {
-		throw new CacheException("");
+		try {
+			Set<byte[]> keys = cache.hkeys(getByteKey(this.keyPrefix + "*"));
+            if (!CollectionUtils.isEmpty(keys)) {
+            	return (Collection<V>) cache.hvals(getByteKey(this.keyPrefix + "*"));
+                
+            } else {
+                return Collections.emptyList();
+            }
+        } catch (Throwable t) {
+            throw new CacheException(t);
+        }
 	}
 }

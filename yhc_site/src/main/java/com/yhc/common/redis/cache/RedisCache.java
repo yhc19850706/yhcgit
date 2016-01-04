@@ -95,7 +95,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 	        }else{
 	        	byte[] rawValue = cache.get(getByteKey(key));
 	        	@SuppressWarnings("unchecked")
-				V value = (V)SerializeUtil.unserialize(rawValue);
+				V value = (V)SerializeUtil.deserialize(rawValue);
 	        	return value;
 	        }
 		} catch (Throwable t) {

@@ -29,8 +29,7 @@
             </list>
         </constructor-arg>
     </bean>
-    
-
+   
     <!-- declare Redis Cache Manager
     <bean
         id='cacheManager'
@@ -41,9 +40,6 @@
     <bean id="methodCacheInterceptor" class="com.yhc.common.interceptor.MethodCacheInterceptor" > 
           <property name="redisUtil" ref="redisUtil" /> 
     </bean > 
-    <bean id="redisUtil" class="com.yhc.common.redis.RedisUtil" > 
-          <property name="redisTemplate" ref="redisTemplate" /> 
-    </bean >
     -->
     <!-- 需要加入缓存的类或方法 
      <bean id="methodCachePointCut"  class="org.springframework.aop.support.RegexpMethodPointcutAdvisor" > 
@@ -56,5 +52,30 @@
              <value>com\.yhc\.web\.security\.*</value > 
           </list> 
       </property> 
-    </bean >  -->  
+    </bean >  -->
+    <!-- cache配置 -->
+    
+    <bean id="myredisUtil" class="com.yhc.common.redis.myredis.MyRedisUtil" >
+    </bean >
+    <bean id="methodCacheInterceptor" class="com.yhc.common.interceptor.CacheInterceptor" >
+          <property name="myRedisUtil" ref="myredisUtil" />
+    </bean >
+    <bean id="methodCachePointCut"
+         class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor" >
+         <property name="advice" ref="methodCacheInterceptor">
+          </property>
+          <property name="mappedNames">
+          <list>
+			<value>selectByUsername</value>
+			<value>getUserByUserId</value>
+			</list>
+		</property>
+         <!--   <property name="patterns" >
+              <list>
+                 需要缓存的方法 正则表达式
+                  <value>.*DaoImpl.select.*</value >
+                  <value>.*DaoImpl.get.*</value >
+              </list>
+          </property> -->
+    </bean >  
 </beans>

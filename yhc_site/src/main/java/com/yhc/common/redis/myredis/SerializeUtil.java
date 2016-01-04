@@ -4,37 +4,86 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class SerializeUtil {
-	public static byte[] serialize(Object object) {
-		ObjectOutputStream oos = null;
-		ByteArrayOutputStream baos = null;
-		try {
-			// 序列化
-			baos = new ByteArrayOutputStream();
-			oos = new ObjectOutputStream(baos);
-			oos.writeObject(object);
-			byte[] bytes = baos.toByteArray();
-			return bytes;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+import org.apache.shiro.io.SerializationException;
+import org.apache.shiro.io.Serializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-	public static Object unserialize(byte[] bytes) {
-		if (bytes == null)
+import com.yhc.common.redis.cache.SerializeUtils;
+
+public class SerializeUtil{
+	
+	private static Logger logger = LoggerFactory.getLogger(SerializeUtils.class);
+	
+	/**
+	 * 反序列化
+	 * @param bytes
+	 * @return
+	 */
+	public static Object deserialize(byte[] bytes) {
+		
+		Object result = null;
+		
+		if (isEmpty(bytes)) {
 			return null;
-		ByteArrayInputStream bais = null;
-		try {
-			// 反序列化
-			bais = new ByteArrayInputStream(bytes);
-			ObjectInputStream ois = new ObjectInputStream(bais);
-			return ois.readObject();
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
-		return null;
+
+		try {
+			ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
+			try {
+				ObjectInputStream objectInputStream = new ObjectInputStream(byteStream);
+				try {
+					result = objectInputStream.readObject();
+				}
+				catch (ClassNotFoundException ex) {
+					throw new Exception("Failed to deserialize object type", ex);
+				}
+			}
+			catch (Throwable ex) {
+				throw new Exception("Failed to deserialize", ex);
+			}
+		} catch (Exception e) {
+			logger.error("Failed to deserialize",e);
+		}
+		return result;
+	}
+	
+	public static boolean isEmpty(byte[] data) {
+		return (data == null || data.length == 0);
 	}
 
+	/**
+	 * 序列化
+	 * @param object
+	 * @return
+	 */
+	public static byte[] serialize(Object object) {
+		
+		byte[] result = null;
+		
+		if (object == null) {
+			return new byte[0];
+		}
+		try {
+			ByteArrayOutputStream byteStream = new ByteArrayOutputStream(128);
+			try  {
+				if (!(object instanceof Serializable)) {
+					throw new IllegalArgumentException(SerializeUtils.class.getSimpleName() + " requires a Serializable payload " +
+							"but received an object of type [" + object.getClass().getName() + "]");
+				}
+				ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteStream);
+				objectOutputStream.writeObject(object);
+				objectOutputStream.flush();
+				result =  byteStream.toByteArray();
+			}
+			catch (Throwable ex) {
+				throw new Exception("Failed to serialize", ex);
+			}
+		} catch (Exception ex) {
+			logger.error("Failed to serialize",ex);
+		}
+		return result;
+	}
 }

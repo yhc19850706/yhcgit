@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.yhc.common.utils.JacksonUtil;
+
 import redis.clients.jedis.BinaryClient.LIST_POSITION;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisShardInfo;
@@ -79,6 +81,32 @@ public class RedisClientTemplate {
         return result;
     }
 
+    /**
+     * 设置对象
+     * 
+     * @param key
+     * @param value
+     * @return
+     */
+    public String set(String key, Object value) {
+        String result = null;
+
+        ShardedJedis shardedJedis = redisDataSource.getRedisClient();
+        if (shardedJedis == null) {
+            return result;
+        }
+        boolean broken = false;
+        try {
+        	String objectJson = JacksonUtil.doJackson(value);
+            result = shardedJedis.set(key, objectJson);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            broken = true;
+        } finally {
+            redisDataSource.returnResource(shardedJedis, broken);
+        }
+        return result;
+    }
     /**
      * 获取单个值
      * 
