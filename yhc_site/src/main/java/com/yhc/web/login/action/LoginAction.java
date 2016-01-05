@@ -89,8 +89,7 @@ public class LoginAction extends BaseAction {
 
 			subject.login(token);
 			// 验证成功在Cookie中保存用户信息
-			final SysUser sysUser = userService.selectByUsername(user
-					.getLoginName());
+			final SysUser sysUser = userService.selectByUsername(user.getLoginName());
 			long expireTimeMillis = System.currentTimeMillis();
 			CookieUtils.addCookie(response, Constants.COOKIE_YHC_UID, CipherUtil.encryptResult(sysUser.getId()), "/", Constants.COOKIE_MAX_TIME_HALF_HOUR);
             CookieUtils.addCookie(response,Constants.COOKIE_YHC_UNM,CipherUtil.encryptResult(sysUser.getLoginName()),"/",  Constants.COOKIE_MAX_TIME_HALF_HOUR);
@@ -102,6 +101,7 @@ public class LoginAction extends BaseAction {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return getRedirectModelAndView("/user/login_page.yhc");
 		}
 		return getRedirectModelAndView("/user/view.yhc");
 	}

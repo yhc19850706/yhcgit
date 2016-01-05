@@ -30,30 +30,8 @@
         </constructor-arg>
     </bean>
    
-    <!-- declare Redis Cache Manager
-    <bean
-        id='cacheManager'
-        class='org.springframework.data.redis.cache.RedisCacheManager'
-        c:template-ref='redisTemplate'/>
-      -->
-     <!-- cache配置  
-    <bean id="methodCacheInterceptor" class="com.yhc.common.interceptor.MethodCacheInterceptor" > 
-          <property name="redisUtil" ref="redisUtil" /> 
-    </bean > 
-    -->
-    <!-- 需要加入缓存的类或方法 
-     <bean id="methodCachePointCut"  class="org.springframework.aop.support.RegexpMethodPointcutAdvisor" > 
-      <property name="advice" ref="methodCacheInterceptor"> 
-           
-      </property> 
-      <property name="patterns" > 
-          <list> 
-             确定正则表达式列表 
-             <value>com\.yhc\.web\.security\.*</value > 
-          </list> 
-      </property> 
-    </bean >  -->
-    <!-- cache配置 -->
+   
+    <!-- cache配置 
     
     <bean id="myredisUtil" class="com.yhc.common.redis.myredis.MyRedisUtil" >
     </bean >
@@ -61,21 +39,23 @@
           <property name="myRedisUtil" ref="myredisUtil" />
     </bean >
     <bean id="methodCachePointCut"
-         class="org.springframework.aop.support.NameMatchMethodPointcutAdvisor" >
+         class="org.springframework.aop.support.RegexpMethodPointcutAdvisor" >
          <property name="advice" ref="methodCacheInterceptor">
           </property>
+          
+         <property name="patterns" >
+              <list>
+                  <value>.*DaoImpl.select.*</value >
+                  <value>.*DaoImpl.get.*</value >
+              </list>
+          </property>
+    </bean >  
+    -->
+    <!--   NameMatchMethodPointcutAdvisor
           <property name="mappedNames">
           <list>
 			<value>selectByUsername</value>
 			<value>getUserByUserId</value>
 			</list>
-		</property>
-         <!--   <property name="patterns" >
-              <list>
-                 需要缓存的方法 正则表达式
-                  <value>.*DaoImpl.select.*</value >
-                  <value>.*DaoImpl.get.*</value >
-              </list>
-          </property> -->
-    </bean >  
+		</property> -->
 </beans>
