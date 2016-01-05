@@ -1,7 +1,5 @@
 # yhcgit
 My Git Repository
-开始做属于自己的项目
-
 项目架构如下
 
 后台：
@@ -11,6 +9,7 @@ springMvc
 ibtis(Myibatis)
 shiro
 mysql
+redis
 
 前端
 
