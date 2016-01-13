@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
 <mapper namespace="com.yhc.web.user">
+<cache eviction="LRU" type="org.mybatis.caches.redis.RedisCache" />
  <select id="getUserByUserId" parameterType="String" resultType="user">  
-      select id as id,login_name as loginName,no as no,name as name,user_type as userType 
+      select id as id,login_name as loginName,no as no,name as name,user_type as userType,salt as salt 
       from sys_user 
       where id=#{userId}
 </select> 
  <select id="selectByUsername" parameterType="String" resultType="user">  
-      select id as id,login_name as loginName,no as no,name as name,user_type as userType,password as password
+      select id as id,login_name as loginName,no as no,name as name,user_type as userType,password as password,salt as salt
       from sys_user 
       where login_name=#{loginName}
 </select>
  <select id="authentication" parameterType="user" resultType="user">  
-      select id as id,login_name as loginName,no as no,name as name,user_type as userType 
+      select id as id,login_name as loginName,no as no,name as name,user_type as userType,salt as salt 
       from sys_user 
       where login_name=#{loginName}  and password=#{password}
 </select> 

@@ -330,7 +330,13 @@
     <groupId>br.com.ingenieux</groupId>
     <artifactId>jbake-maven-plugin</artifactId>
     <version>0.0.9</version>
-</dependency>
+     </dependency>
+       <!-- jasypt 加解密-->
+		<dependency>
+	      <groupId>org.jasypt</groupId>
+	      <artifactId>jasypt</artifactId>
+	      <version>1.9.2</version>
+	    </dependency>
 </dependencies>
 <build>
 		<sourceDirectory>src/main/java</sourceDirectory>

@@ -21,5 +21,6 @@
 	<classpathentry kind="lib" path="lib/okio-1.6.0.jar"/>
 	<classpathentry kind="lib" path="lib/bcprov-ext-jdk15on-153.jar"/>
 	<classpathentry kind="lib" path="lib/bcprov-jdk15on-153.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.4.jar"/>
 	<classpathentry kind="output" path="bin-groovy"/>
 </classpath>
