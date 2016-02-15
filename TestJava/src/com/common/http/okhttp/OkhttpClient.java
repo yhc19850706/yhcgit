@@ -70,6 +70,19 @@ public class OkhttpClient {
 				+ "]}";
 	}
 
+	String postJson(String url, String json) throws IOException {
+	     RequestBody body = RequestBody.create(JSON, json);
+	      Request request = new Request.Builder()
+	      .url(url)
+	      .post(body)
+	      .build();
+	      Response response = client.newCall(request).execute();
+	    if (response.isSuccessful()) {
+	        return response.body().string();
+	    } else {
+	        throw new IOException("Unexpected code " + response);
+	    }
+	}
 	public static void main(String[] args) throws IOException {
 //		String response = run("https://raw.github.com/square/okhttp/master/README.md");
 //		System.out.println(response);

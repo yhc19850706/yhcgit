@@ -2,6 +2,7 @@ package com.test;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -9,6 +10,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.xml.crypto.Data;
+
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 import redis.clients.jedis.Jedis;
 
@@ -31,18 +34,19 @@ public class TestMain {
 //		else
 //		System.out.println("str1<str2");
 
-		String str1="com.sillycat.easyaop.dao.impl.RoleDAOImpl.saveRole";
-		  String str2="com.sillycat.easyaop.dao.impl.UserDAOImpl.save";
-		  String str3="com.sillycat.easyaop.dao.impl.BaseDAOImpl.save";
-		  Pattern pattern=Pattern.compile( 
-		    ".*DAOImpl[.]save.*");
-		  Matcher matcher1=pattern.matcher(str1);
-		  Matcher matcher2=pattern.matcher(str2);
-		  Matcher matcher3=pattern.matcher(str3);
-		  System.out.println(matcher1.matches());
-		  System.out.println(matcher2.matches());
-		  System.out.println(matcher3.matches());
+//		String str1="com.sillycat.easyaop.dao.impl.RoleDAOImpl.saveRole";
+//		  String str2="com.sillycat.easyaop.dao.impl.UserDAOImpl.save";
+//		  String str3="com.sillycat.easyaop.dao.impl.BaseDAOImpl.save";
+//		  Pattern pattern=Pattern.compile( 
+//		    ".*DAOImpl[.]save.*");
+//		  Matcher matcher1=pattern.matcher(str1);
+//		  Matcher matcher2=pattern.matcher(str2);
+//		  Matcher matcher3=pattern.matcher(str3);
+//		  System.out.println(matcher1.matches());
+//		  System.out.println(matcher2.matches());
+//		  System.out.println(matcher3.matches());
 		  
+		System.out.print(String.valueOf(new BigDecimal(5111).multiply(new BigDecimal(0.02))));
 		 }
 		 static void v(int i)
 		 {
