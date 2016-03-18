@@ -15,5 +15,4 @@ public class ShiroTagFreeMarkerConfigurer extends FreeMarkerConfigurer {
         super.afterPropertiesSet();
         this.getConfiguration().setSharedVariable("shiro", new ShiroTags());
     }
-     
 }
