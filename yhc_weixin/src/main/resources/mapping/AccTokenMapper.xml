@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+<mapper namespace="com.yhc.common.mapper.AccTokenMapper">  
+ <select id="getAccessToken" resultType="accessToken">
+	    SELECT id           AS id,
+	           access_token AS accessToken,
+	           jsapi_ticket AS jsapiTicket,
+	           create_dts   AS createDts,
+	           update_dts   AS updateDts
+	      FROM sys_access_token LIMIT 1
+	</select>
+    <insert id="insertAccessToken" parameterType="accessToken">
+	    INSERT INTO sys_access_token
+		  (id, access_token,jsapi_ticket, create_dts)
+		VALUES
+		  (REPLACE (UUID(),'-',''), #{accessToken},#{jsapiTicket}, #{createDts})
+	</insert>
+    <update id="updateAccessTokenById" parameterType="accessToken">
+		update sys_access_token
+		<set>
+            <if test="accessToken != null">
+                access_token = #{accessToken},
+            </if>
+            <if test="jsapiTicket != null">
+                jsapi_ticket = #{jsapiTicket},
+            </if>
+            update_dts  = #{updateDts}
+        </set>
+		where id = #id#
+	</update>   
+</mapper>  

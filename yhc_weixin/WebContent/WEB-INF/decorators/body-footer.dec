@@ -1,0 +1,59 @@
+<div class="container">
+		<div class="footer">
+			<div class="footer-top">
+				<div class="col-md-4 amet-sed">
+				<h4>navigation</h4>
+				<i class="line"> </i>
+					<ul class="nav-bottom">
+						<li  ><a href="index.html" >HOME  </a> </li>
+						<li><a href="events.html" > EVENTS</a></li>
+						<li><a href="404.html"> WINNERS </a></li>
+						<li><a href="contact.html" > SUBMIT</a></li>
+						<li><a href="contact.html">CONTACT </a></li>
+						<li><a href="login.html">LOGIN </a></li>
+						<li  ><a href="#" >RSVP</a> </li>
+						<li><a href="#" >PRIVACY POLICY</a></li>
+					</ul>
+				</div>
+				<div class="col-md-4 amet-sed ">
+				<h4>get in touch</h4>
+				<i class="line"> </i>
+					<ul class="nav-bottom">
+						<li  ><a href="contact.html" >CONTACT US</a> </li>
+						<li><a href="#" >PRIVACY POLICY</a></li>
+						<li><a href="#">TERMS &amp; CONDITIONS </a></li>					
+					</ul>
+					<p>Email: <a href="mailto:info@example.com">info@example.com</a></p>
+				</div>
+				<div class="col-md-4 amet-sed ">
+				<h4>share this page</h4>
+				<i class="line"> </i>
+				<ul class="social-in msg-social">
+					<li><a href="#"><i> </i></a></li>						
+					<li><a href="#"><i class="tin"> </i></a></li>
+					<li><a href="#"><i class="message"> </i></a></li>
+					<li><a href="#"><i class="youtube"> </i></a></li>
+				</ul>
+				<p>follow us on twitter:<a href="#">@example</a></p>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+				<p class="footer-class">Copyright &copy; 2015.Company name All rights reserved.</p>
+		</div>
+		 <script type="text/javascript">
+						$(document).ready(function() {
+							/*
+							var defaults = {
+					  			containerID: 'toTop', // fading element id
+								containerHoverID: 'toTopHover', // fading element hover id
+								scrollSpeed: 1200,
+								easingType: 'linear' 
+					 		};
+							*/
+							
+							$().UItoTop({ easingType: 'easeOutQuart' });
+							
+						});
+					</script>
+				<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+	</div>
