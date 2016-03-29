@@ -23,6 +23,10 @@
             <property name="objectMapper" ref="objectMapper"/>
         </bean>
     </mvc:message-converters>
+    <!-- 自定义数据绑定 -->
+    <mvc:argument-resolvers>  
+            <bean class="com.yhc.common.databind.MyHandlerMethodArgumentResolver"/>  
+        </mvc:argument-resolvers>
 </mvc:annotation-driven>
  
 	<!-- Interceptor -->
