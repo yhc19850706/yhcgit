@@ -1,5 +1,8 @@
 package com.yhc.web.user.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -33,6 +36,22 @@ public class UserServiceImpl implements UserService {
 	public void addUserInfo(SysUser user) throws Exception {
 		// TODO Auto-generated method stub
 		userDao.addUserInfo(user);
+	}
+	@Override
+	public void updateUserInfo(SysUser user) throws Exception {
+		// TODO Auto-generated method stub
+		userDao.updateUserInfo(user);
+	}
+	@Override
+	public List<SysUser> getSysUserList(Map<String, Object> paraMap)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return userDao.getSysUserList(paraMap);
+	}
+	@Override
+	public int getSysUserListCnt(Map<String, Object> paraMap) throws Exception {
+		// TODO Auto-generated method stub
+		return userDao.getSysUserListCnt(paraMap);
 	}
 
 }

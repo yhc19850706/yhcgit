@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
@@ -97,13 +100,26 @@ public class LoginAction extends BaseAction {
 			CookieUtils.addCookie(response, Constants.COOKIE_YHC_UID, CipherUtil.encryptResult(sysUser.getId()), "/", Constants.COOKIE_MAX_TIME_HALF_HOUR);
             CookieUtils.addCookie(response,Constants.COOKIE_YHC_UNM,CipherUtil.encryptResult(sysUser.getLoginName()),"/",  Constants.COOKIE_MAX_TIME_HALF_HOUR);
 			CookieUtils.addCookie(response, Constants.COOKIE_YHC_TIME, String.valueOf(expireTimeMillis),"/",  Constants.COOKIE_MAX_TIME_HALF_HOUR);
-		} catch (AuthenticationException e) {
-			// 身份验证失败
+		}catch (UnknownAccountException e) {
+			logger.error("账号不存在：{}", e);
 			e.printStackTrace();
 			return getRedirectModelAndView("/user/login_page.yhc");
-		} catch (Exception e) {
+        } catch (DisabledAccountException e) {
+        	logger.error("账号未启用：{}", e);
+        	e.printStackTrace();
+			return getRedirectModelAndView("/user/login_page.yhc");
+        } catch (IncorrectCredentialsException e) {
+        	logger.error("密码错误：{}", e);
+        	e.printStackTrace();
+			return getRedirectModelAndView("/user/login_page.yhc");
+        } catch (RuntimeException e) {
+        	logger.error("未知错误,请联系管理员：{}", e);
+        	e.printStackTrace();
+			return getRedirectModelAndView("/user/login_page.yhc");
+        } catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return getRedirectModelAndView("/user/login_page.yhc");
 		}
 		return getRedirectModelAndView("/user/view.yhc");
 	}

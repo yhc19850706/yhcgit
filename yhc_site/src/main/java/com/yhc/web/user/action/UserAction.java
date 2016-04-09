@@ -1,5 +1,8 @@
 package com.yhc.web.user.action;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -25,6 +28,9 @@ import com.yhc.common.action.BaseAction;
 import com.yhc.common.annotation.IfNeedSecurity;
 import com.yhc.common.annotation.SystemControllerLog;
 import com.yhc.common.config.BlGlobalVariable;
+import com.yhc.common.databind.Dept;
+import com.yhc.common.databind.Employee;
+import com.yhc.common.databind.MyForm;
 import com.yhc.common.model.Response;
 import com.yhc.common.model.SysUser;
 import com.yhc.common.model.UserInfo;
@@ -106,5 +112,43 @@ public class UserAction  extends BaseAction{
 	    public String create() {
 	    	System.out.println("拥有"+PermissionSign.MENU_VIEW+"权限,能访问");
 	        return "拥有user:create权限,能访问";
+	    }
+	    
+	    @RequestMapping("/test1.yhc")
+	    public  String test1(@MyForm Dept dept, @MyForm Employee emp) {
+	    	System.out.println("dept id"+dept.getId());
+	    	System.out.println("dept name"+dept.getName());
+	    	System.out.println("emp id"+emp.getId());
+	    	System.out.println("emp name"+emp.getName());
+	    	System.out.println("emp age"+emp.getAge());
+	    	System.out.println("emp dept"+emp.getDept().getName());
+	        return "index";
+	    }
+	    
+	    @RequestMapping("/test2.yhc")
+	    public   String test2(@MyForm("d") Dept dept, @MyForm("e") Employee emp) {
+	    	System.out.println("dept id"+dept.getId());
+	    	System.out.println("dept name"+dept.getName());
+	    	System.out.println("emp id"+emp.getId());
+	    	System.out.println("emp name"+emp.getName());
+	    	System.out.println("emp age"+emp.getAge());
+	    	System.out.println("emp dept"+emp.getDept().getName());
+	        return "index";
+	    }
+	    
+	    @RequestMapping("/test3.yhc")
+	    public  String test3(@MyForm(value = "d", show = false) Dept dept, @MyForm("e") Employee emp) {
+	        return "index";
+	    }
+	    
+	    @RequestMapping("/test4.yhc")
+	    public  String test4(@MyForm ArrayList<Employee> emplist) {
+	    	for(Employee emp:emplist){
+		    	System.out.println("emp id"+emp.getId());
+		    	System.out.println("emp name"+emp.getName());
+		    	System.out.println("emp age"+emp.getAge());
+		    	System.out.println("emp dept"+emp.getDept().getName());
+	    	}
+	        return "index4";
 	    }
 }
