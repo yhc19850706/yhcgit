@@ -1,0 +1,13 @@
+<decorators defaultdir="/WEB-INF/decorators">
+	<decorator name="webpage" page="home/container.dec">
+		<pattern>/mgz/home_page.wx</pattern>
+		<pattern>/mgz/home_login.wx</pattern>
+		<pattern>/mgz/home_contact.wx</pattern>
+		<pattern>/mgz/home_submit.wx</pattern>
+		<pattern>/mgz/home_event.wx</pattern>
+		<pattern>/mgz/home_404.wx</pattern>
+	</decorator>
+	<excludes>
+	   
+	</excludes>
+</decorators>
