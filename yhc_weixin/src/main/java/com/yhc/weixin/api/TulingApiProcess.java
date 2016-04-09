@@ -1,7 +1,5 @@
 package com.yhc.weixin.api;
 
-import static com.yhc.common.config.BlGlobalVariable.YHC_URI;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,25 +7,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-
-import sun.tools.tree.SuperExpression;
-import sun.tools.tree.ThisExpression;
-
-import com.yhc.weixin.model.BaseResult;
-import com.yhc.weixin.model.Sign;
 import com.yhc.weixin.model.TulingResponse;
 import com.yhc.weixin.util.JsonUtil;
 
