@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yhc.lifeall.mapper.NewsContentMapper" >
+  <resultMap id="BaseResultMap" type="com.yhc.lifeall.model.NewsContent" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="WEBSITE_ID" property="websiteId" jdbcType="BIGINT" />
+    <result column="CRAWL_URL" property="crawlUrl" jdbcType="VARCHAR" />
+    <result column="NEWS_NAME" property="newsName" jdbcType="VARCHAR" />
+    <result column="NEWS_URL" property="newsUrl" jdbcType="VARCHAR" />
+    <result column="NEWS_IMAGE" property="newsImage" jdbcType="VARCHAR" />
+    <result column="KEYWORDS" property="keywords" jdbcType="VARCHAR" />
+    <result column="PUBLISH_TIME" property="publishTime" jdbcType="TIMESTAMP" />
+    <result column="NEWS_RESOURCE" property="newsResource" jdbcType="VARCHAR" />
+    <result column="NEWS_AUTHOR" property="newsAuthor" jdbcType="VARCHAR" />
+    <result column="COMMENT_NUM" property="commentNum" jdbcType="INTEGER" />
+    <result column="READ_NUM" property="readNum" jdbcType="INTEGER" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yhc.lifeall.model.NewsContent" extends="BaseResultMap" >
+    <result column="NEWS_DESC" property="newsDesc" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, WEBSITE_ID, CRAWL_URL, NEWS_NAME, NEWS_URL, NEWS_IMAGE, KEYWORDS, PUBLISH_TIME, 
+    NEWS_RESOURCE, NEWS_AUTHOR, COMMENT_NUM, READ_NUM, CREATE_TIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    NEWS_DESC
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yhc.lifeall.model.NewsContentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news_content
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yhc.lifeall.model.NewsContentExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from news_content
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news_content
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from news_content
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yhc.lifeall.model.NewsContentExample" >
+    delete from news_content
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yhc.lifeall.model.NewsContent" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into news_content (WEBSITE_ID, CRAWL_URL, NEWS_NAME, 
+      NEWS_URL, NEWS_IMAGE, KEYWORDS, 
+      PUBLISH_TIME, NEWS_RESOURCE, NEWS_AUTHOR, 
+      COMMENT_NUM, READ_NUM, CREATE_TIME, 
+      NEWS_DESC)
+    values (#{websiteId,jdbcType=BIGINT}, #{crawlUrl,jdbcType=VARCHAR}, #{newsName,jdbcType=VARCHAR}, 
+      #{newsUrl,jdbcType=VARCHAR}, #{newsImage,jdbcType=VARCHAR}, #{keywords,jdbcType=VARCHAR}, 
+      #{publishTime,jdbcType=TIMESTAMP}, #{newsResource,jdbcType=VARCHAR}, #{newsAuthor,jdbcType=VARCHAR}, 
+      #{commentNum,jdbcType=INTEGER}, #{readNum,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{newsDesc,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yhc.lifeall.model.NewsContent" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into news_content
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="websiteId != null" >
+        WEBSITE_ID,
+      </if>
+      <if test="crawlUrl != null" >
+        CRAWL_URL,
+      </if>
+      <if test="newsName != null" >
+        NEWS_NAME,
+      </if>
+      <if test="newsUrl != null" >
+        NEWS_URL,
+      </if>
+      <if test="newsImage != null" >
+        NEWS_IMAGE,
+      </if>
+      <if test="keywords != null" >
+        KEYWORDS,
+      </if>
+      <if test="publishTime != null" >
+        PUBLISH_TIME,
+      </if>
+      <if test="newsResource != null" >
+        NEWS_RESOURCE,
+      </if>
+      <if test="newsAuthor != null" >
+        NEWS_AUTHOR,
+      </if>
+      <if test="commentNum != null" >
+        COMMENT_NUM,
+      </if>
+      <if test="readNum != null" >
+        READ_NUM,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="newsDesc != null" >
+        NEWS_DESC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="websiteId != null" >
+        #{websiteId,jdbcType=BIGINT},
+      </if>
+      <if test="crawlUrl != null" >
+        #{crawlUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="newsName != null" >
+        #{newsName,jdbcType=VARCHAR},
+      </if>
+      <if test="newsUrl != null" >
+        #{newsUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="newsImage != null" >
+        #{newsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newsResource != null" >
+        #{newsResource,jdbcType=VARCHAR},
+      </if>
+      <if test="newsAuthor != null" >
+        #{newsAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="commentNum != null" >
+        #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="readNum != null" >
+        #{readNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newsDesc != null" >
+        #{newsDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yhc.lifeall.model.NewsContentExample" resultType="java.lang.Integer" >
+    select count(*) from news_content
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update news_content
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.websiteId != null" >
+        WEBSITE_ID = #{record.websiteId,jdbcType=BIGINT},
+      </if>
+      <if test="record.crawlUrl != null" >
+        CRAWL_URL = #{record.crawlUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsName != null" >
+        NEWS_NAME = #{record.newsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsUrl != null" >
+        NEWS_URL = #{record.newsUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsImage != null" >
+        NEWS_IMAGE = #{record.newsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.keywords != null" >
+        KEYWORDS = #{record.keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="record.publishTime != null" >
+        PUBLISH_TIME = #{record.publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.newsResource != null" >
+        NEWS_RESOURCE = #{record.newsResource,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsAuthor != null" >
+        NEWS_AUTHOR = #{record.newsAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentNum != null" >
+        COMMENT_NUM = #{record.commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.readNum != null" >
+        READ_NUM = #{record.readNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.newsDesc != null" >
+        NEWS_DESC = #{record.newsDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update news_content
+    set ID = #{record.id,jdbcType=BIGINT},
+      WEBSITE_ID = #{record.websiteId,jdbcType=BIGINT},
+      CRAWL_URL = #{record.crawlUrl,jdbcType=VARCHAR},
+      NEWS_NAME = #{record.newsName,jdbcType=VARCHAR},
+      NEWS_URL = #{record.newsUrl,jdbcType=VARCHAR},
+      NEWS_IMAGE = #{record.newsImage,jdbcType=VARCHAR},
+      KEYWORDS = #{record.keywords,jdbcType=VARCHAR},
+      PUBLISH_TIME = #{record.publishTime,jdbcType=TIMESTAMP},
+      NEWS_RESOURCE = #{record.newsResource,jdbcType=VARCHAR},
+      NEWS_AUTHOR = #{record.newsAuthor,jdbcType=VARCHAR},
+      COMMENT_NUM = #{record.commentNum,jdbcType=INTEGER},
+      READ_NUM = #{record.readNum,jdbcType=INTEGER},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      NEWS_DESC = #{record.newsDesc,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update news_content
+    set ID = #{record.id,jdbcType=BIGINT},
+      WEBSITE_ID = #{record.websiteId,jdbcType=BIGINT},
+      CRAWL_URL = #{record.crawlUrl,jdbcType=VARCHAR},
+      NEWS_NAME = #{record.newsName,jdbcType=VARCHAR},
+      NEWS_URL = #{record.newsUrl,jdbcType=VARCHAR},
+      NEWS_IMAGE = #{record.newsImage,jdbcType=VARCHAR},
+      KEYWORDS = #{record.keywords,jdbcType=VARCHAR},
+      PUBLISH_TIME = #{record.publishTime,jdbcType=TIMESTAMP},
+      NEWS_RESOURCE = #{record.newsResource,jdbcType=VARCHAR},
+      NEWS_AUTHOR = #{record.newsAuthor,jdbcType=VARCHAR},
+      COMMENT_NUM = #{record.commentNum,jdbcType=INTEGER},
+      READ_NUM = #{record.readNum,jdbcType=INTEGER},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yhc.lifeall.model.NewsContent" >
+    update news_content
+    <set >
+      <if test="websiteId != null" >
+        WEBSITE_ID = #{websiteId,jdbcType=BIGINT},
+      </if>
+      <if test="crawlUrl != null" >
+        CRAWL_URL = #{crawlUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="newsName != null" >
+        NEWS_NAME = #{newsName,jdbcType=VARCHAR},
+      </if>
+      <if test="newsUrl != null" >
+        NEWS_URL = #{newsUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="newsImage != null" >
+        NEWS_IMAGE = #{newsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="keywords != null" >
+        KEYWORDS = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        PUBLISH_TIME = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newsResource != null" >
+        NEWS_RESOURCE = #{newsResource,jdbcType=VARCHAR},
+      </if>
+      <if test="newsAuthor != null" >
+        NEWS_AUTHOR = #{newsAuthor,jdbcType=VARCHAR},
+      </if>
+      <if test="commentNum != null" >
+        COMMENT_NUM = #{commentNum,jdbcType=INTEGER},
+      </if>
+      <if test="readNum != null" >
+        READ_NUM = #{readNum,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newsDesc != null" >
+        NEWS_DESC = #{newsDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yhc.lifeall.model.NewsContent" >
+    update news_content
+    set WEBSITE_ID = #{websiteId,jdbcType=BIGINT},
+      CRAWL_URL = #{crawlUrl,jdbcType=VARCHAR},
+      NEWS_NAME = #{newsName,jdbcType=VARCHAR},
+      NEWS_URL = #{newsUrl,jdbcType=VARCHAR},
+      NEWS_IMAGE = #{newsImage,jdbcType=VARCHAR},
+      KEYWORDS = #{keywords,jdbcType=VARCHAR},
+      PUBLISH_TIME = #{publishTime,jdbcType=TIMESTAMP},
+      NEWS_RESOURCE = #{newsResource,jdbcType=VARCHAR},
+      NEWS_AUTHOR = #{newsAuthor,jdbcType=VARCHAR},
+      COMMENT_NUM = #{commentNum,jdbcType=INTEGER},
+      READ_NUM = #{readNum,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      NEWS_DESC = #{newsDesc,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yhc.lifeall.model.NewsContent" >
+    update news_content
+    set WEBSITE_ID = #{websiteId,jdbcType=BIGINT},
+      CRAWL_URL = #{crawlUrl,jdbcType=VARCHAR},
+      NEWS_NAME = #{newsName,jdbcType=VARCHAR},
+      NEWS_URL = #{newsUrl,jdbcType=VARCHAR},
+      NEWS_IMAGE = #{newsImage,jdbcType=VARCHAR},
+      KEYWORDS = #{keywords,jdbcType=VARCHAR},
+      PUBLISH_TIME = #{publishTime,jdbcType=TIMESTAMP},
+      NEWS_RESOURCE = #{newsResource,jdbcType=VARCHAR},
+      NEWS_AUTHOR = #{newsAuthor,jdbcType=VARCHAR},
+      COMMENT_NUM = #{commentNum,jdbcType=INTEGER},
+      READ_NUM = #{readNum,jdbcType=INTEGER},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

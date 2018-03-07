@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yhc.lifeall.mapper.ExpressLogisticsMapper" >
+  <resultMap id="BaseResultMap" type="com.yhc.lifeall.model.ExpressLogistics" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="EXPRESS_CODE" property="expressCode" jdbcType="VARCHAR" />
+    <result column="EXPRESS_TYPE" property="expressType" jdbcType="VARCHAR" />
+    <result column="NODE_TIME" property="nodeTime" jdbcType="TIMESTAMP" />
+    <result column="CONTEXT" property="context" jdbcType="VARCHAR" />
+    <result column="LOCATION" property="location" jdbcType="VARCHAR" />
+    <result column="sign_flag" property="signFlag" jdbcType="BIT" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, EXPRESS_CODE, EXPRESS_TYPE, NODE_TIME, CONTEXT, LOCATION, sign_flag, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yhc.lifeall.model.ExpressLogisticsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_express_logistics
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_express_logistics
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_express_logistics
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yhc.lifeall.model.ExpressLogisticsExample" >
+    delete from t_express_logistics
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yhc.lifeall.model.ExpressLogistics" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_express_logistics (EXPRESS_CODE, EXPRESS_TYPE, NODE_TIME, 
+      CONTEXT, LOCATION, sign_flag, 
+      CREATE_TIME)
+    values (#{expressCode,jdbcType=VARCHAR}, #{expressType,jdbcType=VARCHAR}, #{nodeTime,jdbcType=TIMESTAMP}, 
+      #{context,jdbcType=VARCHAR}, #{location,jdbcType=VARCHAR}, #{signFlag,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yhc.lifeall.model.ExpressLogistics" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_express_logistics
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="expressCode != null" >
+        EXPRESS_CODE,
+      </if>
+      <if test="expressType != null" >
+        EXPRESS_TYPE,
+      </if>
+      <if test="nodeTime != null" >
+        NODE_TIME,
+      </if>
+      <if test="context != null" >
+        CONTEXT,
+      </if>
+      <if test="location != null" >
+        LOCATION,
+      </if>
+      <if test="signFlag != null" >
+        sign_flag,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="expressCode != null" >
+        #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expressType != null" >
+        #{expressType,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeTime != null" >
+        #{nodeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="context != null" >
+        #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="signFlag != null" >
+        #{signFlag,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yhc.lifeall.model.ExpressLogisticsExample" resultType="java.lang.Integer" >
+    select count(*) from t_express_logistics
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_express_logistics
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.expressCode != null" >
+        EXPRESS_CODE = #{record.expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expressType != null" >
+        EXPRESS_TYPE = #{record.expressType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nodeTime != null" >
+        NODE_TIME = #{record.nodeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.context != null" >
+        CONTEXT = #{record.context,jdbcType=VARCHAR},
+      </if>
+      <if test="record.location != null" >
+        LOCATION = #{record.location,jdbcType=VARCHAR},
+      </if>
+      <if test="record.signFlag != null" >
+        sign_flag = #{record.signFlag,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_express_logistics
+    set ID = #{record.id,jdbcType=BIGINT},
+      EXPRESS_CODE = #{record.expressCode,jdbcType=VARCHAR},
+      EXPRESS_TYPE = #{record.expressType,jdbcType=VARCHAR},
+      NODE_TIME = #{record.nodeTime,jdbcType=TIMESTAMP},
+      CONTEXT = #{record.context,jdbcType=VARCHAR},
+      LOCATION = #{record.location,jdbcType=VARCHAR},
+      sign_flag = #{record.signFlag,jdbcType=BIT},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yhc.lifeall.model.ExpressLogistics" >
+    update t_express_logistics
+    <set >
+      <if test="expressCode != null" >
+        EXPRESS_CODE = #{expressCode,jdbcType=VARCHAR},
+      </if>
+      <if test="expressType != null" >
+        EXPRESS_TYPE = #{expressType,jdbcType=VARCHAR},
+      </if>
+      <if test="nodeTime != null" >
+        NODE_TIME = #{nodeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="context != null" >
+        CONTEXT = #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="location != null" >
+        LOCATION = #{location,jdbcType=VARCHAR},
+      </if>
+      <if test="signFlag != null" >
+        sign_flag = #{signFlag,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yhc.lifeall.model.ExpressLogistics" >
+    update t_express_logistics
+    set EXPRESS_CODE = #{expressCode,jdbcType=VARCHAR},
+      EXPRESS_TYPE = #{expressType,jdbcType=VARCHAR},
+      NODE_TIME = #{nodeTime,jdbcType=TIMESTAMP},
+      CONTEXT = #{context,jdbcType=VARCHAR},
+      LOCATION = #{location,jdbcType=VARCHAR},
+      sign_flag = #{signFlag,jdbcType=BIT},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
