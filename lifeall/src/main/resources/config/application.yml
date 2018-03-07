@@ -14,7 +14,7 @@ spring:
       view:
         prefix: classpath:/templates/
     datasource:
-      url: jdbc:mysql://127.0.0.1:3306/demo?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true
+      url: jdbc:mysql://127.0.0.1:3306/netcrawldata?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true
       username: yhc
       password: yhc
       driver-class-name: com.mysql.jdbc.Driver
