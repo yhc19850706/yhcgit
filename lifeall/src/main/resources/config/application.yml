@@ -1,5 +1,9 @@
 server:
+  address: 127.0.0.1
   port: 8080
+  server:
+    protocol_header: x-forwarded-proto
+  use-forward-headers: true
 
 spring:
     freemarker:
