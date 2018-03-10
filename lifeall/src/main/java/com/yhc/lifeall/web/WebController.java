@@ -12,18 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/news/")
+@RequestMapping(value = "/")
 public class WebController {
     @Autowired
     private NewsContentService newsContentService;
-
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    @RequestMapping(value = "index")
-    public ModelAndView submit() throws Exception {
-        ModelAndView mav = new ModelAndView();
-        mav.setViewName("index");
-        return mav;
-    }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @RequestMapping(value = "kuaidi")

@@ -5,7 +5,7 @@
 </header>
 
 <div class="weui-grids">
-    <a href="/news/kuaidi" class="weui-grid js_grid">
+    <a href="/kuaidi" class="weui-grid js_grid">
         <div class="weui-grid__icon">
             <img src="/static/images/icon_nav_button.png" alt="">
         </div>
@@ -13,23 +13,71 @@
             快递查询
         </p>
     </a>
-    <a href="/news/newslist?websiteId=1" class="weui-grid js_grid">
+    <a href="/newslist?websiteId=1" class="weui-grid js_grid">
         <div class="weui-grid__icon">
             <img src="/static/images/icon_nav_cell.png" alt="">
         </div>
         <p class="weui-grid__label">
-            财经网
+            财经网_金融
         </p>
     </a>
-    <a href="/news/newslist?websiteId=3" class="weui-grid js_grid">
+    <a href="/newslist?websiteId=2" class="weui-grid js_grid">
         <div class="weui-grid__icon">
             <img src="/static/images/icon_nav_cell.png" alt="">
         </div>
         <p class="weui-grid__label">
-            澎湃
+            财经网_科技
         </p>
     </a>
-    <a href="/news/newslist?websiteId=2" class="weui-grid js_grid">
+    <a href="/newslist?websiteId=4" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="/static/images/icon_nav_cell.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            澎湃_综合
+        </p>
+    </a>
+    <a href="/newslist?websiteId=5" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="/static/images/icon_nav_cell.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            澎湃_视频
+        </p>
+    </a>
+    <a href="/newslist?websiteId=6" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="/static/images/icon_nav_cell.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            澎湃_时事
+        </p>
+    </a>
+    <a href="/newslist?websiteId=7" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="/static/images/icon_nav_cell.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            澎湃_财经
+        </p>
+    </a>
+    <a href="/newslist?websiteId=8" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="/static/images/icon_nav_cell.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            澎湃_思想
+        </p>
+    </a>
+    <a href="/newslist?websiteId=9" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="/static/images/icon_nav_cell.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            澎湃_生活
+        </p>
+    </a>
+    <a href="/newslist?websiteId=3" class="weui-grid js_grid">
         <div class="weui-grid__icon">
             <img src="/static/images/icon_nav_cell.png" alt="">
         </div>
@@ -37,7 +85,7 @@
             CCTV2财经
         </p>
     </a>
-    <a href="/news/newslist?websiteId=5" class="weui-grid js_grid">
+    <a href="/newslist?websiteId=10" class="weui-grid js_grid">
         <div class="weui-grid__icon">
             <img src="/static/images/icon_nav_toast.png" alt="">
         </div>
@@ -45,36 +93,20 @@
             体育
         </p>
     </a>
-    <a href="" class="weui-grid js_grid">
+    <a href="/newslist?websiteId=11" class="weui-grid js_grid">
         <div class="weui-grid__icon">
             <img src="/static/images/icon_nav_dialog.png" alt="">
         </div>
         <p class="weui-grid__label">
-            Dialog
+            36氪_快讯
         </p>
     </a>
-    <a href="" class="weui-grid js_grid">
+    <a href="/newslist?websiteId=12" class="weui-grid js_grid">
         <div class="weui-grid__icon">
             <img src="/static/images/icon_nav_progress.png" alt="">
         </div>
         <p class="weui-grid__label">
-            Progress
-        </p>
-    </a>
-    <a href="" class="weui-grid js_grid">
-        <div class="weui-grid__icon">
-            <img src="/static/images/icon_nav_msg.png" alt="">
-        </div>
-        <p class="weui-grid__label">
-            Msg
-        </p>
-    </a>
-    <a href="" class="weui-grid js_grid">
-        <div class="weui-grid__icon">
-            <img src="/static/images/icon_nav_article.png" alt="">
-        </div>
-        <p class="weui-grid__label">
-            Article
+            36氪_科技
         </p>
     </a>
 </div>

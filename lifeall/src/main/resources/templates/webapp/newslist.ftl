@@ -47,7 +47,7 @@
                 <p>${news.newsName!}</p>
             </div>
             <div class="weui-cell__ft">
-                ${news.publishTime?string('HH:mm')}
+                ${news.publishTime?string('yyyy-MM-dd HH:mm')}
             </div>
         </a>
     </#list>
