@@ -8,7 +8,7 @@ public class WebSiteMeshFilter extends ConfigurableSiteMeshFilter {
     @Override
     protected void applyCustomConfiguration(SiteMeshFilterBuilder builder) {
         // 配置默认的渲染器. 将应用于所有路径.
-        builder.addDecoratorPath("/news/*", "/decorators/mainpage").addExcludedPath("/static/**")//白名单;
+        builder.addDecoratorPath("/*", "/decorators/mainpage").addExcludedPath("/static/**")//白名单;
 //                // 配置特定路径的渲染器.
                 .addExcludedPath("/list/*");
 //                .addDecoratorPath("/*.special.jsp", "/special-decorator.html")
