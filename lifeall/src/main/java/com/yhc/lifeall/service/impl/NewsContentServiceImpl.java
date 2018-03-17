@@ -1,9 +1,9 @@
 package com.yhc.lifeall.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.yhc.lifeall.mapper.NewsContentMapper;
-import com.yhc.lifeall.model.NewsContent;
-import com.yhc.lifeall.model.NewsContentExample;
+import com.yhc.lifeall.mapper.netcrawl.NewsContentMapper;
+import com.yhc.lifeall.model.netcrawl.NewsContent;
+import com.yhc.lifeall.model.netcrawl.NewsContentExample;
 import com.yhc.lifeall.service.NewsContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

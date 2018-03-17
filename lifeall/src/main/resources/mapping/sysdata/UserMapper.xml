@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yhc.lifeall.mapper.sysdata.UserMapper" >
+  <resultMap id="BaseResultMap" type="com.yhc.lifeall.model.sysdata.User" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="client_id" property="clientId" jdbcType="BIGINT" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="mobile_no" property="mobileNo" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="login_dts" property="loginDts" jdbcType="TIMESTAMP" />
+    <result column="login_cnt" property="loginCnt" jdbcType="INTEGER" />
+    <result column="third_id" property="thirdId" jdbcType="VARCHAR" />
+    <result column="bind_dts" property="bindDts" jdbcType="TIMESTAMP" />
+    <result column="share_code" property="shareCode" jdbcType="INTEGER" />
+    <result column="del_yn" property="delYn" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, client_id, user_name, email, mobile_no, password, user_type, login_dts, login_cnt, 
+    third_id, bind_dts, share_code, del_yn, create_time, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yhc.lifeall.model.sysdata.UserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from tb_user
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yhc.lifeall.model.sysdata.UserExample" >
+    delete from tb_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yhc.lifeall.model.sysdata.User" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_user (client_id, user_name, email, 
+      mobile_no, password, user_type, 
+      login_dts, login_cnt, third_id, 
+      bind_dts, share_code, del_yn, 
+      create_time, update_time)
+    values (#{clientId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{mobileNo,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, 
+      #{loginDts,jdbcType=TIMESTAMP}, #{loginCnt,jdbcType=INTEGER}, #{thirdId,jdbcType=VARCHAR}, 
+      #{bindDts,jdbcType=TIMESTAMP}, #{shareCode,jdbcType=INTEGER}, #{delYn,jdbcType=BIT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yhc.lifeall.model.sysdata.User" >
+    <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into tb_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="clientId != null" >
+        client_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="mobileNo != null" >
+        mobile_no,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="loginDts != null" >
+        login_dts,
+      </if>
+      <if test="loginCnt != null" >
+        login_cnt,
+      </if>
+      <if test="thirdId != null" >
+        third_id,
+      </if>
+      <if test="bindDts != null" >
+        bind_dts,
+      </if>
+      <if test="shareCode != null" >
+        share_code,
+      </if>
+      <if test="delYn != null" >
+        del_yn,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="clientId != null" >
+        #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNo != null" >
+        #{mobileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="loginDts != null" >
+        #{loginDts,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginCnt != null" >
+        #{loginCnt,jdbcType=INTEGER},
+      </if>
+      <if test="thirdId != null" >
+        #{thirdId,jdbcType=VARCHAR},
+      </if>
+      <if test="bindDts != null" >
+        #{bindDts,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shareCode != null" >
+        #{shareCode,jdbcType=INTEGER},
+      </if>
+      <if test="delYn != null" >
+        #{delYn,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yhc.lifeall.model.sysdata.UserExample" resultType="java.lang.Integer" >
+    select count(*) from tb_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update tb_user
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.clientId != null" >
+        client_id = #{record.clientId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userName != null" >
+        user_name = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.mobileNo != null" >
+        mobile_no = #{record.mobileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null" >
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userType != null" >
+        user_type = #{record.userType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginDts != null" >
+        login_dts = #{record.loginDts,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.loginCnt != null" >
+        login_cnt = #{record.loginCnt,jdbcType=INTEGER},
+      </if>
+      <if test="record.thirdId != null" >
+        third_id = #{record.thirdId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bindDts != null" >
+        bind_dts = #{record.bindDts,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.shareCode != null" >
+        share_code = #{record.shareCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.delYn != null" >
+        del_yn = #{record.delYn,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update tb_user
+    set id = #{record.id,jdbcType=BIGINT},
+      client_id = #{record.clientId,jdbcType=BIGINT},
+      user_name = #{record.userName,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      mobile_no = #{record.mobileNo,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      user_type = #{record.userType,jdbcType=VARCHAR},
+      login_dts = #{record.loginDts,jdbcType=TIMESTAMP},
+      login_cnt = #{record.loginCnt,jdbcType=INTEGER},
+      third_id = #{record.thirdId,jdbcType=VARCHAR},
+      bind_dts = #{record.bindDts,jdbcType=TIMESTAMP},
+      share_code = #{record.shareCode,jdbcType=INTEGER},
+      del_yn = #{record.delYn,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yhc.lifeall.model.sysdata.User" >
+    update tb_user
+    <set >
+      <if test="clientId != null" >
+        client_id = #{clientId,jdbcType=BIGINT},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileNo != null" >
+        mobile_no = #{mobileNo,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="loginDts != null" >
+        login_dts = #{loginDts,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loginCnt != null" >
+        login_cnt = #{loginCnt,jdbcType=INTEGER},
+      </if>
+      <if test="thirdId != null" >
+        third_id = #{thirdId,jdbcType=VARCHAR},
+      </if>
+      <if test="bindDts != null" >
+        bind_dts = #{bindDts,jdbcType=TIMESTAMP},
+      </if>
+      <if test="shareCode != null" >
+        share_code = #{shareCode,jdbcType=INTEGER},
+      </if>
+      <if test="delYn != null" >
+        del_yn = #{delYn,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yhc.lifeall.model.sysdata.User" >
+    update tb_user
+    set client_id = #{clientId,jdbcType=BIGINT},
+      user_name = #{userName,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      mobile_no = #{mobileNo,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=VARCHAR},
+      login_dts = #{loginDts,jdbcType=TIMESTAMP},
+      login_cnt = #{loginCnt,jdbcType=INTEGER},
+      third_id = #{thirdId,jdbcType=VARCHAR},
+      bind_dts = #{bindDts,jdbcType=TIMESTAMP},
+      share_code = #{shareCode,jdbcType=INTEGER},
+      del_yn = #{delYn,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

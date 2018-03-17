@@ -1,6 +1,6 @@
 package com.yhc.lifeall.service;
 
-import com.yhc.lifeall.model.NewsContent;
+import com.yhc.lifeall.model.netcrawl.NewsContent;
 
 import java.util.List;
 

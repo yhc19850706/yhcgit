@@ -1,7 +1,7 @@
-package com.yhc.lifeall.mapper;
+package com.yhc.lifeall.mapper.netcrawl;
 
-import com.yhc.lifeall.model.ExpressLogistics;
-import com.yhc.lifeall.model.ExpressLogisticsExample;
+import com.yhc.lifeall.model.netcrawl.ExpressLogistics;
+import com.yhc.lifeall.model.netcrawl.ExpressLogisticsExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,7 +1,7 @@
-package com.yhc.lifeall.mapper;
+package com.yhc.lifeall.mapper.netcrawl;
 
-import com.yhc.lifeall.model.NewsContent;
-import com.yhc.lifeall.model.NewsContentExample;
+import com.yhc.lifeall.model.netcrawl.NewsContent;
+import com.yhc.lifeall.model.netcrawl.NewsContentExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 

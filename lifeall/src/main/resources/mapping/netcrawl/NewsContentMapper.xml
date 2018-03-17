@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.yhc.lifeall.mapper.NewsContentMapper" >
-  <resultMap id="BaseResultMap" type="com.yhc.lifeall.model.NewsContent" >
+<mapper namespace="com.yhc.lifeall.mapper.netcrawl.NewsContentMapper" >
+  <resultMap id="BaseResultMap" type="com.yhc.lifeall.model.netcrawl.NewsContent" >
     <id column="ID" property="id" jdbcType="BIGINT" />
     <result column="WEBSITE_ID" property="websiteId" jdbcType="BIGINT" />
     <result column="CRAWL_URL" property="crawlUrl" jdbcType="VARCHAR" />
@@ -16,7 +16,7 @@
     <result column="READ_NUM" property="readNum" jdbcType="INTEGER" />
     <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.yhc.lifeall.model.NewsContent" extends="BaseResultMap" >
+  <resultMap id="ResultMapWithBLOBs" type="com.yhc.lifeall.model.netcrawl.NewsContent" extends="BaseResultMap" >
     <result column="NEWS_DESC" property="newsDesc" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
@@ -84,7 +84,7 @@
   <sql id="Blob_Column_List" >
     NEWS_DESC
   </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yhc.lifeall.model.NewsContentExample" >
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yhc.lifeall.model.netcrawl.NewsContentExample" >
     select
     <if test="distinct" >
       distinct
@@ -100,7 +100,7 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yhc.lifeall.model.NewsContentExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yhc.lifeall.model.netcrawl.NewsContentExample" >
     select
     <if test="distinct" >
       distinct
@@ -126,13 +126,13 @@
     delete from news_content
     where ID = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.yhc.lifeall.model.NewsContentExample" >
+  <delete id="deleteByExample" parameterType="com.yhc.lifeall.model.netcrawl.NewsContentExample" >
     delete from news_content
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.yhc.lifeall.model.NewsContent" >
+  <insert id="insert" parameterType="com.yhc.lifeall.model.netcrawl.NewsContent" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -147,7 +147,7 @@
       #{commentNum,jdbcType=INTEGER}, #{readNum,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{newsDesc,jdbcType=LONGVARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.yhc.lifeall.model.NewsContent" >
+  <insert id="insertSelective" parameterType="com.yhc.lifeall.model.netcrawl.NewsContent" >
     <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
@@ -235,7 +235,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.yhc.lifeall.model.NewsContentExample" resultType="java.lang.Integer" >
+  <select id="countByExample" parameterType="com.yhc.lifeall.model.netcrawl.NewsContentExample" resultType="java.lang.Integer" >
     select count(*) from news_content
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
@@ -330,7 +330,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.yhc.lifeall.model.NewsContent" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.yhc.lifeall.model.netcrawl.NewsContent" >
     update news_content
     <set >
       <if test="websiteId != null" >
@@ -375,7 +375,7 @@
     </set>
     where ID = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yhc.lifeall.model.NewsContent" >
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yhc.lifeall.model.netcrawl.NewsContent" >
     update news_content
     set WEBSITE_ID = #{websiteId,jdbcType=BIGINT},
       CRAWL_URL = #{crawlUrl,jdbcType=VARCHAR},
@@ -392,7 +392,7 @@
       NEWS_DESC = #{newsDesc,jdbcType=LONGVARCHAR}
     where ID = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.yhc.lifeall.model.NewsContent" >
+  <update id="updateByPrimaryKey" parameterType="com.yhc.lifeall.model.netcrawl.NewsContent" >
     update news_content
     set WEBSITE_ID = #{websiteId,jdbcType=BIGINT},
       CRAWL_URL = #{crawlUrl,jdbcType=VARCHAR},

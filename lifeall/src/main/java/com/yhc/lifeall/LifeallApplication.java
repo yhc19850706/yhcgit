@@ -5,6 +5,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.TaskScheduler;
@@ -18,6 +19,7 @@ import java.util.Properties;
 @ComponentScan
 @MapperScan("com.yhc.lifeall.mapper")
 @EnableScheduling
+@ServletComponentScan
 public class LifeallApplication {
 
 	public static void main(String[] args) {

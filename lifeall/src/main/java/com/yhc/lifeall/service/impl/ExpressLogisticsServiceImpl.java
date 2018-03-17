@@ -1,8 +1,8 @@
 package com.yhc.lifeall.service.impl;
 
-import com.yhc.lifeall.mapper.ExpressLogisticsMapper;
-import com.yhc.lifeall.model.ExpressLogistics;
-import com.yhc.lifeall.model.ExpressLogisticsExample;
+import com.yhc.lifeall.mapper.netcrawl.ExpressLogisticsMapper;
+import com.yhc.lifeall.model.netcrawl.ExpressLogistics;
+import com.yhc.lifeall.model.netcrawl.ExpressLogisticsExample;
 import com.yhc.lifeall.service.ExpressLogisticsService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

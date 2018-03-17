@@ -1,6 +1,6 @@
 package com.yhc.lifeall.service;
 
-import com.yhc.lifeall.model.ExpressLogistics;
+import com.yhc.lifeall.model.netcrawl.ExpressLogistics;
 
 import java.util.List;
 

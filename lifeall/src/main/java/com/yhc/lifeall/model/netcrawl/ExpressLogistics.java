@@ -1,4 +1,4 @@
-package com.yhc.lifeall.model;
+package com.yhc.lifeall.model.netcrawl;
 
 import java.util.Date;
 

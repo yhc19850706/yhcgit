@@ -1,6 +1,6 @@
 package com.yhc.lifeall.web;
 
-import com.yhc.lifeall.model.NewsContent;
+import com.yhc.lifeall.model.netcrawl.NewsContent;
 import com.yhc.lifeall.service.NewsContentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
