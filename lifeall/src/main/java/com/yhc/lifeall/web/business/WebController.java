@@ -1,4 +1,4 @@
-package com.yhc.lifeall.web;
+package com.yhc.lifeall.web.business;
 
 import com.yhc.lifeall.model.netcrawl.NewsContent;
 import com.yhc.lifeall.service.NewsContentService;

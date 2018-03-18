@@ -1,7 +1,7 @@
 <body ontouchstart>
 
 <header class='demos-header'>
-    <h1 class="demos-title">Grid</h1>
+    <h1 class="demos-title">生活助手</h1>
 </header>
 
 <div class="weui-grids">
@@ -107,6 +107,22 @@
         </div>
         <p class="weui-grid__label">
             36氪_科技
+        </p>
+    </a>
+    <a href="/goregist" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="/static/images/icon_nav_progress.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            注册
+        </p>
+    </a>
+    <a href="/gologin" class="weui-grid js_grid">
+        <div class="weui-grid__icon">
+            <img src="/static/images/icon_nav_progress.png" alt="">
+        </div>
+        <p class="weui-grid__label">
+            登陆
         </p>
     </a>
 </div>

@@ -6,6 +6,10 @@ server:
   use-forward-headers: true
 
 spring:
+    redis:
+      host: 127.0.0.1
+    　port: 6379
+    　password: yhcredis
     freemarker:
       #设定ftl文件路径
       template-loader-path: classpath:/templates
@@ -90,6 +94,7 @@ spring:
               config:
                 delete-allow: false
                 drop-table-allow: false
+
 
 mybatis:
   mapper-locations: classpath:mapping/*/*.xml

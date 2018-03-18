@@ -1,4 +1,4 @@
-package com.yhc.lifeall.web;
+package com.yhc.lifeall.web.data;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
