@@ -31,7 +31,6 @@ public class CookieUtil {
         cookie.setPath("/");        //路径
         cookie.setMaxAge(maxAge);   //过期时间
         response.addCookie(cookie); //添加cookie
-
     }
 
     /**

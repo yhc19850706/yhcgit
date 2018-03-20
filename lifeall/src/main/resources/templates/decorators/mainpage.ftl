@@ -13,13 +13,19 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.2.0/css/jquery-weui.min.css">
     <script src="/static/js/jquery-2.1.4.js"></script>
     <script src="/static/js/jquery-weui.min.js"></script>
+    <style>
+        body, html {
+            height: 100%;
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
     <sitemesh:write property='head'/>
 </head>
-<body>
+<body ontouchstart>
 <!--container-->
 <sitemesh:write property='body'/><br/>
 
-<!-- body 最后 -->
+<!-- body 最后
 <div class="weui-loadmore" style="padding-bottom:30px;height:20px;display:none;">
     <i class="weui-loading"></i>
     <span class="weui-loadmore__tips">正在加载</span>
@@ -31,7 +37,7 @@
     </p>
     <p class="weui-footer__text">Copyright © 2018-2020 yinghuacheng</p>
 </div>
-
+-->
 <!-- 如果使用了某些拓展插件还需要额外的JS -->
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/swiper.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/city-picker.min.js"></script>

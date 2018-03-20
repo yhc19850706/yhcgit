@@ -2,14 +2,17 @@ package com.yhc.lifeall.web;
 
 import com.google.common.collect.Maps;
 import com.yhc.lifeall.common.utils.CookieUtil;
+import com.yhc.lifeall.common.utils.MD5Util;
 import com.yhc.lifeall.common.utils.ResultInfo;
 import com.yhc.lifeall.common.utils.ResultUtil;
 import com.yhc.lifeall.mapper.sysdata.UserMapper;
 import com.yhc.lifeall.model.sysdata.User;
 import com.yhc.lifeall.service.UserService;
 import com.yhc.lifeall.system.redis.RedisUtil;
+import org.apache.commons.codec.digest.Md5Crypt;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,22 +28,22 @@ public class LoginController {
     private UserService userService;
     @Autowired
     private RedisUtil redisUtil;
-
+    @Value("${md5.password}")
+    private String miyao;
     @RequestMapping(value = "/login")
-    public ModelAndView login(HttpServletResponse response,@RequestParam("userName") String userName,@RequestParam("password") String password) {
+    @ResponseBody
+    public ResultInfo login(HttpServletResponse response,@RequestParam("userName") String userName,@RequestParam("password") String password) {
         User user = userService.queryUserByUserName(userName);
         Map map= Maps.newHashMap();
-        if (user != null&&user.getPassword().equals(password)) {
+        if (user != null&&user.getPassword().equals(MD5Util.getMD5(password))) {
             //2. 设置token至redis
-            String token = UUID.randomUUID().toString();
+            String token = UUID.randomUUID().toString().replace("-","");
             //3. 设置token至cookie
             CookieUtil.set(response, CookieUtil.TOKEN, token, CookieUtil.EXPIRE);
             redisUtil.set(token,user,3600L);
-            return new ModelAndView("redirect:/");
+            return ResultUtil.success();
         }
-        map.put("message","用户不存在");
-        map.put("result",false);
-        return new ModelAndView("/gologin",map);
+        return ResultUtil.error(1000,"用户不存在");
     }
 
     @RequestMapping("/logout")
@@ -59,10 +62,12 @@ public class LoginController {
     public ModelAndView goregist(){
         return new ModelAndView("register");
     }
+
     @RequestMapping("/gologin")
     public ModelAndView gologin(){
         return new ModelAndView("login");
     }
+
     @RequestMapping("/regist")
     @ResponseBody
     public ResultInfo register(User user){
@@ -71,6 +76,7 @@ public class LoginController {
                 User u= userService.queryUserByUserName(user.getUserName());
                 if(u==null){
                     user.setDelYn(true);
+                    user.setPassword(MD5Util.getMD5(user.getPassword()));
                     userService.insertUser(user);
                     return ResultUtil.success();
                 }else{

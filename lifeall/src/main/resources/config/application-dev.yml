@@ -8,8 +8,8 @@ server:
 spring:
     redis:
       host: 127.0.0.1
-    　port: 6379
-    　password: yhcredis
+      port: 6379
+      password: yhcredis
     freemarker:
       #设定ftl文件路径
       template-loader-path: classpath:/templates
@@ -106,4 +106,8 @@ pagehelper:
     reasonable: false
     supportMethodsArguments: true
     params: count=countSql
+
+
+md5:
+  password: Y1234H54321C
 

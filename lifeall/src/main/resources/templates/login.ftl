@@ -15,7 +15,7 @@
                     success: function (data) {
                         if (data.status==200) {
                             $.alert("注册成功！", "登陆");
-                            location.href="/index"
+                            location.href="/"
                         }
                         else {
                             $.alert("登陆失败！", "登陆");
