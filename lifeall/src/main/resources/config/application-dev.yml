@@ -115,5 +115,5 @@ pagehelper:
 md5:
   password: Y1234H54321C
 weixin:
-  Token: woshizhangzhiman20140515
-  EncodingAESKey: 7PuiV7LhBrF7Y4oTAuXEUjC1OX42s0LBQcQb2qYcZzR
+  Token:
+  EncodingAESKey:
