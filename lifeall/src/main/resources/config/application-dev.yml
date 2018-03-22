@@ -1,9 +1,13 @@
 server:
   address: 127.0.0.1
-  port: 8080
-  server:
-    protocol_header: x-forwarded-proto
+  #port: 8080
+  protocol_header: x-forwarded-proto
   use-forward-headers: true
+  ssl:
+      key-store: classpath:keystore.p12
+      key-store-password: yhcKey3690
+      keyStoreType: PKCS12
+      keyAlias: tomcat
 
 spring:
     redis:
@@ -110,4 +114,6 @@ pagehelper:
 
 md5:
   password: Y1234H54321C
-
+weixin:
+  Token: woshizhangzhiman20140515
+  EncodingAESKey: 7PuiV7LhBrF7Y4oTAuXEUjC1OX42s0LBQcQb2qYcZzR
