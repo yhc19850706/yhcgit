@@ -4,7 +4,9 @@
                 <p>${news.newsName!}</p>
             </div>
             <div class="weui-cell__ft">
-                ${news.publishTime?string('yyyy-MM-dd HH:mm:ss')}
+                <#if news.publishTime?exists>
+                    ${news.publishTime?string('yyyy-MM-dd HH:mm')}
+                </#if>
             </div>
         </a>
 </#list>

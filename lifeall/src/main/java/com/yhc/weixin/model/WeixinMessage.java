@@ -4,11 +4,12 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 
 @XmlRootElement(name="xml")
 @XStreamAlias("xml")
-public class WeixinMessage {
-
+public class WeixinMessage implements Serializable {
+	private static final long serialVersionUID = 1L;
 	//base
 	@XStreamAlias("ToUserName")
 	private String toUserName; 		//开发者微信号
@@ -79,6 +80,11 @@ public class WeixinMessage {
 	private String description;
 	@XStreamAlias("Url")
 	private String url;
+	/**
+	 * 企业号独有的应用ID
+	 */
+	@XmlElement(name = "AgentID")
+	private String agentId;
 	
 	@XmlElement(name="ToUserName")
 	public String getToUserName() {

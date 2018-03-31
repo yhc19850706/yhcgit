@@ -124,6 +124,10 @@ public class RedisUtil {
         return result;
     }
 
+    public boolean setExpire(String key,long timeout,TimeUnit timeUnit) {
+        redisTemplate.expire(key,timeout,timeUnit);
+        return true;
+    }
     public  Map<String,String> hmget(String key) {
         Map<String,String> result =null;
         try {

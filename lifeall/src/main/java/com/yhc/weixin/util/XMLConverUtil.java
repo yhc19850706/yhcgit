@@ -2,6 +2,7 @@ package com.yhc.weixin.util;
 
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import com.yhc.weixin.model.WeixinMessage;
 
@@ -39,14 +40,13 @@ public class XMLConverUtil{
 	}
 	
 	public static void main(String[] args){
-		String str = "<xml>"
-					+"<ToUserName><![CDATA[toUser]]></ToUserName>"
-					+"<FromUserName><![CDATA[fromUser]]></FromUserName> "
-					+"<CreateTime>1348831860</CreateTime>"
-					+"<MsgType><![CDATA[text]]></MsgType>"
-					+"<Content><![CDATA[this is a test]]></Content>"
-					+"<MsgId>1234567890123456</MsgId>"
-					+"</xml>";
+		String str ="<xml><ToUserName><![CDATA[gh_ac3514c7645d]]></ToUserName>\n" +
+				"<FromUserName><![CDATA[ocuUKv7M9mnY1xFRglBgjJpdxJHk]]></FromUserName>\n" +
+				"<CreateTime>1522163684</CreateTime>\n" +
+				"<MsgType><![CDATA[text]]></MsgType>\n" +
+				"<Content><![CDATA[gg]]></Content>\n" +
+				"<MsgId>6537643242424511823</MsgId>\n" +
+				"</xml>";
 		WeixinMessage msg =  convertToObject(str,WeixinMessage.class);
 		System.out.println(convertToXML(msg));
 	}

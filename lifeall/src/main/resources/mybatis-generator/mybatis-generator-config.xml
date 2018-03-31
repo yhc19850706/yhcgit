@@ -19,7 +19,7 @@
   
     <!-- 数据库连接 -->
     <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-        connectionURL="jdbc:mysql://47.96.157.195:3306/netcrawldata?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true"
+        connectionURL="jdbc:mysql://47.96.157.195:3306/systemData?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true"
         userId="yhc"
         password="Yhc#2018">
     </jdbcConnection>
@@ -29,26 +29,34 @@
     </javaTypeResolver>
     
     <!-- 数据表对应的model 层  -->
-    <javaModelGenerator targetPackage="com.yhc.lifeall.model" targetProject="src/main/java">
+    <javaModelGenerator targetPackage="com.yhc.lifeall.model.sysdata" targetProject="src/main/java">
       <property name="enableSubPackages" value="true" />
       <property name="trimStrings" value="true" />
     </javaModelGenerator>
     
     <!-- sql mapper 隐射配置文件 -->
-    <sqlMapGenerator targetPackage="mapping"  targetProject="src/main/resources">
+    <sqlMapGenerator targetPackage="mapping.sysdata"  targetProject="src/main/resources">
       <property name="enableSubPackages" value="true" />
     </sqlMapGenerator>
     
     <!-- 在ibatis2 中是dao层，但在mybatis3中，其实就是mapper接口 -->
-    <javaClientGenerator type="XMLMAPPER" targetPackage="com.yhc.lifeall.mapper"  targetProject="src/main/java">
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.yhc.lifeall.mapper.sysdata"  targetProject="src/main/java">
       <property name="enableSubPackages" value="true" />
     </javaClientGenerator>
     
     <!-- 要对那些数据表进行生成操作，必须要有一个. -->
-    <table schema="mybatis" tableName="tb_user" domainObjectName="User">
+    <table schema="mybatis" tableName="tb_user_weixin" domainObjectName="UserWeixin">
+      <property name="userActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
+    <table schema="mybatis" tableName="tb_user_basic_info" domainObjectName="UserBasicInfo">
       <property name="userActualColumnNames" value="false"/>
       <generatedKey column="id" sqlStatement="MySql" identity="true"/>
     </table>
 
+    <table schema="mybatis" tableName="tb_user_location" domainObjectName="UserLocation">
+      <property name="userActualColumnNames" value="false"/>
+      <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+    </table>
   </context>
 </generatorConfiguration>

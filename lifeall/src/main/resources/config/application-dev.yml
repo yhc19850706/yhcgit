@@ -1,13 +1,13 @@
 server:
   address: 127.0.0.1
-  #port: 8080
+  port: 8080
   protocol_header: x-forwarded-proto
   use-forward-headers: true
-  ssl:
-      key-store: classpath:keystore.p12
-      key-store-password: yhcKey3690
-      keyStoreType: PKCS12
-      keyAlias: tomcat
+#  ssl:
+#      key-store: classpath:keystore.p12
+#      key-store-password: yhcKey3690
+#      keyStoreType: PKCS12
+#      keyAlias: tomcat
 
 spring:
     redis:
@@ -27,9 +27,9 @@ spring:
         prefix: classpath:/templates/
     datasource:
       netcrawldata:
-        url: jdbc:mysql://127.0.0.1:3306/netdata?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true
+        url: jdbc:mysql://47.96.157.195:3306/netcrawldata?useUnicode=true&amp;characterEncoding=utf-8&amp;autoReconnect=true
         username: yhc
-        password: yhc
+        password: Yhc#2018
         driver-class-name: com.mysql.jdbc.Driver
         type: com.alibaba.druid.pool.DruidDataSource
         name: netcrawldata
@@ -40,15 +40,13 @@ spring:
         driver-class-name: com.mysql.jdbc.Driver
         type: com.alibaba.druid.pool.DruidDataSource
         name: systemData
-      # 下面为连接池的补充设置，应用到上面所有数据源中
-
       ##Druid
       # 初始化大小，最小，最大
       druid:
          initial-size: 5
          max-active: 10
          min-idle: 5
-      # 配置获取连接等待超时的时间
+       # 配置获取连接等待超时的时间
          max-wait: 60000
       # 打开PSCache，并且指定每个连接上PSCache的大小
          pool-prepared-statements: true
@@ -64,7 +62,7 @@ spring:
       # 配置一个连接在池中最小生存的时间，单位是毫秒
          min-evictable-idle-time-millis: 100000
       # 配置一个连接在池中最大生存的时间，单位是毫秒
-      #druid.max-evictable-idle-time-millis:
+         max-evictable-idle-time-millis: 1000000
          filters: stat,wall,log4j
       # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
          web-stat-filter:
@@ -115,5 +113,9 @@ pagehelper:
 md5:
   password: Y1234H54321C
 weixin:
-  Token:
+  appid: wxddb82e235d1c9a23
+  #wx09417b8cf0195f3d
+  appsecret: d4624c36b6795d1d99dcf0547af5443d
+  #6bae920235710f8a3c2e4eab2ea56bfb
+  Token: yhc
   EncodingAESKey:
