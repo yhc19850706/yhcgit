@@ -38,4 +38,11 @@ public class WebConfig extends WebMvcConfigurerAdapter{
         super.addInterceptors(registry);
     }
 
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/").setViewName("redirect:/index.i");
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+        super.addViewControllers(registry);
+    }
+
 }

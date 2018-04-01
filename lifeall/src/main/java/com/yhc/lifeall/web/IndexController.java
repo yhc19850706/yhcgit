@@ -20,10 +20,10 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping(value = "/")
 public class IndexController {
 
-    @RequestMapping("/")
-    public void redirect(HttpServletResponse response) throws IOException {
-        response.sendRedirect("/index.i");
-    }
+//    @RequestMapping("/")
+//    public void redirect(HttpServletResponse response) throws IOException {
+//        response.sendRedirect("/index.i");
+//    }
     @RequestMapping("/index.i")
     public ModelAndView index() {
         return new ModelAndView("index");
