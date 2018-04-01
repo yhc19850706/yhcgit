@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +21,10 @@ import java.util.concurrent.TimeUnit;
 public class IndexController {
 
     @RequestMapping("/")
+    public void redirect(HttpServletResponse response) throws IOException {
+        response.sendRedirect("/index.i");
+    }
+    @RequestMapping("/index.i")
     public ModelAndView index() {
         return new ModelAndView("index");
     }

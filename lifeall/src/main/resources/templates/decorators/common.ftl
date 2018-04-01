@@ -28,18 +28,18 @@
             if (!isWeixin) {
                 document.head.innerHTML = '<title>抱歉，出错了</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"><link rel="stylesheet" type="text/css" href="https://res.wx.qq.com/open/libs/weui/0.4.1/weui.css">';
                 document.body.innerHTML = '<div class="weui_msg"><div class="weui_icon_area"><i class="weui_icon_info weui_icon_msg"></i></div><div class="weui_text_area"><h4 class="weui_msg_title">请在微信客户端打开链接</h4></div></div>';
-            }else{
-
             }
+
         });
     </script>
     <sitemesh:write property='head'/>
+
 </head>
 <body ontouchstart>
 <!--container-->
 <sitemesh:write property='body'/><br/>
 
-<!-- body 最后
+<!-- body 最后-->
 <div class="weui-loadmore" style="padding-bottom:30px;height:20px;display:none;">
     <i class="weui-loading"></i>
     <span class="weui-loadmore__tips">正在加载</span>
@@ -47,11 +47,11 @@
 
 <div class="weui-footer">
     <p class="weui-footer__links">
-        <a href="javascript:void(0);" class="weui-footer__link">底部链接</a>
+        <a href="javascript:void(0);" class="weui-footer__link"></a>
     </p>
-    <p class="weui-footer__text">Copyright © 2018-2020 yinghuacheng</p>
+    <p class="weui-footer__text">Copyright © 2018-2020 yinghuacheng 浙ICP备18010399</p>
 </div>
--->
+
 <!-- 如果使用了某些拓展插件还需要额外的JS -->
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/swiper.min.js"></script>
 <script src="https://cdn.bootcss.com/jquery-weui/1.2.0/js/city-picker.min.js"></script>

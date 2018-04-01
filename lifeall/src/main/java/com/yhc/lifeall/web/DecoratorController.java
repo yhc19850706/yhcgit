@@ -7,7 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/decorators/")
 public class DecoratorController {
     @RequestMapping("mainpage")
-    public String defaultDecorator() {
+    public String mainDecorator() {
         return "/decorators/mainpage";
+    }
+    @RequestMapping("common")
+    public String defaultDecorator() {
+        return "/decorators/common";
     }
 }

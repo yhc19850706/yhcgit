@@ -34,7 +34,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //添加自定义拦截器，设置路径
-        registry.addInterceptor(new CookieInterceptor()).addPathPatterns("/**/*.do");
+        registry.addInterceptor(new CookieInterceptor()).addPathPatterns("/a/*.do");
         super.addInterceptors(registry);
     }
 

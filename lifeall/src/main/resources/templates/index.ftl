@@ -6,7 +6,7 @@
                 <h1 class="demos-title">生活助手</h1>
             </header>
             <div class="weui-grids">
-                <a href="/newslist?websiteId=1" class="weui-grid js_grid">
+                <a href="/news/newslist?websiteId=1" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/static/images/icon_nav_cell.png" alt="">
                     </div>
@@ -14,7 +14,7 @@
                         财经网_金融
                     </p>
                 </a>
-                <a href="/newslist?websiteId=2" class="weui-grid js_grid">
+                <a href="/news/newslist?websiteId=2" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/static/images/icon_nav_cell.png" alt="">
                     </div>
@@ -22,7 +22,7 @@
                         财经网_科技
                     </p>
                 </a>
-                <a href="/newslist?websiteId=4" class="weui-grid js_grid">
+                <a href="/news/newslist?websiteId=4" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/static/images/icon_nav_cell.png" alt="">
                     </div>
@@ -30,7 +30,7 @@
                         澎湃_综合
                     </p>
                 </a>
-                <a href="/newslist?websiteId=5" class="weui-grid js_grid">
+                <a href="/news/newslist?websiteId=5" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/static/images/icon_nav_cell.png" alt="">
                     </div>
@@ -38,7 +38,7 @@
                         澎湃_视频
                     </p>
                 </a>
-                <a href="/newslist?websiteId=6" class="weui-grid js_grid">
+                <a href="/news/newslist?websiteId=6" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/static/images/icon_nav_cell.png" alt="">
                     </div>
@@ -46,7 +46,7 @@
                         澎湃_时事
                     </p>
                 </a>
-                <a href="/newslist?websiteId=7" class="weui-grid js_grid">
+                <a href="/news/newslist?websiteId=7" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/static/images/icon_nav_cell.png" alt="">
                     </div>
@@ -54,7 +54,7 @@
                         澎湃_财经
                     </p>
                 </a>
-                <a href="/newslist?websiteId=8" class="weui-grid js_grid">
+                <a href="/news/newslist?websiteId=8" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/static/images/icon_nav_cell.png" alt="">
                     </div>
@@ -62,7 +62,7 @@
                         澎湃_思想
                     </p>
                 </a>
-                <a href="/newslist?websiteId=9" class="weui-grid js_grid">
+                <a href="/news/newslist?websiteId=9" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/static/images/icon_nav_cell.png" alt="">
                     </div>
@@ -70,7 +70,7 @@
                         澎湃_生活
                     </p>
                 </a>
-                <a href="/newslist?websiteId=3" class="weui-grid js_grid">
+                <a href="/news/newslist?websiteId=3" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/static/images/icon_nav_cell.png" alt="">
                     </div>
@@ -78,7 +78,7 @@
                         CCTV2财经
                     </p>
                 </a>
-                <a href="/newslist?websiteId=10" class="weui-grid js_grid">
+                <a href="/news/newslist?websiteId=10" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/static/images/icon_nav_toast.png" alt="">
                     </div>
@@ -86,7 +86,7 @@
                         体育
                     </p>
                 </a>
-                <a href="/newslist?websiteId=11" class="weui-grid js_grid">
+                <a href="/news/newslist?websiteId=11" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/static/images/icon_nav_dialog.png" alt="">
                     </div>
@@ -94,7 +94,7 @@
                         36氪_快讯
                     </p>
                 </a>
-                <a href="/newslist?websiteId=12" class="weui-grid js_grid">
+                <a href="/news/newslist?websiteId=12" class="weui-grid js_grid">
                     <div class="weui-grid__icon">
                         <img src="/static/images/icon_nav_progress.png" alt="">
                     </div>
