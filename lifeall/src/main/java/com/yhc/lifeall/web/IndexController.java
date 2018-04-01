@@ -24,7 +24,7 @@ public class IndexController {
 //    public void redirect(HttpServletResponse response) throws IOException {
 //        response.sendRedirect("/index.i");
 //    }
-    @RequestMapping("/index.i")
+    @RequestMapping("/")
     public ModelAndView index() {
         return new ModelAndView("index");
     }
