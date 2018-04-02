@@ -3,7 +3,7 @@
 
         <div id="tab1" class="weui-tab__bd-item weui-tab__bd-item--active">
             <header class='demos-header'>
-                <h1 class="demos-title">生活助手</h1>
+                <h1 class="demos-title">生活助理</h1>
             </header>
             <div class="weui-grids">
                 <a href="/news/newslist?websiteId=1" class="weui-grid js_grid">
