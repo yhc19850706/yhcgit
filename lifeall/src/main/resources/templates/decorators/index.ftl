@@ -279,11 +279,11 @@
         <div id="portfolio-filter" class="portfolio-filter-btn-group">
             <ul>
                 <li>
-                    <a href="#" class="selected" data-filter="*">ALL</a><!--
-					 --><a href="#" data-filter=".web">Painting</a><!--
-					 --><a href="#" data-filter=".seo">Modification</a><!--
-					 --><a href="#" data-filter=".works">Wash</a><!--
-					 --><a href="#" data-filter=".brands">New Cars</a>
+                    <a href="#" class="selected" data-filter="*">全部</a><!--
+					 --><a href="#" data-filter=".web">家庭</a><!--
+					 --><a href="#" data-filter=".seo">公司</a><!--
+					 --><a href="#" data-filter=".works">商场</a><!--
+					 --><a href="#" data-filter=".brands">室外</a>
                 </li>
             </ul>
         </div>
@@ -449,7 +449,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12 section-header wow fadeInDown">
                     <h2><span class="highlight-text-inverted">我们的团队</span></h2>
 
-                    <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nam corporis quas, saepe minima error aperiam dolorum aliquam, quis deserunt eos eius quisquam odio itaque in minus distinctio dolores ipsam.</p>
+                    <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">我们有多名专业的空调维修师傅和销售人员，为你提供最专业最贴心的服务</p>
                 </div>
 
                 <!-- teams Slider -->
@@ -458,8 +458,8 @@
                     <!-- Slides -->
                     <div class="teams-slides col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">
                         <img src="/static/air/images/img-teams/team1.jpg" alt="">
-                        <p class="client-info">Chris Willam</p>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisic</p>
+                        <p class="client-info">黄伟</p>
+                        <p>5年空调从业经验</p>
 
                     </div>
                     <!-- Slides End -->
@@ -497,7 +497,7 @@
             <!-- Section Header -->
             <div class="col-md-12 col-sm-12 col-xs-12 section-header wow fadeInDown section-header-parallax">
                 <h2><span class="highlight-text">联系我们</span></h2>
-                <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nam corporis quas, saepe minima error aperiam dolorum aliquam, quis deserunt eos eius quisquam odio itaque in minus distinctio dolores ipsam.</p>
+                <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">如果你有一些想法和建议需要对我们说的，可以给我们发送邮件或者打电话.</p>
             </div>
             <!-- Section Header End -->
 
