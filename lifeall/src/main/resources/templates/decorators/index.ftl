@@ -67,9 +67,6 @@
                         <a href="#portfolio">产品</a>
                     </li>
 
-                    <li>
-                        <a href="#pricing">价格</a>
-                    </li>
 
                     <li>
                         <a href="#team">我们的团队</a>
@@ -144,7 +141,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12 section-header wow fadeInDown">
                 <h2><span class="highlight-text">关于我们</span></h2>
 
-                <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nam corporis quas, saepe minima error aperiam dolorum aliquam, quis deserunt eos eius quisquam odio itaque in minus distinctio dolores ipsam.</p>
+                <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">家顺空调维修中心口碑好，技术好，快速上门，全市价格最低，为您提供专业诚信维修服务，专业维修空调：挂壁空调、柜式空调、中央空调、以专业的技术上门维修，以信誉求发展，诚信为您服务</p>
             </div>
             <!-- Section Header End -->
 
@@ -153,23 +150,23 @@
             </div>
 
             <div class="col-md-6 col-sm-6 col-xs-12 customized-text wow fadeInDown black-ed">
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsa sit, numquam amet voluptatibus obcaecati ea maiores totam nostrum, ad iure rerum quas harum ipsum. Rem ea ducimus quos quae quo.</p>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing numquam amet voluptatibus obcaecati ea maiores totam nostrum, ad iure rerum quas harum ipsum. Rem ea ducimus quos quae quo.</p>
+                <p>以“顾客至上”的原则，将行动落实到实处， 坚持保证产品的质量，以达到“客户满意”的标注</p>
+                <p>坚信“客户就是上帝”，信守合同，确保客户满意，诚实公平结友谊；按期交货是基本，特殊需要尽全力</p>
                 <div class="row">
                     <div class="col-md-11">
-                        <strong>Car Wash</strong>
+                        <strong>二手空调买卖</strong>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam iusto, natus est ducimus saepe laborum</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-11">
-                        <strong>Car Repair</strong>
+                        <strong>空调租赁</strong>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam iusto, natus est ducimus saepe laborum Lorem ipsum dolor sit amet.</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-11">
-                        <strong>Car Painting</strong>
+                        <strong>空调维修</strong>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam iusto, natus est ducimus saepe laborum Lorem ipsum dolor sit amet.</p>
                     </div>
                 </div>
@@ -205,7 +202,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-12 wow fadeInDown" data-wow-delay=".2s">
                         <div class="service-box">
                             <div class="icon">
-                                <i class="icon_mug"></i><h3>Car Wash </h3>
+                                <i class="icon_mug"></i><h3>空调移机</h3>
                             </div>
 
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero praesentium quam nulla, porro nemo.</p>
@@ -236,7 +233,7 @@
                     <div class="col-md-4 col-sm-4 col-xs-12 wow fadeInDown" data-wow-delay=".1s">
                         <div class="service-box">
                             <div class="icon">
-                                <i class="icon_music"></i><h3>Car Painting</h3>
+                                <i class="icon_music"></i><h3>空调加氟</h3>
                             </div>
 
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero praesentium quam nulla, porro nemo.</p>
@@ -266,9 +263,9 @@
 
             <!-- Section Header -->
             <div class="col-md-12 col-sm-12 col-xs-12 section-header wow fadeInDown">
-                <h2><span class="highlight-text">Portfolio</span></h2>
+                <h2><span class="highlight-text">我们的产品</span></h2>
 
-                <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quod, nam corporis quas, saepe minima error aperiam dolorum aliquam, quis deserunt eos eius quisquam odio itaque in minus distinctio dolores ipsam.</p>
+                <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">我们这里有各种品牌的空调，满足你各种环境下的需求</p>
             </div>
             <!-- Section Header End -->
 
