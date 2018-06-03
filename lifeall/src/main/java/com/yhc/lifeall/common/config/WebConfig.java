@@ -40,7 +40,7 @@ public class WebConfig extends WebMvcConfigurerAdapter{
 
 //    @Override
 //    public void addViewControllers(ViewControllerRegistry registry) {
-//        registry.addViewController("/").setViewName("redirect:/index.i");
+//        registry.addViewController("/").setViewName("forward:/air/index.html");
 //        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
 //        super.addViewControllers(registry);
 //    }

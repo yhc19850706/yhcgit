@@ -14,4 +14,9 @@ public class DecoratorController {
     public String defaultDecorator() {
         return "/decorators/common";
     }
+
+    @RequestMapping("index")
+    public String index() {
+        return "/decorators/index";
+    }
 }
