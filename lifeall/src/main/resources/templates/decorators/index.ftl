@@ -155,19 +155,25 @@
                 <div class="row">
                     <div class="col-md-11">
                         <strong>二手空调买卖</strong>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam iusto, natus est ducimus saepe laborum</p>
+                        <p>我们提供公平合理的二手空调买卖服务</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-11">
                         <strong>空调租赁</strong>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam iusto, natus est ducimus saepe laborum Lorem ipsum dolor sit amet.</p>
+                        <p>我们提供各种品牌的空调租赁服务，价格实惠</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-11">
                         <strong>空调维修</strong>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam iusto, natus est ducimus saepe laborum Lorem ipsum dolor sit amet.</p>
+                        <p>我们有专业的维修人员提供一对一的上门维修服务，技术精湛服务一流</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-11">
+                        <strong>空调保养</strong>
+                        <p>我们有专业的空调保养团队，有着多年的空调维修保养经验，为你的空调提供专业的保养</p>
                     </div>
                 </div>
             </div>
@@ -183,7 +189,7 @@
             <div class="col-md-12 col-sm-12 col-xs-12 section-header wow fadeInDown">
                 <h2><span class="highlight-text">我们的服务</span></h2>
 
-                <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">我们提供专业的空调维修服务已经空调买卖和租赁服务</p>
+                <p class="col-md-8 col-sm-10 col-xs-12 col-md-offset-2 col-sm-offset-1">我们提供专业的空调维修服务以及空调买卖和租赁服务</p>
             </div>
             <!-- Section Header End -->
 
@@ -196,7 +202,6 @@
                             <div class="icon">
                                 <i class="icon_cone"></i> <h3>二手空调买卖</h3>
                             </div>
-                            <p>二手空调买卖</p>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-4 col-xs-12 wow fadeInDown" data-wow-delay=".2s">
@@ -204,8 +209,6 @@
                             <div class="icon">
                                 <i class="icon_mug"></i><h3>空调移机</h3>
                             </div>
-
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero praesentium quam nulla, porro nemo.</p>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-4 col-xs-12 wow fadeInDown" data-wow-delay=".2s">
@@ -213,8 +216,6 @@
                             <div class="icon">
                                 <i class="icon_currency"></i><h3>空调租赁</h3>
                             </div>
-
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero praesentium quam nulla, porro nemo.</p>
                         </div>
                     </div>
 
@@ -226,8 +227,6 @@
                             <div class="icon">
                                 <i class="icon_star-half_alt"></i><h3>空调维修</h3>
                             </div>
-
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero praesentium quam nulla, porro nemo.</p>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-4 col-xs-12 wow fadeInDown" data-wow-delay=".1s">
@@ -235,8 +234,6 @@
                             <div class="icon">
                                 <i class="icon_music"></i><h3>空调加氟</h3>
                             </div>
-
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero praesentium quam nulla, porro nemo.</p>
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-4 col-xs-12 wow fadeInDown" data-wow-delay=".1s">
@@ -245,7 +242,7 @@
                                 <i class="icon_cog"></i><h3>空调清洗</h3>
                             </div>
 
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero praesentium quam nulla, porro nemo.</p>
+                            <p></p>
                         </div>
                     </div>
                 </div>
@@ -575,21 +572,6 @@
     <div class="container">
         <div class="row">
             <div class="footer-containertent">
-
-                <ul class="footer-social-info">
-                    <li>
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-pinterest"></i></a>
-                    </li>
-                    <li>
-                        <a href="#"><i class="fa fa-google-plus"></i></a>
-                    </li>
-                </ul>
                 <br/><br/>
                 <p>Copyright &copy; 2018.</p>
             </div>
